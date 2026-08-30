@@ -15,23 +15,25 @@ cyber-blog/
 │   ├── nav-logo.png       # circular portrait used next to the site name in the nav
 │   ├── favicon.ico / .png # standard favicon set (link in every <head>)
 │   └── logo.jpg           # original source portrait
-└── posts/            # one HTML file per blog post
-    ├── assets/       # images / gifs used inside posts
-    └── writeup-entity-authz-bypass.html
+└── posts/            # one folder per blog post
+    └── writeup-entity-authz-bypass/
+        ├── index.html      # the post itself
+        └── assets/         # images / gifs used inside that post
 ```
 
 ## How to add a new post
 
-1. **Copy a template.** The simplest path: copy an existing post file and rename it.
+1. **Copy a template.** The simplest path: copy an existing post folder and rename it. Images for the
+   post go in its `assets/` subfolder.
 
    ```bash
-   cp posts/writeup-entity-authz-bypass.html "posts/writeup-<your-slug>.html"
+   cp -r posts/writeup-entity-authz-bypass "posts/writeup-<your-slug>"
    ```
 
-2. **Edit the three things at the top of the file** (in `<head>`):
+2. **Edit the three things at the top of the file** (in `<head>` of `posts/<your-slug>/index.html`):
    - `title` and `meta description`
-   - the nav/footer links stay as `../index.html` / `../about.html` (posts live one folder deep, so
-     they already point up correctly — no need to touch them)
+   - the nav/footer links stay as `../../index.html` / `../../about.html` (posts live two folders
+     deep, so they already point up correctly — no need to touch them)
 
 3. **Rewrite the `<header class="article-head">`**:
    - `kicker` — the post category (writeup / research / note)
@@ -57,8 +59,8 @@ cyber-blog/
    </a>
    ```
 
-   Card `href`s are relative to the `posts/` folder (so `"other-post.html"`). Ensure at least one
-   card points back to a related post so readers keep moving through the blog.
+   Card `href`s are relative to your post's own folder (so `"../other-post-slug/"`). Ensure at least
+   one card points to another post so readers keep moving through the blog.
 
 6. **Add a listing card** on `index.html` — copy an existing `<li><a class="post-card">…` block,
    update the `href` (posts/…), title, excerpt, meta date, and tags.
