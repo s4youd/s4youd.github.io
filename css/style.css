@@ -332,6 +332,56 @@ svg { display: inline-block; }
 .severity--low      { color: var(--sev-low);      background: rgba(61, 220, 151, 0.10); }
 .severity--info     { color: var(--sev-info);     background: rgba(90, 169, 255, 0.10); }
 
+/* ---------- post banner hero (article top) ---------- */
+.post-hero {
+  position: relative;
+  min-height: 27rem;
+  margin: 0 0 0.4rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: flex-end;
+  background: var(--bg-panel);
+}
+.post-hero .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-hero .hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 11, 13, 0.18), rgba(11, 11, 13, 0.93) 86%);
+}
+.post-hero .hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 4rem 2.2rem 2rem;
+}
+.post-hero .hero-content .kicker { margin-bottom: 0.9rem; }
+.post-hero h1 { margin-bottom: 1rem; }
+.post-hero .tags { margin-top: 1.1rem; }
+
+/* ---------- card banner (index listing) ---------- */
+.post-card .card-banner {
+  margin: -1.65rem -1.7rem 1.4rem;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+.post-card .card-banner img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s var(--ease);
+}
+.post-card:hover .card-banner img { transform: scale(1.03); }
+
 /* ---------- article body typography ---------- */
 .article-body {
   font-family: var(--serif);
@@ -521,14 +571,13 @@ pre:hover .code-copy,
 pre .code-copy:focus-visible { opacity: 1; transform: translateY(0); }
 .code-copy:hover { color: var(--accent); border-color: var(--accent-line); }
 
-/* ---------- figures (images from writeups) ---------- */
+/* ---------- figures (images inside writeups) ---------- */
 figure { margin: 1.8rem 0; padding: 0; }
 figure img {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-panel);
 }
-figure p.small { margin: 0.7rem 0 0; color: var(--text-soft); font-size: 0.84rem; }
 
 /* ---------- data / table styling ---------- */
 .article-body .table-wrap { overflow-x: auto; margin: 1.8rem 0; }
@@ -702,6 +751,9 @@ figure p.small { margin: 0.7rem 0 0; color: var(--text-soft); font-size: 0.84rem
   .nav-links { gap: 1.1rem; }
   .article-body { font-size: 1.05rem; }
   .article-body pre { padding: 1.15rem 1rem; }
+  .post-hero { min-height: 20rem; }
+  .post-hero .hero-content { padding: 2.6rem 1.4rem 1.5rem; }
+  .post-card .card-banner img { height: 140px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

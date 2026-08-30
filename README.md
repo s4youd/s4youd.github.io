@@ -17,8 +17,8 @@ cyber-blog/
 │   └── logo.jpg           # original source portrait
 └── posts/            # one folder per blog post
     └── writeup-entity-authz-bypass/
-        ├── index.html      # the post itself
-        └── assets/         # images / gifs used inside that post
+        └── index.html      # the post itself
+        # (optional) assets/  → images / gifs used inside that post
 ```
 
 ## How to add a new post
