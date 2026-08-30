@@ -379,6 +379,15 @@ svg { display: inline-block; }
   padding: 2.4rem 2.1rem;
 }
 .post-hero .hero-body .kicker { margin-bottom: 0.95rem; }
+.post-hero--stacked { flex-direction: column; }
+.post-hero--stacked .hero-media {
+  flex: none;
+  width: 100%;
+  aspect-ratio: 1416 / 1080;
+}
+.post-hero--stacked .hero-body {
+  padding: 2rem 2rem 1.9rem;
+}
 .post-hero h1 {
   margin: 0 0 1.2rem;
   font-size: clamp(1.4rem, 3.4vw, 1.92rem);

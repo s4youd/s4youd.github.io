@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bypassing a rate limiter with a single fake header</title>
+  <meta name="description" content="How retesting a fixed rate limiter found the same bounded bug through a completely different door — one fake X-Forwarded-For header per request — and what a $500 'Informative' resolution taught me about triage.">
+  <link rel="icon" href="../../assets/favicon.ico?v=2" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/favicon-192.png?v=2">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="inner">
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><img class="logo" src="../../assets/nav-logo.png" alt="sayed logo"><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <div class="nav-links">
+        <a href="../../index.html">Posts</a>
+        <a href="../../about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+      <article class="article">
+
+        <header class="article-head">
+          <div class="post-hero post-hero--stacked">
+            <div class="hero-media" style="aspect-ratio: 1416 / 1080"><img class="hero-img" src="assets/banner.png" alt=""></div>
+            <div class="hero-body">
+              <p class="kicker">writeup</p>
+              <h1>Bypassing a Rate Limiter With a Single Fake Header</h1>
+              <div class="article-meta">
+                <span>2026-08-30</span>
+                <span class="meta-dot">·</span>
+                <span>9 min read</span>
+                <span class="meta-dot">·</span>
+                <span class="severity severity--high">High · CVSS 7.5</span>
+              </div>
+              <div class="tags">
+                <span class="tag tag--accent">writeup</span>
+                <span class="tag">rate-limit</span>
+                <span class="tag">x-forwarded-for</span>
+                <span class="tag">cwe-290</span>
+                <span class="tag">brute-force</span>
+                <span class="tag">triage</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="tldr note">
+          <span class="note-label">tl;dr</span>
+          <p>
+            a retest of a fixed guest-payment endpoint shows the rate limiter stopped keying off the
+            request body and started trusting the client-supplied X-Forwarded-For header as the source
+            ip. rotate one header per request and the limit disappears completely - no cadence, no
+            lockout to dodge. same downstream impact as the original high/critical finding, completely
+            different root cause. triage closed it informative, but paid a $500 bonus. patches have
+            edges, and retesting the area - not just the bug - is how you find them.
+          </p>
+        </div>
+
+        <div class="article-body">
+
+          <h2>Some context first</h2>
+          <p>
+            A while back I reported a bug on a private program (details redacted — I'll call the target
+            <strong>[REDACTED FINANCE PLATFORM]</strong>) where an unauthenticated guest-payment flow let you brute-force
+            <code>receivableAccountNumber</code> + <code>lastFourSsn</code> pairs. That pair wasn't just cosmetic data — it doubled as identity
+            verification for other guest actions, including account cancellation. That report got accepted,
+            rated High/Critical, and paid out.
+          </p>
+          <p>
+            The rate limiter protecting that endpoint was broken in a specific way: it keyed its counter
+            off client-controlled values — a custom header and some request-body fields. To sustain the
+            bypass, I had to rotate those fields on a fixed cadence (every 5 requests) to dodge a secondary
+            401 lockout that would otherwise kick in. It worked, but it took coordination — basically a
+            pitchfork-style attack with multiple moving parts.
+          </p>
+          <p>
+            The team fixed it. Retested, confirmed closed. Good result.
+          </p>
+
+          <h2>Then I went back</h2>
+          <p>
+            Whenever a program fixes something, I've started making it a habit to re-test the <em>area</em>,
+            not just the exact bug. Fixes are patches, and patches have edges. So a few weeks later I went
+            back to the same guest-payment identity-lookup endpoint to see what the fix actually looked like
+            from the outside.
+          </p>
+          <p>
+            First thing I checked: was the 401 lockout still there? No — gone entirely. That's often a sign
+            the whole auth/rate-limit layer got touched, which is exactly the kind of place worth poking at
+            after a fix.
+          </p>
+
+          <h2>What I tried (including the stuff that failed)</h2>
+          <p>
+            This is the part I think is actually useful to other beginners, because most writeups skip
+            straight to "and then it worked." Here's roughly what I ran through before landing on the actual
+            bypass:
+          </p>
+          <ul>
+            <li><strong>Baseline check</strong> — hammered the endpoint with no extra headers to confirm the rate limit still triggered normally. It did: a clean <code>{"Error": "Too Many Request"}</code> after a handful of requests. Good, so <em>something</em> was still enforcing a limit.</li>
+            <li><strong>Rotating the old custom header</strong> (the one from the original bug) — no effect. Confirmed the old bypass vector was actually dead, not just cosmetically patched.</li>
+            <li><strong>Rotating request-body fields alone</strong> (account number / SSN suffix) without touching headers — still rate-limited. So the limiter wasn't purely tied to the payload anymore either.</li>
+            <li><strong>Cookie/session churn</strong> — clearing cookies and hitting the endpoint fresh — still limited within the same short window. Ruled out session-based keying as the weak point.</li>
+            <li><strong>User-Agent rotation</strong> — a classic "maybe it's dumb fingerprinting" test — no effect.</li>
+            <li><strong>IP-header testing</strong> — this is where it clicked. I added an <code>X-Forwarded-For</code> header with an arbitrary value. That header isn't present anywhere in the normal flow — no proxy or CDN sets it for this app, and the client never sends it unless you add it yourself. The very next request went through clean, no throttling.</li>
+            <li>Repeated it with a new IP value on <strong>every single request</strong>. No rotation cadence needed, no secondary lockout to dodge, no other field had to move. One header, changed every time, sustained unlimited request volume indefinitely.</li>
+          </ul>
+          <p>
+            So the whole "what did I fail at first" list matters here — it's the difference between a lucky
+            guess and actually understanding the fix's boundary. The old fix closed one door
+            (application-layer field binding) and the new bug was a completely different door (trust
+            boundary on a client-suppliable IP header) that happened to lead to the same room.
+          </p>
+
+          <h2>The actual bug</h2>
+          <p>
+            <strong>Root cause:</strong> the rate limiter trusted the client-supplied <code>X-Forwarded-For</code> header as the
+            request's origin IP, with no validation against a real trusted-proxy chain. Since the header is
+            entirely attacker-controlled and not stripped/overwritten by any intermediary before reaching
+            the app, sending a different value on every request reset the limiter's counter — it treated
+            each request as coming from a "new" client.
+          </p>
+
+          <pre><code>POST /guestpay/v1/[REDACTED-ENDPOINT] HTTP/2
+Host: [REDACTED]
+Content-Type: application/json
+X-Forwarded-For: 127.0.0.1
+
+{"receivableAccountNumber":XXXXXXX,"lastFourSsn":XXXX}</code></pre>
+
+          <p>
+            Weakness class: <strong>CWE-290 — Authentication Bypass by Spoofing</strong> / improper trust of client-supplied
+            headers for origin identification. This is a different bucket than the original report's issue
+            (broken counter/identity binding), even though the <em>symptom</em> — unlimited unauthenticated
+            enumeration — was identical.
+          </p>
+          <p>
+            <strong>Impact:</strong> full restoration of unauthenticated brute-force capability against account number +
+            SSN-suffix pairs, with no upper bound. Since both fields are short and numeric, the valid
+            combination space is realistically automatable, and this version was actually <em>easier</em> to
+            automate than the original bug — one header, no cadence, no secondary lockout to route around.
+          </p>
+
+          <h2>What happened in triage</h2>
+          <p>
+            I wrote the report making the distinction very explicit up front — same symptom, different root
+            cause, not a reopen of the old one — because I've learned that if you don't draw that line
+            yourself, a triager might do it for you and lump it in as a duplicate.
+          </p>
+          <p>
+            It got triaged fine, and the team actually paid a <strong>$500 bonus</strong> on top of the original report.
+            But the final resolution was <strong>Informative</strong>, with the reasoning being that global rate limiting
+            can hurt legitimate customers, so they'd rather accept the enumeration risk than fix it, and
+            that the exposed data is kept isolated from anything more sensitive in authenticated flows.
+          </p>
+
+          <figure>
+            <img src="assets/photo_2026-08-30_17-54-03.jpg" alt="">
+          </figure>
+
+          <p>
+            I pushed back once, politely, in a comment — pointing out that the <em>exact same downstream impact</em>
+            (the pair doubling as identity verification for cancel-verification) was the reasoning that got
+            the original report rated High. I wasn't trying to argue the money or the classification, just
+            trying to understand the severity model for next time. That's currently sitting with HackerOne
+            mediation for a second opinion, and I'll leave it there rather than speculate on the outcome
+            here.
+          </p>
+
+          <h2>Takeaways for anyone earlier in this than me</h2>
+          <ol>
+            <li><strong>"Fixed" doesn't mean "safe" — it means "one path is closed."</strong> Always go back and test the <em>feature</em>, not just the exact payload that worked before. A fix that removes a secondary lockout mechanism is practically an invitation to check what else changed.</li>
+            <li><strong>Same symptom ≠ same bug.</strong> Learn to separate "what breaks" from "why it breaks." Two bugs can produce an identical impact through unrelated root causes — treat them as separate findings, and say so explicitly in your report so triage doesn't dismiss it as a dupe.</li>
+            <li><strong>Test the boring headers.</strong> <code>X-Forwarded-For</code>, <code>X-Real-IP</code>, <code>X-Client-IP</code>, <code>True-Client-IP</code> — anything that <em>sounds</em> like infrastructure but is actually attacker-suppliable is worth throwing at any rate limiter, login form, or geo-restriction you meet. It costs nothing to try and it keeps paying off.</li>
+            <li><strong>Document your failed attempts, not just the win.</strong> In your own notes if not in the report itself — knowing what <em>didn't</em> move the needle (session, cookies, User-Agent, the old header) is what actually proves you understood the mechanism instead of stumbling into it.</li>
+            <li><strong>A business-risk close isn't a technical rejection.</strong> "We accept this risk because fixing it could hurt real customers" is a legitimate business call, even when the technical finding is completely valid. It stings less once you separate "was I right" from "did they choose to fix it."</li>
+            <li><strong>Ask "why" when a severity call surprises you — calmly, once.</strong> I didn't argue for money, I asked to understand the model, referencing the program's own prior reasoning. That's a fair, professional way to learn how a program actually thinks about risk, and it costs you nothing to ask it once and then let it go.</li>
+            <li><strong>Root-cause hunting after every fix is a habit worth building early.</strong> This is the second time I've found something in the same functional area on this program. Patched surfaces are some of the highest-signal places to keep looking, because you already know they matter to the team.</li>
+          </ol>
+
+          <h2>Suggested fix (for the write-up completeness)</h2>
+          <p>
+            Don't trust <code>X-Forwarded-For</code> or similar client-suppliable headers as the basis for rate limiting
+            unless there's a proxy/CDN in front that strips and overwrites them before the origin ever sees
+            them — and the app reads <em>only</em> the value set by that trusted layer. Rate-limit and lockout
+            state should key off something the client genuinely can't influence: the real TCP/TLS source IP
+            as seen at the trusted edge, combined with session or device-binding signals that are
+            cryptographically tied to the session rather than freely settable.
+          </p>
+
+          <p class="small">
+            Target name, domain, and report links redacted per program disclosure rules. Numbers in the PoC
+            are placeholders, not real account data.
+          </p>
+
+        </div>
+
+        <section class="related">
+          <h2>More</h2>
+          <div class="related-grid">
+            <a class="related-card" href="../../index.html">
+              <span class="rc-type">blog</span>
+              <h3>back to all posts</h3>
+              <p>the rest of the writeups and research live here.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+          </div>
+          <a class="back-top" href="#">&uarr; back to top</a>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="links">
+        <a href="../../index.html">Posts</a>
+        <a href="../../about.html">About</a>
+        <a href="mailto:s4youud@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>
