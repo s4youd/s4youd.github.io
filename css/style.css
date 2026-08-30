@@ -343,9 +343,9 @@ svg { display: inline-block; }
   margin: 0 0 0.4rem;
 }
 .post-hero .hero-media {
-  flex: 0 0 46%;
+  flex: 0 0 44%;
   position: relative;
-  min-height: 19rem;
+  aspect-ratio: 1 / 1;
   background: var(--bg-panel);
 }
 .post-hero .hero-img {
@@ -353,7 +353,7 @@ svg { display: inline-block; }
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 .post-hero .hero-body {
@@ -375,18 +375,18 @@ svg { display: inline-block; }
 /* ---------- card banner (index listing) ---------- */
 .post-card .card-banner {
   margin: 0 0 1.15rem;
-  aspect-ratio: 21 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: calc(var(--radius) - 2px);
   border: 1px solid var(--line);
   overflow: hidden;
   background: var(--bg-panel);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .post-card .card-banner img {
   width: 100%;
-  height: 100%;
+  max-height: 300px;
+  height: auto;
   object-fit: contain;
   object-position: center;
   display: block;
@@ -764,7 +764,7 @@ figure img {
   .article-body { font-size: 1.05rem; }
   .article-body pre { padding: 1.15rem 1rem; }
   .post-hero { flex-direction: column; }
-  .post-hero .hero-media { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
+  .post-hero .hero-media { flex: none; aspect-ratio: 1 / 1; max-width: 21rem; width: 100%; margin: 0 auto; }
   .post-hero .hero-body { padding: 1.7rem 1.4rem 1.6rem; }
 }
 
