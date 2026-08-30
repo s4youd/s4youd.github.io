@@ -334,15 +334,18 @@ svg { display: inline-block; }
 
 /* ---------- post banner hero (article top) ---------- */
 .post-hero {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  min-height: 20rem;
-  margin: 0 0 0.4rem;
+  display: flex;
+  align-items: stretch;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--line);
-  display: flex;
-  align-items: flex-end;
+  background: linear-gradient(180deg, var(--bg-tint), var(--bg-soft));
+  margin: 0 0 0.4rem;
+}
+.post-hero .hero-media {
+  flex: 0 0 46%;
+  position: relative;
+  min-height: 19rem;
   background: var(--bg-panel);
 }
 .post-hero .hero-img {
@@ -351,33 +354,40 @@ svg { display: inline-block; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
-.post-hero .hero-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(11, 11, 13, 0.18), rgba(11, 11, 13, 0.93) 86%);
+.post-hero .hero-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.4rem 2.1rem;
 }
-.post-hero .hero-content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding: 4rem 2.2rem 2rem;
+.post-hero .hero-body .kicker { margin-bottom: 0.95rem; }
+.post-hero h1 {
+  margin: 0 0 1.2rem;
+  font-size: clamp(1.4rem, 3.4vw, 1.92rem);
+  line-height: 1.24;
 }
-.post-hero .hero-content .kicker { margin-bottom: 0.9rem; }
-.post-hero h1 { margin-bottom: 1rem; }
-.post-hero .tags { margin-top: 1.1rem; }
+.post-hero .article-meta { flex-wrap: wrap; row-gap: 0.5rem; }
+.post-hero .tags { margin-top: 1.3rem; }
 
 /* ---------- card banner (index listing) ---------- */
 .post-card .card-banner {
-  margin: -1.65rem -1.7rem 1.4rem;
-  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  margin: 0 0 1.15rem;
+  aspect-ratio: 21 / 9;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid var(--line);
   overflow: hidden;
   background: var(--bg-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .post-card .card-banner img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   object-position: center;
   display: block;
   transition: transform 0.35s var(--ease);
@@ -753,8 +763,9 @@ figure img {
   .nav-links { gap: 1.1rem; }
   .article-body { font-size: 1.05rem; }
   .article-body pre { padding: 1.15rem 1rem; }
-  .post-hero { min-height: 0; }
-  .post-hero .hero-content { padding: 2.6rem 1.4rem 1.5rem; }
+  .post-hero { flex-direction: column; }
+  .post-hero .hero-media { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
+  .post-hero .hero-body { padding: 1.7rem 1.4rem 1.6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
