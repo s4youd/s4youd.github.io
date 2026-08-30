@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>entity authz bypass — the debug page left in prod</title>
+  <meta name="description" content="An unauthenticated debug page in a vet PMS leaked live entity IDs and a verification salt. How exposed identifiers turn into full entity-level access.">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-192.png">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="inner">
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><img class="logo" src="../assets/nav-logo.png" alt="sayed logo"><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <div class="nav-links">
+        <a href="../index.html">Posts</a>
+        <a href="../about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+      <article class="article">
+
+        <header class="article-head">
+          <p class="kicker">writeup</p>
+          <h1>entity authorization bypass: the debug page that got left in prod</h1>
+          <div class="article-meta">
+            <span>2026-08-30</span>
+            <span class="meta-dot">·</span>
+            <span>9 min read</span>
+            <span class="meta-dot">·</span>
+            <span class="severity severity--high">High · CVSS 8.1</span>
+          </div>
+          <div class="tags">
+            <span class="tag tag--accent">writeup</span>
+            <span class="tag">authz</span>
+            <span class="tag">IDOR</span>
+            <span class="tag">debug</span>
+            <span class="tag">PMS</span>
+            <span class="tag">healthcare</span>
+          </div>
+        </header>
+
+        <div class="tldr note">
+          <span class="note-label">tl;dr</span>
+          <p>
+            an unauthenticated debug page in a veterinary practice management system (PMS) prefilled it's
+            own form with live entity ids - clinic, vet, pet, user, transaction, and a verification salt.
+            no auth, no rate limit, just a website handing out a map of the system. the ids alone are info
+            disclosure. the relationships between them, plus that salt, move it into full entity-level
+            authorization bypass territory.
+          </p>
+        </div>
+
+        <div class="article-body">
+
+          <h2>the hook</h2>
+          <p>
+            there's a question that stays in the back of my head after most engagements: what if the worst
+            thing in an application isn't some exotic exploit, but just a debug page that nobody bothered to
+            take down? most of the time those are harmless. sometimes they are really, really not.
+          </p>
+          <p>
+            this one was not.
+          </p>
+
+          <h2>the finding</h2>
+          <p>
+            I was doing late night recon on a veterinary practice platform - i'll just call the system PMS
+            here. the target ran a bunch of subdomains and one of them behaved differently from the others.
+            it returned html instead of redirecting to the login, which is almost always a dev leftover or a
+            half-dead marketing page. I almost skipped it. seens like a waste of a click.
+          </p>
+          <p>
+            so of course I clicked it.
+          </p>
+          <p>
+            it was a debug / test interface, and it was fully functional. you could interact with the PMS the
+            same way an authenticated user would, and the best part is the form came already <strong>pre-filled
+            with live identifiers</strong>. real ones. the page basically printed a config dump of the whole
+            backend to anyone with a browser:
+          </p>
+
+          <pre><code>┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                      PMS IMPOSTER                                      │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│  PMS ID              │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Clinic ID           │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Vet ID              │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Pet ID              │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Transaction ID      │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Consultation ID     │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  PMS Internal ID     │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  User ID             │ [uuid-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx]                         │
+│  Country             │ [XX]                                                            │
+│  Timestamp           │ [2026-04-XXTXX:XX:XX.XXXZ]                                      │
+│  Verification Salt   │ [xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]                              │
+└────────────────────────────────────────────────────────────────────────────────────────┘</code></pre>
+
+          <p>
+            pms id, clinic id, vet id, pet id, transaction id, consultation id, user id, a country, a
+            timestamp, and a verification salt. all of them real. no authentication to get here, no token in
+            a header, nothing. I didn't have to be anyone to look at this system's entire entity model.
+          </p>
+
+          <h2>what it actually is</h2>
+          <p>
+            putting a label on it, this sits at the intersection of three weaknesses:
+          </p>
+          <ul>
+            <li>broken access control (CWE-639) - the page requires zero authentication</li>
+            <li>information disclosure (CWE-200) - sensitive identifiers exposed to unauthenticated users</li>
+            <li>insecure design (CWE-697) - debug/test functionality deployed to production</li>
+          </ul>
+          <p>
+            I filed it with that framing and honestly I recieved the usual "low / medium, thanks" energy. which
+            is kindof fair. exposed uuids alone are boring. every hunter has seen a million of them.
+          </p>
+          <p>
+            the interesting part started when I thought about what those uuids actually are.
+          </p>
+
+          <h2>why the ids matter: the relationships</h2>
+          <p>
+            this is the part that most people miss. in a PMS, those identifiers aren't random strings. they
+            describe the structure of the clinic - a clinic owns vets, pets and users; a pet has consultations;
+            a consultation has transactions. it looks like this:
+          </p>
+
+          <pre><code>             ┌──────────────┐
+            │    CLINIC    │
+            │  (ClinicID)  │
+              └──────┬───────┘
+                     │
+              ┌──────┼──────┐
+                     │
+                     ▼
+ ┌───────────┐ ┌───────────┐ ┌───────────┐
+ │    VET    │ │    PET    │ │   USER    │
+ │  (VetID)  │ │  (PetID)  │ │  (UserID) │
+ └───────────┘ └─────┬─────┘ └───────────┘
+                     │
+                     ▼
+              ┌──────────────┐
+              │CONSULTATION  │
+              │(ConsultID)   │
+              └──────┬───────┘
+                     │
+                     ▼
+             ┌────────────────┐
+             │  TRANSACTION   │
+             │ (TransactionID)│
+             └────────────────┘</code></pre>
+
+          <p>
+            each uuid is a key to some api. put together, they're basically an erd of the whole platform being
+            served for free. a pet id is data. pet id + clinic id + vet id + consultation id is an attack
+            surface, and the debug page hands you all of them at once.
+          </p>
+
+          <h2>escalation #1: api mapping</h2>
+          <p>
+            first move is boring and safe - take the ids and probe the backend api. you're not breaking
+            anything, just reading. but reading tells you what endpoints exist, and the ids you already have
+            let you fingerprint routes you'd never guess blind:
+          </p>
+          <pre class="terminal"><code>/api/clinic/{id}
+/api/vet/{id}
+/api/pet/{id}
+/api/consultation/{id}
+/api/transaction/{id}</code></pre>
+          <p>
+            from there you fuzz for the cousins of those paths and the api surface kind of paints itself.
+          </p>
+
+          <h2>escalation #2: the idor part</h2>
+          <p>
+            with working endpoints and real ids, the missing access control starts to glare. you plug a pet id
+            from the debug page into the consultation endpoint and it happily returns that pet's consultations.
+            the issue is there's no check at all tying the request to a session - because there isn't a session,
+            that was the whole point of the page.
+          </p>
+          <ul>
+            <li>a pet id gets you it's consultations, and the notes attached to them</li>
+            <li>a vet id gets you schedules and vet notes</li>
+            <li>a transaction id gets you payment history (billing data, which stung a bit)</li>
+            <li>a user id gets you profiles to start cross-referencing against real people</li>
+          </ul>
+          <p>
+            the endpoint basically said "here's a key, what do you want" and never once asked who you were.
+            classic CWE-639.
+          </p>
+
+          <figure>
+            <img src="assets/idor-unauth-access.gif" alt="unauthenticated api requests using ids from the debug page returning other entities' data">
+            <p class="small">unauthenticated requests against the api using ids pulled off the debug page - no ownership check anywhere.</p>
+          </figure>
+
+          <h2>escalation #3: the verification salt</h2>
+          <p>
+            and then there was the field I couldn't stop staring at: <strong>verification salt</strong>, 32
+            chars, sitting right there in an unauthenticated response.
+          </p>
+          <p>
+            why would a debug page need to show the verification salt? most likely a dev logged it years ago so
+            they could eyeball how signing worked, and it rode along to production. but whatever the reason,
+            this is the field that moves the finding from "medium" to "critical". if token generation is weak
+            enough for the salt to be useful - or the salt is reused, or guessable - you're not far from forging
+            tokens for accounts whose ids are printed on the same page.
+          </p>
+          <p>
+            I couldn't prove full token forgery on this one, I'll be honest. but the salt format was predictable
+            and a token-generation function was sitting in the js bundle with that exact salt shape as an input.
+            documenting that potential is what pushed the triager to take it seriously.
+          </p>
+
+          <h2>escalation #4: business logic (this is where i got uncomfortable)</h2>
+          <p>
+            the debug page also had write operations wired to it - appointments, prescriptions, treatments. and
+            the api accepted the same exposed identifiers on POSTs, not just reads.
+          </p>
+          <p>
+            so the theoretical chain is:
+          </p>
+          <ol>
+            <li>position yourself using the exposed data (or forged tokens from the salt)</li>
+            <li>book an appointment in someone's clinic</li>
+            <li>write a prescription, or modify a consultation</li>
+            <li>change a transaction, or add a medical record</li>
+          </ol>
+          <p>
+            you don't need to demonstrate all of this in a report. but knowing it exists is what changes the
+            severity. injecting false medical records into a system that runs a clinic was the part that made
+            the triager skip the duplicate button.
+          </p>
+
+          <h2>the payload chain</h2>
+          <p>
+            if I had to write the whole thing out as a rough script, it looks like this (obviously with the
+            target and real data removed):
+          </p>
+          <pre><code># stage 1 - recon: fingerprint the api with ids off the debug page
+ids = { "clinic": "...", "vet": "...", "pet": "..." }
+
+# stage 2 - enumeration: map relationships between entities
+for entity, eid in ids.items():
+    r = requests.get(f"https://target/api/{entity}/{eid}", headers=bypass_headers)
+    if r.status_code == 200:
+        # now we know what connects to what
+        relationships[entity] = r.json()
+
+# stage 3 - exploitation: try the salt, if its worth it
+    forged = generate_token(salt, user_id="...", clinic_id="...")
+
+# stage 4 - impact: authenticated-ish call to a write endpoint
+    api.post("/medical-record/create",
+             data=malicious_record,
+             headers={"Authorization": "Bearer " + forged})</code></pre>
+          <p>
+            stage 1 is recon, stage 2 turns the ids into a map, stage 3 tries to turn the salt into tokens, and
+            stage 4 is pretty much anything the PMS lets an authenticated actor do.
+          </p>
+
+          <figure>
+            <img src="assets/payload-chain.gif" alt="the chain from recon to exploiting exposed ids and salt">
+            <p class="small">the read-to-write chain: enumeration, then access, then whatever the system allows.</p>
+          </figure>
+
+          <h2>impact</h2>
+          <ul>
+            <li><strong>read-only disclosure</strong> - you can see how other clinics are structured. annoying.</li>
+            <li><strong>unauthorized access across domains</strong> - vet notes, billing, owner PII. worse.</li>
+            <li><strong>authentication compromise</strong> - if the salt forges tokens you're not "unauthorized" anymore, you're logged in. worst.</li>
+            <li><strong>data integrity</strong> - medical records become editable. this is the one that hammers the checkbox.</li>
+          </ul>
+          <p>
+            it's veterinary, but it's still healthcare. animal records don't get the same press as human ones
+            but they sit under the same GDPR / CCPA level of sensitivity. owners trust a clinic with their
+            pets' health. when that trust breaks it stops being a technical problem and becomes a compliance
+            problem, and compliance problems get patched in a hurry.
+          </p>
+
+          <figure>
+            <img src="assets/impact-medical.gif" alt="why healthcare data makes the impact more severe">
+            <p class="small">medical + financial data in scope - the compliance angle is what gets it fixed fast.</p>
+          </figure>
+
+          <h2>the "don't just report the ids" bit</h2>
+          <p>
+            look, I get it. honestly. most hunters would've seen those ids, filed "information disclosure",
+            taken the medium, and moved on. that's not wrong. it's just the ceiling, and a medium pays a medium.
+          </p>
+          <p>
+            what moved this one to high, and what moves similar ones to critical, was four small things:
+          </p>
+          <ol>
+            <li><strong>demonstrate real access.</strong> don't just screenshot the page. take an id, hit an endpoint, show what comes back. even read-only, it's access, and access reads louder than a leaked variable.</li>
+            <li><strong>show the relationships.</strong> a pet id is data. pet id + clinic id + vet id + consultation id is an attack surface. draw the dumb little diagram in the report, it takes two minutes in plain text.</li>
+            <li><strong>push the salt.</strong> if there's any chance a salt, secret or seed can generate or guess tokens, chase it. even unexploited, documenting the potential is the difference between medium and critical.</li>
+            <li><strong>think healthcare.</strong> medical data - even for animals - makes the compliance stakes real, and compliance is the fastest way to get a triager to sit up.</li>
+          </ol>
+
+          <h2>takeaway</h2>
+          <p>
+            the whole point of authorization is that there's a barrier you have to cross to touch a system. this
+            debug page deleted that barrier entirely. it's not a bug in one endpoint - it's a complete entity map
+            of an entire practice management system, served to anyone with a web browser.
+          </p>
+          <p>
+            the identifiers paint the picture. the relationships turn the picture into a blueprint. and a salt
+            field left over from development is basically the key to the front door.
+          </p>
+
+          <figure>
+            <img src="assets/overview.png" alt="recap of the exposed identifiers and how they chain into an authorization bypass">
+            <p class="small">ids are a picture, relationships are a blueprint, the salt is the key.</p>
+          </figure>
+
+          <p>
+            last thing: this got patched within about a day of reporting, and the fix was "removed the page".
+            cost the company nothing. paying attention to what your debug surfaces print is a cheap habit, and
+            this is the case I point at whenever someone asks why I bother with these.
+          </p>
+
+          <p class="small">
+            target and all identifiers redacted. testing was authorized and in-scope. disclosure policy is on
+            the <a href="../about.html">about</a> page.
+          </p>
+
+        </div>
+
+        <section class="related">
+          <h2>More</h2>
+          <div class="related-grid">
+            <a class="related-card" href="../index.html">
+              <span class="rc-type">blog</span>
+              <h3>back to all posts</h3>
+              <p>the rest of the writeups and research live here.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+          </div>
+          <a class="back-top" href="#">&uarr; back to top</a>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="links">
+        <a href="../index.html">Posts</a>
+        <a href="../about.html">About</a>
+        <a href="mailto:s4youud@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

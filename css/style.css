@@ -521,6 +521,15 @@ pre:hover .code-copy,
 pre .code-copy:focus-visible { opacity: 1; transform: translateY(0); }
 .code-copy:hover { color: var(--accent); border-color: var(--accent-line); }
 
+/* ---------- figures (images from writeups) ---------- */
+figure { margin: 1.8rem 0; padding: 0; }
+figure img {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+}
+figure p.small { margin: 0.7rem 0 0; color: var(--text-soft); font-size: 0.84rem; }
+
 /* ---------- data / table styling ---------- */
 .article-body .table-wrap { overflow-x: auto; margin: 1.8rem 0; }
 .article-body table {

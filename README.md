@@ -16,8 +16,8 @@ cyber-blog/
 │   ├── favicon.ico / .png # standard favicon set (link in every <head>)
 │   └── logo.jpg           # original source portrait
 └── posts/            # one HTML file per blog post
-    ├── writeup-idor-account-takeover.html
-    └── research-mobile-api-recon.html
+    ├── assets/       # images / gifs used inside posts
+    └── writeup-entity-authz-bypass.html
 ```
 
 ## How to add a new post
@@ -25,7 +25,7 @@ cyber-blog/
 1. **Copy a template.** The simplest path: copy an existing post file and rename it.
 
    ```bash
-   cp posts/writeup-idor-account-takeover.html "posts/writeup-<your-slug>.html"
+   cp posts/writeup-entity-authz-bypass.html "posts/writeup-<your-slug>.html"
    ```
 
 2. **Edit the three things at the top of the file** (in `<head>`):
