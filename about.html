@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · sayed</title>
+  <meta name="description" content="Who I am, scope, and disclosure policy.">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="inner">
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><img class="logo" src="assets/nav-logo.png" alt="sayed logo"><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <div class="nav-links">
+        <a href="index.html">Posts</a>
+        <a class="current" href="about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+      <article class="article">
+
+        <header class="article-head">
+          <p class="kicker">About</p>
+          <h1>Hi, I'm sayed.</h1>
+        </header>
+
+        <div class="article-body">
+
+          <p>
+            I work in bug bounty — mostly API security and identity flows (IDOR and ATO chains).
+            This site is where I keep the writeups, the research, and the occasional opinion that
+            doesn't fit in a tweet.
+          </p>
+
+          <h2>Disclosure</h2>
+          <p>
+            All content is from <strong>authorized, in-scope</strong> testing. Details that could
+            identify a live target or a real user are redacted.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Bug bounty or a pentest? Reach me at
+            <a href="mailto:s4youud@gmail.com">s4youud@gmail.com</a>.
+          </p>
+
+        </div>
+
+        <section class="related">
+          <h2>From the blog</h2>
+          <div class="related-grid">
+
+            <a class="related-card" href="posts/writeup-idor-account-takeover.html">
+              <span class="rc-type">Writeup</span>
+              <h3>IDOR in the support ticket API → account takeover</h3>
+              <p>A document endpoint with no ownership check turned into full account control.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+
+            <a class="related-card" href="posts/research-mobile-api-recon.html">
+              <span class="rc-type">Research</span>
+              <h3>Mobile API recon: from a hardcoded key to the full endpoint map</h3>
+              <p>The twenty-minute workflow for turning any APK into an attack surface.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+
+          </div>
+          <a class="more-link" href="index.html">&larr; Back to all posts</a>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="links">
+        <a href="index.html">Posts</a>
+        <a href="about.html">About</a>
+        <a href="mailto:s4youud@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

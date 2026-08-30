@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sayed · infosec notes</title>
+  <meta name="description" content="Writeups, research, and field notes.">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="inner">
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><img class="logo" src="assets/nav-logo.png" alt="sayed logo"><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <div class="nav-links">
+        <a class="current" href="index.html">Posts</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+
+      <header class="hero">
+        <p class="kicker">Infosec · field notes</p>
+        <h1>Writeups, research &amp; notes from the field.</h1>
+        <p class="lede">
+          Bug bounty writeups, API recon, and other notes from the field. Plain
+          and technical, with no fluff.
+        </p>
+      </header>
+
+      <ul class="post-list" style="margin-top:2.5rem;">
+
+        <li>
+          <a class="post-card" href="posts/writeup-idor-account-takeover.html">
+            <div class="row">
+              <h2>IDOR in the support ticket API → account takeover</h2>
+              <span class="meta">2026-08-14</span>
+            </div>
+            <p class="excerpt">
+              A missing object-level check on a document endpoint let me read any user's
+              government ID, then chain to a full account takeover. Full timeline and repro below.
+            </p>
+            <div class="tags">
+              <span class="tag tag--accent">writeup</span>
+              <span class="tag">IDOR</span>
+              <span class="tag">API</span>
+              <span class="tag">ATO</span>
+            </div>
+            <span class="readmore">Read the writeup <span class="arr">&rarr;</span></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="post-card" href="posts/research-mobile-api-recon.html">
+            <div class="row">
+              <h2>Mobile API recon: from a hardcoded key to the full endpoint map</h2>
+              <span class="meta">2026-08-02</span>
+            </div>
+            <p class="excerpt">
+              The workflow I use to turn an Android APK into a complete API attack surface —
+              extraction, deobfuscation, endpoint mining, and automated diffing of the JS bundle.
+            </p>
+            <div class="tags">
+              <span class="tag tag--accent">research</span>
+              <span class="tag">mobile</span>
+              <span class="tag">recon</span>
+              <span class="tag">API</span>
+            </div>
+            <span class="readmore">Read the notes <span class="arr">&rarr;</span></span>
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="links">
+        <a href="index.html">Posts</a>
+        <a href="about.html">About</a>
+        <a href="mailto:s4youud@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
