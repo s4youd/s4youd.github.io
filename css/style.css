@@ -391,6 +391,7 @@ svg { display: inline-block; }
 .post-card .card-banner {
   position: relative;
   flex: 0 0 auto;
+  align-self: flex-start;
   width: clamp(240px, 32vw, 320px);
   max-width: 45%;
   aspect-ratio: 1 / 1;
@@ -403,7 +404,7 @@ svg { display: inline-block; }
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
   transition: transform 0.35s var(--ease);
@@ -783,7 +784,7 @@ figure img {
   .post-hero .hero-media { flex: none; aspect-ratio: 1 / 1; max-width: 21rem; width: 100%; margin: 0 auto; }
   .post-hero .hero-body { padding: 1.7rem 1.4rem 1.6rem; }
   .post-card { flex-direction: column; }
-  .post-card .card-banner { flex: none; aspect-ratio: 1 / 1; border-right: 0; border-bottom: 1px solid var(--line-soft); }
+  .post-card .card-banner { flex: none; align-self: auto; width: 100%; max-width: none; aspect-ratio: 1 / 1; border-right: 0; border-bottom: 1px solid var(--line-soft); }
   .post-card .card-body { padding: 1.4rem 1.3rem; }
 }
 
