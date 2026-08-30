@@ -186,7 +186,7 @@ svg { display: inline-block; }
 }
 
 /* ---------- post listing cards (index) ---------- */
-.post-list { list-style: none; margin: 0 auto; padding: 0; max-width: var(--content-w); }
+.post-list { list-style: none; margin: 0 auto; padding: 0; max-width: 76rem; }
 .post-card {
   display: flex;
   align-items: stretch;
@@ -395,6 +395,30 @@ svg { display: inline-block; }
 }
 .post-hero .article-meta { flex-wrap: wrap; row-gap: 0.5rem; }
 .post-hero .tags { margin-top: 1.3rem; }
+
+/* ---------- copy writeup link button ---------- */
+.copy-link-wrap { margin-top: 1.35rem; }
+.copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 0.42rem 0.9rem;
+  cursor: pointer;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.copy-link .ico { width: 13px; height: 13px; flex: none; }
+.copy-link:hover { color: var(--accent-brig); border-color: var(--accent-line); background: var(--accent-dim); }
+.copy-link:active { transform: translateY(1px); }
+.copy-link[data-state="copied"] { color: var(--accent-brig); border-color: var(--accent-line); }
 
 /* ---------- card banner (index listing) ---------- */
 .post-card .card-banner {
