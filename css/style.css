@@ -391,7 +391,8 @@ svg { display: inline-block; }
 .post-card .card-banner {
   position: relative;
   flex: 0 0 auto;
-  align-self: stretch;
+  width: clamp(240px, 32vw, 320px);
+  max-width: 45%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--bg-panel);
