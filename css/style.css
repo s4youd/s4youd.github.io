@@ -396,6 +396,20 @@ svg { display: inline-block; }
 .post-hero .article-meta { flex-wrap: wrap; row-gap: 0.5rem; }
 .post-hero .tags { margin-top: 1.3rem; }
 
+/* ---------- about banner ---------- */
+.about-banner {
+  margin: 0 0 2.4rem;
+  display: flex;
+  justify-content: center;
+}
+.about-banner img {
+  width: min(100%, 420px);
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: 0 16px 34px -22px rgba(0, 0, 0, 0.75);
+}
+
 /* ---------- copy writeup link button ---------- */
 .copy-link-wrap { margin-top: 1.35rem; }
 .copy-link {
