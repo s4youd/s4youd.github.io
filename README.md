@@ -13,11 +13,14 @@ cyber-blog/
 ├── js/main.js        # small script: copy buttons on code blocks
 ├── assets/           # images, etc.
 │   ├── nav-logo.png       # circular portrait used next to the site name in the nav
-│   ├── favicon.ico / .png # standard favicon set (link in every <head>)
-│   └── logo.jpg           # original source portrait
+│   └── favicon.ico / .png # standard favicon set (link in every <head>)
 └── posts/            # one folder per blog post
+    ├── writeup-deadbolt-rce/
+    │   └── index.html      # the post itself (+ assets/ → banner, pwned)
+    ├── writeup-rate-limit-header-bypass/
+    │   └── index.html      # the post itself (+ assets/)
     └── writeup-entity-authz-bypass/
-        └── index.html      # the post itself
+        └── index.html      # the post itself (+ assets/)
         # (optional) assets/  → images / gifs used inside that post
 ```
 
@@ -121,7 +124,7 @@ You can also link related posts from within the prose, not just the bottom card:
   - `severity--info` → blue
 
   Example: `<span class="severity severity--high">High · CVSS 8.1</span>`
-- **Logo & favicon:** the nav logo is `assets/nav-logo.png` (circular crop of `assets/logo.jpg`) and
-  the favicon set is generated from the same portrait. To regen the assets after changing
-  `logo.jpg`, update the sources or re-crop with your image tool — the HTML already references them.
+- **Logo & favicon:** the nav logo is `assets/nav-logo.png` (circular crop of your portrait) and the
+  favicon set is generated from the same portrait. To regen the assets after changing the source
+  portrait, update the sources or re-crop with your image tool — the HTML already references them.
 - PII / real targets: redact before publishing (see the About page for your own disclosure policy).

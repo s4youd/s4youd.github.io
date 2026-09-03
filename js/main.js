@@ -19,8 +19,11 @@
         ta.style.opacity = "0";
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand("copy"); done(); } catch (e) {}
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) {}
         document.body.removeChild(ta);
+        if (ok) done();
+        else if (label) label.textContent = "copy failed";
       }
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(url).then(done, fallback);
@@ -56,8 +59,11 @@
         ta.style.opacity = "0";
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand("copy"); done(); } catch (e) {}
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (e) {}
         document.body.removeChild(ta);
+        if (ok) done();
+        else btn.textContent = "copy failed";
       }
     });
     pre.appendChild(btn);

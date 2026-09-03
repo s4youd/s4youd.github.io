@@ -397,6 +397,7 @@ svg { display: inline-block; }
 .post-hero .tags { margin-top: 1.3rem; }
 
 /* ---------- copy writeup link button ---------- */
+.hero-severity { margin-top: 1.3rem; }
 .copy-link-wrap { margin-top: 1.35rem; }
 .copy-link {
   display: inline-flex;

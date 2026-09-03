@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DeadBolt — how a "private plugin marketplace" became full RCE</title>
   <meta name="description" content="Chain a license-key bypass with a Zip Slip into full RCE on the YesWeHack Dojo DeadBolt challenge. How I nearly gave up on the key first, and why a flag name is never documentation.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="sayed · infosec notes">
+  <meta property="og:title" content="DeadBolt — how a 'private plugin marketplace' became full RCE">
+  <meta property="og:description" content="Chain a license-key bypass with a Zip Slip into full RCE on the YesWeHack Dojo DeadBolt challenge.">
+  <meta property="og:url" content="https://sayed.is-a.dev/posts/writeup-deadbolt-rce/">
+  <meta property="og:image" content="https://sayed.is-a.dev/posts/writeup-deadbolt-rce/assets/deadbolt.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DeadBolt — how a 'private plugin marketplace' became full RCE">
+  <meta name="twitter:description" content="Chain a license-key bypass with a Zip Slip into full RCE on the YesWeHack Dojo DeadBolt challenge.">
+  <meta name="twitter:image" content="https://sayed.is-a.dev/posts/writeup-deadbolt-rce/assets/deadbolt.png">
   <link rel="icon" href="../../assets/favicon.ico?v=2" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png?v=2">
@@ -33,7 +43,7 @@
 
         <header class="article-head">
           <div class="post-hero post-hero--stacked">
-            <div class="hero-media"><img class="hero-img" src="assets/banner.png" alt=""></div>
+            <div class="hero-media"><img class="hero-img" src="assets/deadbolt.png" alt="DeadBolt plugin marketplace RCE banner"></div>
             <div class="hero-body">
               <p class="kicker">writeup</p>
               <h1>DeadBolt: How a "private plugin marketplace" turned into full RCE (and why I nearly gave up on the key first)</h1>
@@ -48,6 +58,9 @@
                 <span class="tag">RCE</span>
                 <span class="tag">zip-slip</span>
                 <span class="tag">auth-bypass</span>
+              </div>
+              <div class="hero-severity">
+                <span class="severity severity--critical">Critical · CVSS 9.8</span>
               </div>
               <div class="copy-link-wrap">
                 <button class="copy-link" type="button" data-copy-link aria-label="copy writeup link">
@@ -229,6 +242,10 @@ function loadPlugin(pluginFilename) {
             result panel: <code>FLAG{D3adb0lt_Syml1nk_Exp10t!!}</code>.
           </p>
 
+          <figure>
+            <img src="assets/pwned.png" alt="PWNED: challenge solved, flag captured">
+          </figure>
+
           <h2>Comparing notes with the official solve</h2>
           <p>
             What I liked about seeing YWH's own writeup afterward is that their key-derivation approach was basically the
@@ -269,13 +286,20 @@ function loadPlugin(pluginFilename) {
         <section class="related">
           <h2>More</h2>
           <div class="related-grid">
-            <a class="related-card" href="../../index.html">
-              <span class="rc-type">blog</span>
-              <h3>back to all posts</h3>
-              <p>the rest of the writeups and research live here.</p>
+            <a class="related-card" href="../writeup-rate-limit-header-bypass/">
+              <span class="rc-type">Writeup</span>
+              <h3>bypassing a rate limiter with a single fake header</h3>
+              <p>Rotate one X-Forwarded-For and the limit is gone — a trust-boundary mistake with the same downstream impact.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+            <a class="related-card" href="../writeup-entity-authz-bypass/">
+              <span class="rc-type">Writeup</span>
+              <h3>entity authorization bypass: the debug page that got left in prod</h3>
+              <p>An unauthenticated debug page pre-filled itself with live entity IDs and a verification salt.</p>
               <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
             </a>
           </div>
+          <a class="more-link" href="../../index.html">&larr; Back to all posts</a>
           <a class="back-top" href="#">&uarr; back to top</a>
         </section>
 

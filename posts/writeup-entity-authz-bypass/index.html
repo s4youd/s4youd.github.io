@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>entity authz bypass — the debug page left in prod</title>
   <meta name="description" content="An unauthenticated debug page in a vet PMS leaked live entity IDs and a verification salt. How exposed identifiers turn into full entity-level access.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="sayed · infosec notes">
+  <meta property="og:title" content="entity authz bypass — the debug page left in prod">
+  <meta property="og:description" content="An unauthenticated debug page in a vet PMS leaked live entity IDs and a verification salt.">
+  <meta property="og:url" content="https://sayed.is-a.dev/posts/writeup-entity-authz-bypass/">
+  <meta property="og:image" content="https://sayed.is-a.dev/posts/writeup-entity-authz-bypass/assets/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="entity authz bypass — the debug page left in prod">
+  <meta name="twitter:description" content="An unauthenticated debug page in a vet PMS leaked live entity IDs and a verification salt.">
+  <meta name="twitter:image" content="https://sayed.is-a.dev/posts/writeup-entity-authz-bypass/assets/banner.png">
   <link rel="icon" href="../../assets/favicon.ico?v=2" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png?v=2">
@@ -41,8 +51,6 @@
                 <span>2026-08-30</span>
                 <span class="meta-dot">·</span>
                 <span>9 min read</span>
-                <span class="meta-dot">·</span>
-                <span class="severity severity--critical">Critical · CVSS 9.3</span>
               </div>
               <div class="tags">
                 <span class="tag tag--accent">writeup</span>
@@ -51,6 +59,9 @@
                 <span class="tag">debug</span>
                 <span class="tag">PMS</span>
                 <span class="tag">healthcare</span>
+              </div>
+              <div class="hero-severity">
+                <span class="severity severity--critical">Critical · CVSS 9.3</span>
               </div>
               <div class="copy-link-wrap">
                 <button class="copy-link" type="button" data-copy-link aria-label="copy writeup link">
@@ -65,7 +76,7 @@
         <div class="tldr note">
           <span class="note-label">tl;dr</span>
           <p>
-            an unauthenticated debug page in a veterinary practice management system (PMS) prefilled it's
+            an unauthenticated debug page in a veterinary practice management system (PMS) prefilled its
             own form with live entity ids - clinic, vet, pet, user, transaction, and a verification salt.
             no auth, no rate limit. the ids alone are info disclosure. the relationships move it to IDOR.
             the salt is what makes this critical. target redacted, obviously.
@@ -361,13 +372,20 @@ for entity, eid in ids.items():
         <section class="related">
           <h2>More</h2>
           <div class="related-grid">
-            <a class="related-card" href="../../index.html">
-              <span class="rc-type">blog</span>
-              <h3>back to all posts</h3>
-              <p>the rest of the writeups and research live here.</p>
+            <a class="related-card" href="../writeup-deadbolt-rce/">
+              <span class="rc-type">Writeup</span>
+              <h3>DeadBolt: a "private plugin marketplace" that turned into full RCE</h3>
+              <p>A reversible license key, a Zip Slip, and an auto-loading plugins folder — chained into full RCE.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+            <a class="related-card" href="../writeup-rate-limit-header-bypass/">
+              <span class="rc-type">Writeup</span>
+              <h3>bypassing a rate limiter with a single fake header</h3>
+              <p>Rotate one X-Forwarded-For and the limit is gone — a trust-boundary mistake with the same downstream impact.</p>
               <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
             </a>
           </div>
+          <a class="more-link" href="../../index.html">&larr; Back to all posts</a>
           <a class="back-top" href="#">&uarr; back to top</a>
         </section>
 

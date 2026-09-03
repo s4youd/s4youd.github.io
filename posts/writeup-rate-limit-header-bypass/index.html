@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>bypassing a rate limiter with a single fake header</title>
   <meta name="description" content="How retesting a fixed rate limiter found the same bounded bug through a completely different door — one fake X-Forwarded-For header per request — and what a $500 'Informative' resolution taught me about triage.">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="sayed · infosec notes">
+  <meta property="og:title" content="bypassing a rate limiter with a single fake header">
+  <meta property="og:description" content="Retesting a fixed rate limiter through a completely different door — one fake X-Forwarded-For header per request.">
+  <meta property="og:url" content="https://sayed.is-a.dev/posts/writeup-rate-limit-header-bypass/">
+  <meta property="og:image" content="https://sayed.is-a.dev/posts/writeup-rate-limit-header-bypass/assets/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="bypassing a rate limiter with a single fake header">
+  <meta name="twitter:description" content="Retesting a fixed rate limiter through a completely different door — one fake X-Forwarded-For header per request.">
+  <meta name="twitter:image" content="https://sayed.is-a.dev/posts/writeup-rate-limit-header-bypass/assets/banner.png">
   <link rel="icon" href="../../assets/favicon.ico?v=2" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png?v=2">
@@ -41,8 +51,6 @@
                 <span>2026-08-30</span>
                 <span class="meta-dot">·</span>
                 <span>9 min read</span>
-                <span class="meta-dot">·</span>
-                <span class="severity severity--high">High · CVSS 7.5</span>
               </div>
               <div class="tags">
                 <span class="tag tag--accent">writeup</span>
@@ -51,6 +59,9 @@
                 <span class="tag">cwe-290</span>
                 <span class="tag">brute-force</span>
                 <span class="tag">triage</span>
+              </div>
+              <div class="hero-severity">
+                <span class="severity severity--high">High · CVSS 7.5</span>
               </div>
               <div class="copy-link-wrap">
                 <button class="copy-link" type="button" data-copy-link aria-label="copy writeup link">
@@ -216,13 +227,20 @@ X-Forwarded-For: 127.0.0.1
         <section class="related">
           <h2>More</h2>
           <div class="related-grid">
-            <a class="related-card" href="../../index.html">
-              <span class="rc-type">blog</span>
-              <h3>back to all posts</h3>
-              <p>the rest of the writeups and research live here.</p>
+            <a class="related-card" href="../writeup-deadbolt-rce/">
+              <span class="rc-type">Writeup</span>
+              <h3>DeadBolt: a "private plugin marketplace" that turned into full RCE</h3>
+              <p>A reversible license key, a Zip Slip, and an auto-loading plugins folder — chained into full RCE.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+            <a class="related-card" href="../writeup-entity-authz-bypass/">
+              <span class="rc-type">Writeup</span>
+              <h3>entity authorization bypass: the debug page that got left in prod</h3>
+              <p>An unauthenticated debug page pre-filled itself with live entity IDs and a verification salt.</p>
               <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
             </a>
           </div>
+          <a class="more-link" href="../../index.html">&larr; Back to all posts</a>
           <a class="back-top" href="#">&uarr; back to top</a>
         </section>
 
