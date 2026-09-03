@@ -360,7 +360,7 @@ svg { display: inline-block; }
 .post-hero .hero-media {
   flex: 0 0 44%;
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 10;
   background: var(--bg-panel);
 }
 .post-hero .hero-img {
@@ -424,10 +424,10 @@ svg { display: inline-block; }
 .post-card .card-banner {
   position: relative;
   flex: 0 0 auto;
-  align-self: flex-start;
-  width: clamp(240px, 32vw, 320px);
-  max-width: 45%;
-  aspect-ratio: 1 / 1;
+  align-self: stretch;
+  width: clamp(200px, 28vw, 300px);
+  max-width: 40%;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: var(--bg-panel);
   border-right: 1px solid var(--line-soft);
@@ -708,6 +708,7 @@ figure img {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1rem;
 }
+.related-grid > * { min-width: 0; }
 .related-card {
   display: block;
   padding: 1.2rem 1.25rem;
@@ -804,21 +805,71 @@ figure img {
 .site-footer .links a:hover { color: var(--text); }
 
 /* ---------- responsive ---------- */
+@media (max-width: 1024px) {
+  .site-nav .inner, .wrap, .site-footer .inner { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .brand { gap: 0.75rem; }
+}
+
 @media (max-width: 720px) {
   body { font-size: 16px; }
   .site-nav .inner, .wrap, .site-footer .inner { padding-left: 1.15rem; padding-right: 1.15rem; }
+  .site-nav .inner { gap: 0.5rem; }
   .hero h1 { font-size: 2.05rem; }
   .main { padding: 2.5rem 0 3rem; }
   .related-grid { grid-template-columns: 1fr; }
-  .nav-links { gap: 1.1rem; }
+  .nav-links { gap: 1.1rem; font-size: 0.9rem; }
   .article-body { font-size: 1.05rem; }
   .article-body pre { padding: 1.15rem 1rem; }
   .post-hero { flex-direction: column; }
-  .post-hero .hero-media { flex: none; aspect-ratio: 1 / 1; max-width: 21rem; width: 100%; margin: 0 auto; }
+  .post-hero .hero-media { flex: none; aspect-ratio: 16 / 10; max-width: none; width: 100%; margin: 0 auto; }
+  .post-hero--stacked .hero-media { aspect-ratio: 16 / 10; }
   .post-hero .hero-body { padding: 1.7rem 1.4rem 1.6rem; }
   .post-card { flex-direction: column; }
-  .post-card .card-banner { flex: none; align-self: auto; width: 100%; max-width: none; aspect-ratio: 1 / 1; border-right: 0; border-bottom: 1px solid var(--line-soft); }
+  .post-card .card-banner { flex: none; align-self: auto; width: 100%; max-width: none; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--line-soft); }
   .post-card .card-body { padding: 1.4rem 1.3rem; }
+  .brand { font-size: 1.1rem; white-space: nowrap; min-width: 0; }
+  .brand .logo { width: 44px; height: 44px; box-shadow: 0 0 0 3px rgba(61,220,151,0.10), 0 2px 6px rgba(0,0,0,0.4); }
+  .brand .mark { display: inline-block; }
+  .article-meta { font-size: 0.72rem; gap: 0.5rem 0.9rem; }
+  .post-card .row { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .post-card .row-end { flex-direction: row; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+  .post-card h2 { font-size: 1.12rem; }
+  .post-card .tags { margin-top: 0.8rem; }
+  .post-hero h1 { font-size: clamp(1.25rem, 3.4vw, 1.6rem); }
+  .hero .kicker { font-size: 0.62rem; letter-spacing: 0.28em; }
+  .article-body { overflow-wrap: break-word; }
+  .article-body img { width: 100%; height: auto; }
+  .article-body .table-wrap, .article-body pre, .threshold { -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .article-body pre { max-height: 26rem; }
+  .site-footer .inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+  .related-grid { gap: 0.9rem; }
+  .related-card { padding: 1.1rem 1.05rem; }
+  .copy-link { font-size: 0.68rem; padding: 0.38rem 0.8rem; }
+}
+
+@media (max-width: 400px) {
+  .site-nav .inner, .wrap, .site-footer .inner { padding-left: 0.9rem; padding-right: 0.9rem; }
+  .brand { gap: 0.5rem; }
+  .brand .logo { width: 38px; height: 38px; }
+  .brand { font-size: 1rem; }
+  .nav-links { gap: 0.9rem; font-size: 0.85rem; }
+  .post-card .card-body { padding: 1.1rem; }
+  .post-hero .hero-body { padding: 1.4rem 1.1rem; }
+  .article-body { font-size: 1rem; }
+}
+
+@media (hover: none) {
+  .post-card:hover,
+  .related-card:hover {
+    transform: none;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  }
+  .post-card:hover .card-banner img { transform: none; }
+  .code-copy { opacity: 1; transform: none; }
+  .post-card .readmore .arr,
+  .related-card .continue .arr,
+  .post-card:hover .readmore .arr,
+  .related-card:hover .continue .arr { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
