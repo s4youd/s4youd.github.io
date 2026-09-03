@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeadBolt — how a "private plugin marketplace" became full RCE</title>
+  <meta name="description" content="Chain a license-key bypass with a Zip Slip into full RCE on the YesWeHack Dojo DeadBolt challenge. How I nearly gave up on the key first, and why a flag name is never documentation.">
+  <link rel="icon" href="../../assets/favicon.ico?v=2" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/favicon-192.png?v=2">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="inner">
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><img class="logo" src="../../assets/nav-logo.png" alt="sayed logo"><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <div class="nav-links">
+        <a href="../../index.html">Posts</a>
+        <a href="../../about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+      <article class="article">
+
+        <header class="article-head">
+          <div class="post-hero post-hero--stacked">
+            <div class="hero-media"><img class="hero-img" src="assets/banner.png" alt=""></div>
+            <div class="hero-body">
+              <p class="kicker">writeup</p>
+              <h1>DeadBolt: How a "private plugin marketplace" turned into full RCE (and why I nearly gave up on the key first)</h1>
+              <div class="article-meta">
+                <span id="post-date">2026-09-03</span>
+                <span class="meta-dot">·</span>
+                <span id="post-read">6 min read</span>
+              </div>
+              <div class="tags">
+                <span class="tag tag--accent">writeup</span>
+                <span class="tag">dojo</span>
+                <span class="tag">RCE</span>
+                <span class="tag">zip-slip</span>
+                <span class="tag">auth-bypass</span>
+              </div>
+              <div class="copy-link-wrap">
+                <button class="copy-link" type="button" data-copy-link aria-label="copy writeup link">
+                  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>
+                  <span class="label">copy link</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-body">
+
+          <p>
+            This one's from the <strong>YesWeHack Dojo</strong> — their monthly community challenge thing, not a private
+            program, so nothing here needs redacting, which honestly is kind of a relief after my last few posts.
+            Challenge was called <strong>DeadBolt</strong>, dojo #51. Ended up chaining a license-key bypass with a Zip Slip
+            into full RCE. Got the flag, got a nice little "you popped it" message from the YWH team with their official
+            solve, and I actually solved it a slightly different way than their intended path, which was a nice feeling.
+          </p>
+
+          <h2>The setup</h2>
+          <p>
+            The premise: a Node.js app running a "private" plugin marketplace. Ten customers, license keys handed out at
+            launch, you need a valid key to upload a plugin. Plugins get uploaded as zip files, extracted server-side,
+            then loaded and run. Classic three-stage target — auth bypass, file handling, code execution — and once I saw
+            all three of those sitting in one flow I already knew this was going to be a chain, not a single bug.
+          </p>
+
+          <h2>Stage one: breaking the license key</h2>
+          <p>
+            First thing I do on anything like this is go look at how the validation actually works, because "license key"
+            usually means "some math I can reverse" way more often than it means "some secret I can't get to."
+          </p>
+          <p>
+            And yeah — the <code>validateKey()</code> function was pure client-visible math. No server-side seed, no HMAC,
+            nothing pulled from a database. Just arithmetic on the key bytes:
+          </p>
+
+          <pre><code>function validateKey(key) {
+  const raw = key.replace(/-/g, '').toUpperCase();
+  if (raw.length !== 16 || !/^[0-9A-F]{16}$/.test(raw)) return false;
+  const [A, B, C, D] = [0, 4, 8, 12].map(i => parseInt(raw.slice(i, i + 4), 16));
+  const f = (A >> 12) & 0xF;
+  const seed = (A ^ B ^ C) & 0xFFFF;
+  return (f === 0xA || f === 0xC)
+    && ( (B ^ (A & 0xFF)) & 0xFF ) === 0x37
+    && C % 7 === 0
+    && D === ((Math.imul(seed, 1103515245) + 1337) & 0xFFFF);
+}</code></pre>
+
+          <p>
+            Okay so I'll be honest, I stared at this longer than I want to admit. My first instinct was to just brute
+            force it — 16 hex chars felt scary at first glance, like maybe it's a huge space. Then I actually did the
+            math in my head (badly) and realized the four constraints basically hand you the answer piece by piece if you
+            just solve them one at a time instead of treating it as one blob:
+          </p>
+          <ul>
+            <li><code>f = (A &gt;&gt; 12) &amp; 0xF</code> has to be <code>0xA</code> or <code>0xC</code> — that's literally just "top nibble of A is A or C." Pick <code>A = 0xA123</code>, done.</li>
+            <li><code>(B ^ (A &amp; 0xFF)) &amp; 0xFF === 0x37</code> — once A is fixed, this pins down B completely. <code>A &amp; 0xFF = 0x23</code>, so <code>B_low = 0x37 ^ 0x23 = 0x14</code>.</li>
+            <li><code>C % 7 === 0</code> — pick literally any multiple of 7. I went with <code>0x0007</code>.</li>
+            <li><code>D</code> — fully determined by the other three through that seed formula, just compute it.</li>
+          </ul>
+          <p>
+            Ended up with <code>A123-0014-0007-46A9</code>. And this is the part I want to flag for anyone newer than me:
+            I almost brute-forced a puzzle that was solvable analytically in like ten minutes, purely because 16 hex
+            characters <em>looked</em> intimidating before I actually read what each check was doing. Lesson learned — read
+            the constraints before you reach for a script that guesses blindly.
+          </p>
+
+          <h2>Stage two: the actual bug — Zip Slip</h2>
+          <p>
+            Key sorted, now the interesting part. The zip extraction:
+          </p>
+
+          <pre><code>function unzip(filename, dest) {  // dest = '/tmp/app/plugins/archive'
+    yauzl.open(filename, { lazyEntries: true, strictFileNames: true, decodeStrings: false }, (err, zipfile) => {
+        zipfile.on('entry', (entry) => {
+            const filenameStr = entry.fileName.toString();
+            const destpath = path.join(dest, filenameStr);  // No path traversal check!
+            fs.mkdirSync(path.dirname(destpath), { recursive: true });
+            zipfile.openReadStream(entry, (err, readStream) => {
+                const writeStream = fs.createWriteStream(destpath);
+                readStream.pipe(writeStream);
+            });
+        });
+    });
+}</code></pre>
+
+          <p>
+            <code>strictFileNames: true</code> tricked me for a second — I saw that flag and thought "oh, maybe traversal's
+            already handled." It's not. That flag is about UTF-8 encoding validity, not about <code>../</code> sequences. Two
+            completely different kinds of "strict," and the option name doesn't tell you which one you're getting. Worth
+            remembering next time a library flag <em>sounds</em> protective — always go read what it actually checks, don't
+            assume from the name.
+          </p>
+          <p>
+            So a zip entry named <code>../evil.js</code> just walks straight out of <code>archive/</code> and lands in the parent
+            <code>plugins/</code> directory:
+          </p>
+
+          <pre><code>path.join('/tmp/app/plugins/archive', '../evil.js')
+= '/tmp/app/plugins/evil.js'</code></pre>
+
+          <p>
+            That's the whole bug. <code>path.join</code> doesn't stop that. You need to explicitly check the resolved path stays
+            inside the intended directory, and nobody did.
+          </p>
+
+          <h2>Stage three: turning a dropped file into code execution</h2>
+          <p>
+            Landing a file in <code>plugins/</code> matters because of this:
+          </p>
+
+          <pre><code>const require_plugin = module.createRequire('file:///tmp/app/plugins/');
+
+function loadPlugin(pluginFilename) {
+  const resolved = path.resolve(pluginFilename);
+  if (!fs.existsSync(resolved)) throw new Error(`Plugin not found: ${resolved}`);
+  const plugin = require_plugin(resolved);  // Executes the file!
+  ...
+}</code></pre>
+
+          <p>
+            No sandboxing, no allowlist, nothing checking the file is actually a "real" plugin before requiring it. Anything
+            that lands in that folder with valid JS in it just... runs. Full Node privileges.
+          </p>
+
+          <h2>Chaining it — and where I actually got stuck</h2>
+          <p>
+            I want to be upfront that building the malicious zip by hand was the part that ate most of my time, not the
+            vulnerability logic. I originally tried building it with a normal zip library and just renaming the entry after
+            the fact, which does NOT work the way you'd hope — most zip tooling normalizes or rejects <code>../</code> in entry
+            names before you ever get a chance to write the bytes, because, well, they don't want to be a Zip Slip generator
+            by default (fair enough, in hindsight).
+          </p>
+          <p>
+            Two ways around that, and I actually ended up doing it the harder way first before realizing there was an easier
+            one:
+          </p>
+          <p>
+            <strong>The way I did it (manual zip construction):</strong> wrote the local file header, central directory, and
+            end-of-central-directory records by hand in a small Node script, including my own CRC32 implementation, so I had
+            full control over the entry filename bytes and nothing "helpfully" sanitized <code>../</code> out from under me.
+          </p>
+          <p>
+            <strong>The way YWH's official solve used (and honestly, wish I'd found first):</strong> a tool called
+            <a href="https://github.com/avlidienbrunn/archivealchemist" target="_blank" rel="noopener">archive-alchemist</a> that's
+            basically built exactly for this — crafting zips with path-traversal / symlink entries without fighting a normal
+            zip library's safety rails.
+          </p>
+
+          <pre class="terminal"><code>python3 archive-alchemist.py zipslip.zip add "../exploit.js" --content "$(cat exploit.js)" && cat zipslip.zip | base64 -w 0</code></pre>
+
+          <p>
+            That's genuinely a tool I'm keeping in my kit now. No point hand-rolling zip headers every time when something
+            already exists purpose-built for exactly this class of bug.
+          </p>
+          <p>
+            For the payload itself, I went with a plugin that tries a short list of likely flag paths first, falls back to a
+            <code>find</code> sweep, and only then falls back to dumping env vars — trying to be a little more surgical before going
+            nuclear:
+          </p>
+
+          <pre><code>run() {
+    const paths = ['/tmp/app/flag.txt', '/tmp/flag.txt', '/flag.txt'];
+    let flag = null;
+    for (const p of paths) {
+        try { flag = fs.readFileSync(p, 'utf-8').trim(); if (flag) break; } catch(e) {}
+    }
+    if (!flag) {
+        try { flag = execSync('find / -name "flag*" -maxdepth 3 -type f 2>/dev/null | head -5').toString().trim(); } catch(e) {}
+    }
+    console.log('FLAG_FOUND: ' + flag);
+}</code></pre>
+
+          <p>
+            Uploaded it under the computed key, plugin name <code>evil</code>, submitted, and the flag popped straight into the
+            result panel: <code>FLAG{D3adb0lt_Syml1nk_Exp10t!!}</code>.
+          </p>
+
+          <h2>Comparing notes with the official solve</h2>
+          <p>
+            What I liked about seeing YWH's own writeup afterward is that their key-derivation approach was basically the
+            same idea as mine but cleaner — they fixed <code>A</code> first and derived <code>B</code> directly from the XOR constraint
+            instead of me picking B somewhat by trial. Same logic, tidier execution. Good reminder that "it worked" and "it
+            was the clean way to do it" aren't always the same thing, and it's worth comparing your own solve against the
+            official one even after you've already got the flag — you usually learn something about your own process, not just
+            the bug.
+          </p>
+
+          <h2>Techniques worth keeping</h2>
+          <ul>
+            <li>When you see "license key," check whether it's actually cryptographically bound to a secret, or just math you can read and reverse. A LOT of these are the second one.</li>
+            <li>Solve constraint-based checks one variable at a time instead of treating the whole check as one opaque blob to brute force.</li>
+            <li>Don't trust a config flag's name to tell you what it protects against — go read the actual behavior. <code>strictFileNames</code> sounded like path safety, it wasn't.</li>
+            <li><code>path.join(base, userControlledInput)</code> without a post-join containment check is a Zip Slip / path traversal waiting to happen — this pattern shows up constantly in anything that extracts archives or unpacks user uploads.</li>
+            <li>If a normal zip library won't let you write a <code>../</code> entry, that's usually the library protecting you, not a dead end — there's tooling built specifically to construct these archives on purpose (archive-alchemist, in this case).</li>
+            <li>Once you land arbitrary file write in a directory that gets <code>require()</code>'d or otherwise auto-loaded, that's basically RCE — the "loading" step rarely gets the scrutiny the "writing" step does.</li>
+          </ul>
+
+          <h2>Takeaways</h2>
+          <ol>
+            <li>Intimidating-looking crypto/math checks are often bluffing — read the constraints before reaching for brute force.</li>
+            <li>A flag or option name is a hint, not documentation. Verify what it actually does.</li>
+            <li>Zip Slip is still everywhere in 2026 because archive extraction is one of those "we'll get to hardening it later" corners of a lot of codebases.</li>
+            <li>Build a real toolkit instead of hand-rolling everything — I'll take archive-alchemist over my manual zip-byte script every time from now on.</li>
+            <li>File write + auto-load anywhere in the same app is basically a free RCE chain, and it's worth specifically hunting for that combination rather than treating "arbitrary file write" as the finish line.</li>
+            <li>Compare your solve to the official one when it's available, even after you've already won. The gap between "worked" and "clean" is where you actually get better.</li>
+          </ol>
+
+          <p class="small">
+            Public YesWeHack Dojo community challenge — nothing in this one needed redacting for once. Flag included since
+            it's a training challenge, not a live target.
+          </p>
+
+        </div>
+
+        <section class="related">
+          <h2>More</h2>
+          <div class="related-grid">
+            <a class="related-card" href="../../index.html">
+              <span class="rc-type">blog</span>
+              <h3>back to all posts</h3>
+              <p>the rest of the writeups and research live here.</p>
+              <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
+            </a>
+          </div>
+          <a class="back-top" href="#">&uarr; back to top</a>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="links">
+        <a href="../../index.html">Posts</a>
+        <a href="../../about.html">About</a>
+        <a href="mailto:s4youud@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js"></script>
+</body>
+</html>
