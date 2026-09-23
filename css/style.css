@@ -43,7 +43,7 @@
   --radius: 12px;
   --radius-sm: 8px;
   --content-w: 44rem;
-  --nav-h: 72px;
+  --nav-h: 78px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-subtle: ease;
@@ -126,49 +126,66 @@ svg { display: inline-block; }
   color: var(--text);
   white-space: nowrap;
 }
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
 .brand .logo-wrap {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   flex: none;
   display: grid;
   place-items: center;
   border-radius: 50%;
   isolation: isolate;
 }
-/* subtle rotating glow behind logo — senior style: slow, low opacity, blurred */
+/* insane moving glow — everyone will ask how */
 .brand .logo-wrap::before {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: -10px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, #3b9bff, #60a5fa, #38bdf8, #3b82f6, #3b9bff);
-  opacity: 0.55;
-  filter: blur(10px);
+  background: conic-gradient(from var(--glow-angle), #3b9bff 0deg, #38bdf8 70deg, #60a5fa 140deg, #8b5cf6 210deg, #06b6d4 280deg, #3b9bff 360deg);
+  filter: blur(14px) saturate(1.25);
+  opacity: 0.95;
   z-index: 0;
-  animation: logo-glow-rotate 14s linear infinite;
+  animation: glow-angle-spin 2.8s linear infinite, glow-pulse 2s ease-in-out infinite alternate;
 }
 .brand .logo-wrap::after {
   content: "";
   position: absolute;
-  inset: -2px;
+  inset: -3px;
   border-radius: 50%;
-  background: var(--bg);
+  padding: 2px;
+  background: conic-gradient(from var(--glow-angle), #3b9bff, #38bdf8, #60a5fa, #8b5cf6, #06b6d4, #3b9bff);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
   z-index: 0;
+  animation: glow-angle-spin 2.8s linear infinite reverse;
+  opacity: 0.95;
 }
-@keyframes logo-glow-rotate {
-  to { transform: rotate(360deg); }
+@keyframes glow-angle-spin {
+  to { --glow-angle: 360deg; }
+}
+@keyframes glow-pulse {
+  0% { transform: scale(0.96); opacity: 0.85; filter: blur(14px) saturate(1.25) brightness(1); }
+  100% { transform: scale(1.06); opacity: 1; filter: blur(18px) saturate(1.45) brightness(1.18); }
 }
 .brand .logo {
   position: relative;
   z-index: 1;
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--line-strong);
+  border: 2px solid rgba(255,255,255,0.08);
   flex: none;
   background: var(--bg-panel);
+  box-shadow: 0 0 0 1px rgba(59,155,255,0.15), 0 4px 18px rgba(0,0,0,0.45);
 }
 .brand .mark { color: var(--accent); font-weight: 700; }
 .brand:hover { text-decoration: none; color: var(--text); }
@@ -844,9 +861,10 @@ figure img {
   .post-card .card-banner { flex: none; align-self: auto; width: 100%; max-width: none; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--line-soft); }
   .post-card .card-body { padding: 1.3rem 1.25rem; }
   .brand { font-size: 1.05rem; white-space: nowrap; min-width: 0; }
-  .brand .logo-wrap { width: 42px; height: 42px; }
-  .brand .logo-wrap::before { inset: -5px; filter: blur(8px); }
-  .brand .logo { width: 42px; height: 42px; }
+  .brand .logo-wrap { width: 52px; height: 52px; }
+  .brand .logo-wrap::before { inset: -8px; filter: blur(12px) saturate(1.25); }
+  .brand .logo-wrap::after { inset: -2px; }
+  .brand .logo { width: 52px; height: 52px; }
   .brand .mark { display: inline-block; }
   .article-meta { font-size: 0.72rem; gap: 0.5rem 0.9rem; }
   .post-card .row { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
@@ -868,8 +886,8 @@ figure img {
 @media (max-width: 400px) {
   .site-nav .inner, .wrap, .site-footer .inner { padding-left: 0.9rem; padding-right: 0.9rem; }
   .brand { gap: 0.5rem; }
-  .brand .logo-wrap { width: 38px; height: 38px; }
-  .brand .logo { width: 38px; height: 38px; }
+  .brand .logo-wrap { width: 44px; height: 44px; }
+  .brand .logo { width: 44px; height: 44px; }
   .brand { font-size: 1rem; }
   .nav-links { gap: 0.9rem; font-size: 0.85rem; }
   .post-card .card-body { padding: 1.1rem; }
@@ -889,7 +907,9 @@ figure img {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .brand .logo-wrap::before { animation: none !important; }
+  .brand .logo-wrap::before,
+  .brand .logo-wrap::after { animation: none !important; }
+  .brand .logo-wrap::before { filter: blur(10px) !important; opacity: 0.6 !important; }
 }
 
 /* ---------- print ---------- */
