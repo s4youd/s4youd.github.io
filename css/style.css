@@ -106,7 +106,35 @@ svg { display: inline-block; }
   border-bottom: 1px solid rgba(59, 155, 255, 0.12);
   overflow: hidden;
   isolation: isolate;
+  transition: transform 0.38s var(--ease), opacity 0.32s var(--ease), background 0.32s var(--ease), backdrop-filter 0.32s var(--ease), border-color 0.32s var(--ease);
+  will-change: transform, opacity;
 }
+/* reading focus: hidden when scrolling down, 80% opacity when idle in middle */
+.site-nav.site-nav--hidden {
+  transform: translateY(-100%);
+}
+.site-nav.site-nav--dimmed {
+  opacity: 0.80;
+  background: rgba(10, 13, 18, 0.52);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  backdrop-filter: blur(10px) saturate(110%);
+  border-bottom-color: rgba(59, 155, 255, 0.07);
+}
+.site-nav.site-nav--dimmed::before { opacity: 0.55; }
+.site-nav.site-nav--dimmed::after { opacity: 0.45; }
+/* always fully visible on hover/focus, even when dimmed */
+.site-nav:hover,
+.site-nav:focus-within {
+  opacity: 1 !important;
+  background: rgba(10, 13, 18, 0.78);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  backdrop-filter: blur(18px) saturate(130%);
+  border-bottom-color: rgba(59, 155, 255, 0.12);
+}
+.site-nav:hover::before,
+.site-nav:focus-within::before { opacity: 1; }
+.site-nav:hover::after,
+.site-nav:focus-within::after { opacity: 0.9; }
 .site-nav::before {
   content: "";
   position: absolute;
