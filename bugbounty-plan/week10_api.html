@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 10 — API & Logic ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="10" data-wk="bbv2-10">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week09_files.html">← Prev</a><a class="current" href="week10_api.html">W10</a><a href="week11_cloud.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 10 · API & Logic ULTIMATE · 7 days × 180 min</p>
+<h1>Boring endpoint + cross-tenant beats exotic no-impact.</h1>
+<p class="lede">REST BOLA/versioning → GraphQL/gRPC per-field → WebSocket CSWH → NOS → workflows → single-packet race. SaaS plans/teams/coupons/transfers. Minimal state deltas, no money abuse, own accounts, instant refund.</p>
+<div class="pills"><span class="tag tag--accent">SaaS-shaped targets</span><span class="tag">two-account + history</span><span class="tag">ticks bbv2-10</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 11.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — REST BOLA + versioning (legacy routes)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · legacy routes miss new checks</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> API1/BOLA + API2/BFLA + excessive-data + version-gap idea</p>
+<p class="t-act">Read <b>OWASP API Top 10 API1/API2/API8 summaries + WSTG API index headings ONLY</b>. One line each + legacy-route hypothesis.</p>
+<div class="t-links"><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API: BOLA/BFLA/data</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/12-API_Testing/" target="_blank" rel="noopener">WSTG: API index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 ideas cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> API labs: object-authz + version diff + method override (lab)</p>
+<p class="t-act">Do <b>PortSwigger API testing 8 labs (BOLA, BFLA, mass-assignment, versioning) IN ORDER</b>. Test <b><code>/v1 vs /v2</code> same object + <code>PUT/PATCH/DELETE</code> swap + <code>_method</code> override</b>. YT: <code>BOLA IDOR API bug bounty</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/api-testing/lab-exploiting-api-endpoint-using-documentation" target="_blank" rel="noopener">Lab: API docs exploitation first</a><a href="https://portswigger.net/web-security/all-labs#api-testing" target="_blank" rel="noopener">All labs: API filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Version + method matrix (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Old-version-missing-checks + BOLA PII-leak patterns</p>
+<p class="t-act">Read <b>1 old-version case (<code>/v1/transfer</code> no victim-check vs v2) + H1 BOLA PII search (<code>BOLA PII leak bounty</code>) 1 report — diff + leaked fields ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=BOLA%20PII" target="_blank" rel="noopener">H1: BOLA PII search</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: BOLA payloads</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 diffs with version + fields.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Version + method + minimization map</p>
+<p class="t-act">Map versions × methods × data-minimization (list vs detail over-collection). Add array-smuggling probe (<code>id[]=1&id[]=2</code>, lab).</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/12-API_Testing/" target="_blank" rel="noopener">WSTG: version/method rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Legacy-route hypothesis test + gaps</p>
+<p class="t-act">Explain why legacy misses checks (copied code, stale middleware). Triage gaps.</p>
+<div class="t-links"><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d1c0"><label for="w10d1c0"><b>0:00–0:15</b> — 4 API ideas</label></li>
+<li><input type="checkbox" id="w10d1c1"><label for="w10d1c1"><b>0:15–1:05</b> — 8 labs + version/method matrix</label></li>
+<li><input type="checkbox" id="w10d1c2"><label for="w10d1c2"><b>1:05–2:00</b> — 2 version/BOLA diffs</label></li>
+<li><input type="checkbox" id="w10d1c3"><label for="w10d1c3"><b>2:00–2:35</b> — version map + array probe</label></li>
+<li><input type="checkbox" id="w10d1c4"><label for="w10d1c4"><b>2:35–3:00</b> — hypothesis + gaps</label></li>
+<li><input type="checkbox" id="w10d1c5"><label for="w10d1c5"><b>Proof</b> — matrix + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Try v1 when v2 looks hardened.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — GraphQL + gRPC (per-field authz)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · test per-field, not per-query</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Introspection / batching / depth / persisted queries</p>
+<p class="t-act">Define 4 + risk each. Read <b>PortSwigger GraphQL topic § introspection ONLY</b> + <b>WSTG APIT-99 GraphQL § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/graphql" target="_blank" rel="noopener">PortSwigger: introspection</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/12-API_Testing/99-Testing_GraphQL" target="_blank" rel="noopener">WSTG: APIT-99</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 defs + risks cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> __schema → per-field authz + batch/depth/N+1 (lab)</p>
+<p class="t-act">Do <b>PortSwigger GraphQL 5 labs (introspection→admin leak + batching brute-force) + THM graphql Task 1–5 (introspection, mutations/authz, batching/IDOR, challenge) ONLY</b>. Dump <b><code>inql -t /graphql -o schema.json</code></b> on lab. Test <code>isAdmin</code>-class field A→B.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/graphql" target="_blank" rel="noopener">PortSwigger: GraphQL labs</a><a href="https://portswigger.net/web-security/all-labs#graphql-api-vulnerabilities" target="_blank" rel="noopener">All labs: GraphQL filter (hidden endpoint first)</a><a href="https://tryhackme.com/room/graphql" target="_blank" rel="noopener">THM: graphql T1–5</a><a href="https://github.com/doyensec/inql" target="_blank" rel="noopener">inql schema dump</a><a href="https://book.hacktricks.xyz/pentesting-web/graphql" target="_blank" rel="noopener">HackTricks: batch/depth rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>GraphQL introspection admin bug bounty</code>.</p><h4>H1</h4><p>H1 #2633771 gid lesson re-applied: global ID per-field. Search hacktivity <code>GraphQL introspection admin</code>.</p><h4>Done-when</h4><p>Schema + field-authz diff + batch demo (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Introspection→admin-leak + batch brute-force cases</p>
+<p class="t-act">Read <b>1 introspection→admin (hidden <code>isAdmin/users</code> field) + 1 batch <code>[{login}]×50</code> brute-force — query + leaked field ONLY each</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=GraphQL%20introspection%20admin" target="_blank" rel="noopener">H1: GraphQL admin search</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Brute_Force_Rate_Limit" target="_blank" rel="noopener">PATT: batch/rate rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 query→field notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> gRPC preview (grpcurl) + persisted-query abuse note</p>
+<p class="t-act">Probe <b><code>grpcurl -plaintext -d '{}' host:443 list</code> pattern READ (lab if available)</b> + persisted-query hash replay note. Add <b>nuclei <code>graphql-introspection.yaml + swagger.yaml</code> on LAB ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei: graphql/swagger (lab)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>gRPC pattern + persisted note + lab scan.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Introspection-risk test + gaps</p>
+<p class="t-act">Explain why introspection on prod = schema leak. Triage gaps (WS next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/graphql" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + schema archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d2c0"><label for="w10d2c0"><b>0:00–0:15</b> — 4 GraphQL ideas</label></li>
+<li><input type="checkbox" id="w10d2c1"><label for="w10d2c1"><b>0:15–1:05</b> — schema + field diff + batch (lab)</label></li>
+<li><input type="checkbox" id="w10d2c2"><label for="w10d2c2"><b>1:05–2:00</b> — 2 query→field notes</label></li>
+<li><input type="checkbox" id="w10d2c3"><label for="w10d2c3"><b>2:00–2:35</b> — gRPC + persisted + lab scan</label></li>
+<li><input type="checkbox" id="w10d2c4"><label for="w10d2c4"><b>2:35–3:00</b> — risk recited + gaps</label></li>
+<li><input type="checkbox" id="w10d2c5"><label for="w10d2c5"><b>Proof</b> — schema + diffs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Schema is scope. Fields are objects.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — WebSocket + CSWH (socket authz)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · socket = API without cookie guard</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Handshake + Origin check + CSWH idea</p>
+<p class="t-act">Diagram <code>Upgrade: websocket + Origin + Sec-WebSocket-Key → 101</code>. Read <b>PortSwigger WebSocket § handshake/Origin ONLY</b> + <b>WSTG WebSocket § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/websockets" target="_blank" rel="noopener">PortSwigger: handshake/Origin</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/10-Testing_WebSockets" target="_blank" rel="noopener">WSTG: WebSocket</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Handshake + CSWH cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Origin + hijack PoC + injection over messages (lab)</p>
+<p class="t-act">Do <b>PortSwigger WebSocket labs (hijack + message injection) IN ORDER</b>. Test <b><code>Origin: null/evil</code> + session-vs-message trust (send victim-ID message as attacker)</b>. YT: <code>WebSocket hijacking CSWSH account takeover</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/websockets" target="_blank" rel="noopener">PortSwigger: WS labs</a><a href="https://portswigger.net/web-security/all-labs#websockets" target="_blank" rel="noopener">All labs: WebSocket filter (hijack first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Hijack PoC + injection log (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> WS-hijack ATO + WS SQLi/injection cases</p>
+<p class="t-act">Read <b>1 WS-hijack ATO (missing Origin → victim socket actions) + 1 WS SQLi/injection (message field concatenated) — handshake/message evidence ONLY each</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: WS hijack/injection</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: WS mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 handshake/message notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> WS map: origin/auth/message-authz</p>
+<p class="t-act">Map endpoints × Origin policy × message trust. Note Socket.io fallback (polling → WS upgrade).</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/10-Testing_WebSockets" target="_blank" rel="noopener">WSTG: WS map rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> CSWH test + gaps</p>
+<p class="t-act">Explain hijack with headers. Triage gaps (NOS next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/websockets" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d3c0"><label for="w10d3c0"><b>0:00–0:15</b> — handshake + CSWH</label></li>
+<li><input type="checkbox" id="w10d3c1"><label for="w10d3c1"><b>0:15–1:05</b> — hijack PoC + injection (lab)</label></li>
+<li><input type="checkbox" id="w10d3c2"><label for="w10d3c2"><b>1:05–2:00</b> — 2 WS notes</label></li>
+<li><input type="checkbox" id="w10d3c3"><label for="w10d3c3"><b>2:00–2:35</b> — WS map (origin/auth/msg)</label></li>
+<li><input type="checkbox" id="w10d3c4"><label for="w10d3c4"><b>2:35–3:00</b> — CSWH recited + gaps</label></li>
+<li><input type="checkbox" id="w10d3c5"><label for="w10d3c5"><b>Proof</b> — PoC + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Upgrade handshake is auth. Messages are objects.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — Business logic NOS (price / coupon / plan)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · flow understanding &gt; payloads</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> NOS list: price/qty/coupon/plan/team/limits</p>
+<p class="t-act">List 6 + test values (<code>-1, 0, 0.01, 999999, NaN, null</code>). Read <b>PortSwigger business-logic § numeric/coupon ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: NOS rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>List + values cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Price/qty + coupon/promo/plan/team abuse (lab, $0-risk)</p>
+<p class="t-act">Do <b>PortSwigger logic labs (numeric + coupon) + THM buslogic Task 2–4 (price/coupon/workflow) ONLY</b>. Test <b>negative/zero/float/overflow + free→pro paths</b> on lab with <b>$0-risk (cancel immediately, own accounts)</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: logic labs</a><a href="https://tryhackme.com/room/buslogic" target="_blank" rel="noopener">THM: buslogic T2–4</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Business%20Logic%20Errors" target="_blank" rel="noopener">PATT: NOS rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Numeric + coupon/plan/team matrix (lab, refunded).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Yelp free-order + price-manip cases</p>
+<p class="t-act">Read <b>Yelp free-order/credit-abuse + 1 price-manip (<code>0</code> + client-side validation bypass) — tampered field + server response ONLY each</b>. X: <code>BOLA PII leak bounty</code> for invariant-check mindset.</p>
+<div class="t-links"><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: price-manip mirror</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: NOS cases</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>NOS + race compose: coupon double-spend is Day-6 preview. Keep ledger habits today.</p><h4>Done-when</h4><p>2 field→response notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Invariant checks: totals recomputed server-side?</p>
+<p class="t-act">Map invariants (total = price×qty − discount, plan gates, team caps). Note client-trusted fields.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/" target="_blank" rel="noopener">WSTG: business-logic index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Invariant sheet saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> NOS-example test + gaps</p>
+<p class="t-act">Narrate one end-to-end (field → response → ledger). Triage gaps (workflows next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Narrated + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d4c0"><label for="w10d4c0"><b>0:00–0:15</b> — NOS list + values</label></li>
+<li><input type="checkbox" id="w10d4c1"><label for="w10d4c1"><b>0:15–1:05</b> — numeric + coupon matrix ($0-risk)</label></li>
+<li><input type="checkbox" id="w10d4c2"><label for="w10d4c2"><b>1:05–2:00</b> — 2 field→response notes</label></li>
+<li><input type="checkbox" id="w10d4c3"><label for="w10d4c3"><b>2:00–2:35</b> — invariant sheet</label></li>
+<li><input type="checkbox" id="w10d4c4"><label for="w10d4c4"><b>2:35–3:00</b> — NOS narrated + gaps</label></li>
+<li><input type="checkbox" id="w10d4c5"><label for="w10d4c5"><b>Proof</b> — matrix + ledger archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Trust the ledger, not the UI.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — Workflow / state-machine abuse</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · UI order ≠ server order</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> State map: register → pay → use → cancel → refund</p>
+<p class="t-act">Draw states + transitions. Read <b>PortSwigger business-logic § workflow/skip ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: workflow rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map with terminal states marked.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Skip-step + terminal-state re-entry (lab)</p>
+<p class="t-act">Test <b>direct-endpoint skip (POST step-3 without step-1/2) + terminal re-enter (use→cancel→use, refund→reuse) on lab</b>. Log idempotency (double-click/refresh = double-charge?).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: skip labs</a><a href="https://portswigger.net/web-security/all-labs#business-logic-vulnerabilities" target="_blank" rel="noopener">All labs: logic filter (trust-boundary first)</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/" target="_blank" rel="noopener">WSTG: workflow rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Skip + re-entry + idempotency results (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Workflow-skip upgrade + transfer-victim cases</p>
+<p class="t-act">Read <b>1 skip-upgrade (free→pro without pay) + 1 transfer-victim (<code>to=victim</code> swap) — skipped step + abused transition ONLY each</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: skip/transfer</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: workflow payloads</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 transition notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Two-user flows: send/share/transfer recipient abuse</p>
+<p class="t-act">Test recipient swap + invite-token reuse on lab (own accounts). Note post-conditions (balance/role/ownership deltas).</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/" target="_blank" rel="noopener">WSTG: two-user rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recipient matrix + deltas.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> State-bug test + gaps</p>
+<p class="t-act">Explain one state bug end-to-end. Triage gaps (race next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/business-logic" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Narrated + maps archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d5c0"><label for="w10d5c0"><b>0:00–0:15</b> — state map + terminals</label></li>
+<li><input type="checkbox" id="w10d5c1"><label for="w10d5c1"><b>0:15–1:05</b> — skip + re-entry + idempotency (lab)</label></li>
+<li><input type="checkbox" id="w10d5c2"><label for="w10d5c2"><b>1:05–2:00</b> — 2 transition notes</label></li>
+<li><input type="checkbox" id="w10d5c3"><label for="w10d5c3"><b>2:00–2:35</b> — recipient matrix + deltas</label></li>
+<li><input type="checkbox" id="w10d5c4"><label for="w10d5c4"><b>2:35–3:00</b> — state bug + gaps</label></li>
+<li><input type="checkbox" id="w10d5c5"><label for="w10d5c5"><b>Proof</b> — maps + matrix archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Endpoints don't know what step you're on.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Race / TOCTOU (single-packet where it counts)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · check-then-act window = race</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Check-then-act windows + single-packet rationale</p>
+<p class="t-act">Write 3 windows (coupon/balance/2FA) + why parallel beats sequential. Read <b>PortSwigger race topic § single-packet ONLY</b> + <b>HackTricks race § single-packet gate code ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/race-conditions" target="_blank" rel="noopener">PortSwigger: single-packet</a><a href="https://book.hacktricks.xyz/pentesting-web/race-condition" target="_blank" rel="noopener">HackTricks: gate code</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Windows + gate pattern cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Coupon double-spend + limit-overrun parallel bursts (lab)</p>
+<p class="t-act">Run <b>PortSwigger race labs with Turbo <code>engine.openGate('race1')</code> single-packet (lab)</b>. Bursts: <b>coupon ×10 parallel + limit-overrun ×10</b>. Log timing table (sent/received/delta). YT: <code>race condition single packet Turbo Intruder</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/race-conditions" target="_blank" rel="noopener">PortSwigger: race labs</a><a href="https://portswigger.net/web-security/all-labs#race-conditions" target="_blank" rel="noopener">All labs: race filter (limit-overrun first)</a><a href="https://github.com/PortSwigger/turbo-intruder" target="_blank" rel="noopener">Turbo: gate code</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Burst logs + timing table (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> H1 2FA race-bypass + double-spend critical</p>
+<p class="t-act">Read <b>H1 2FA race-bypass (parallel OTP gates) + 1 double-spend critical (ledger before/after) — gate + ledger ONLY each</b>. X: <code>race condition double spend 2FA bypass min_faves:100</code>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=race%20condition%202FA%20bypass" target="_blank" rel="noopener">H1: 2FA race search</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: double-spend</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 gate+ledger notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> State-transition race windows (use→cancel→refund)</p>
+<p class="t-act">Map Day-5 states + mark raceable transitions. Note repeatability (3/5 wins?) + money/state impact with $1 ledger.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/10-Business_Logic_Testing/" target="_blank" rel="noopener">WSTG: raceable transitions</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p>Racing paid flows with real money. CUT — $1 + refund + own accounts only.</p><h4>Done-when</h4><p>Window map + ledger.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Single-packet-why test + gaps</p>
+<p class="t-act">Explain gate synchronization in 3 lines. Triage gaps (live SaaS next).</p>
+<div class="t-links"><a href="https://portswigger.net/burp/documentation/desktop/tools/turbo-intruder" target="_blank" rel="noopener">Turbo: gate docs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + logs archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d6c0"><label for="w10d6c0"><b>0:00–0:15</b> — windows + gate pattern</label></li>
+<li><input type="checkbox" id="w10d6c1"><label for="w10d6c1"><b>0:15–1:05</b> — bursts + timing table (lab)</label></li>
+<li><input type="checkbox" id="w10d6c2"><label for="w10d6c2"><b>1:05–2:00</b> — 2 gate+ledger notes</label></li>
+<li><input type="checkbox" id="w10d6c3"><label for="w10d6c3"><b>2:00–2:35</b> — window map + $1 ledger</label></li>
+<li><input type="checkbox" id="w10d6c4"><label for="w10d6c4"><b>2:35–3:00</b> — gate recited + gaps</label></li>
+<li><input type="checkbox" id="w10d6c5"><label for="w10d6c5"><b>Proof</b> — logs + table archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Sequential fail + parallel win = race.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live API/logic hunt (SaaS-shaped targets)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · prefer plans/teams/coupons/transfers surface</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Coverage recall: BOLA/version/GraphQL/NOS/race</p>
+<p class="t-act">List 5 + 1 probe each. Check <b>OWASP API Top 10 index headings ONLY</b>.</p>
+<div class="t-links"><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API: coverage check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>5×1 recited.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Two-account + history sweep on SaaS VDP (gentle, $0-risk)</p>
+<p class="t-act">Sweep <b>BOLA/version/GraphQL + NOS + race candidates (1× single-packet on own $1 data max)</b> with Burp history on. <b>No real-money moves, no other-tenant writes, instant cancel/refund.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/api-testing" target="_blank" rel="noopener">PortSwigger: sweep guide</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: SaaS sweep</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X/LinkedIn</h4><p>X: @assetnote @0xteknogeek for API lists. LinkedIn: <code>"business logic" bug bounty $$</code> for SaaS target threads.</p><h4>Done-when</h4><p>Sweep log with deltas (no money moved).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SaaS logic disclosures (2, same-program if possible)</p>
+<p class="t-act">Read <b>H1 hacktivity SaaS (BOLA/version/race) 2 — abused transition + delta ONLY</b>. Compare your sweep gaps.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: SaaS logic search</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 transition notes + gap paragraph.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Logic playbook update + minimal state-abuse PoCs</p>
+<p class="t-act">Update playbook (BOLA/version/GraphQL/NOS/race). Archive minimal PoCs (deltas, refunded). <b>Dup-check before drafting.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Business%20Logic%20Errors" target="_blank" rel="noopener">PATT: playbook rows</a><a href="https://github.com/rodnt/PortSwiggerLabs" target="_blank" rel="noopener">Community: lab solutions by topic (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + PoCs (refunded) + dup result.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Logic-triage + no-money test + gaps to Week 11</p>
+<p class="t-act">Recite triage + money rule. Assign gaps (infra/cloud) to Week 11.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage + money rule</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w10d7c0"><label for="w10d7c0"><b>0:00–0:15</b> — 5×1 coverage</label></li>
+<li><input type="checkbox" id="w10d7c1"><label for="w10d7c1"><b>0:15–1:05</b> — SaaS sweep ($0-risk, no tenant writes)</label></li>
+<li><input type="checkbox" id="w10d7c2"><label for="w10d7c2"><b>1:05–2:00</b> — 2 SaaS transition notes</label></li>
+<li><input type="checkbox" id="w10d7c3"><label for="w10d7c3"><b>2:00–2:35</b> — playbook + PoCs (refunded) + dup</label></li>
+<li><input type="checkbox" id="w10d7c4"><label for="w10d7c4"><b>2:35–3:00</b> — triage + gaps to W11</label></li>
+<li><input type="checkbox" id="w10d7c5"><label for="w10d7c5"><b>Proof</b> — sweep + playbook archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Ledger screenshots beat adjectives.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">No real money, no tenant writes, instant refunds. Surprise: version-downgrade + batch-brute + single-packet are one combo — old version, many requests, one gate.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

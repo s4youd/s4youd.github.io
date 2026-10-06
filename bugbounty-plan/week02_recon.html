@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 02 — Recon Mountain ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="02" data-wk="bbv2-02">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week01_base.html">← Prev</a><a class="current" href="week02_recon.html">W02</a><a href="week03_access.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 02 · Recon Mountain ULTIMATE · 7 days × 180 min</p>
+<h1>Passive → active → rank → spider → secrets.</h1>
+<p class="lede">Ultimate pipeline: <code>subfinder → dnsx → httpx → naabu → katana/gau → LinkFinder/SecretFinder → trufflehog → diff</code>. Every block pins exact flags, THM tasks, YouTube searches, H1 patterns. New hosts outrank old.</p>
+<div class="pills"><span class="tag tag--accent">ultimate pipeline</span><span class="tag">diff daily</span><span class="tag">ticks bbv2-02</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 03.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — Passive subdomains + ASN (zero packets)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · passive-first or ban</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Recall: passive sources + ASN + takeover types</p>
+<p class="t-act">List crt.sh, subfinder passive, amass passive, assetfinder, gau archive. Then read <b>Can-I-Take-Over-XYZ fingerprints.json — Heroku + S3 + GitHub Pages rows ONLY</b> + <b>bgp.he.net + asnlookup.com — 1 ASN lookup demo ONLY</b>. Dangling types: CNAME/NS/MX/A.</p>
+<div class="t-links"><a href="https://github.com/EdOverflow/can-i-take-over-xyz" target="_blank" rel="noopener">Takeover fingerprints</a><a href="https://bgp.he.net/" target="_blank" rel="noopener">bgp.he.net ASN</a><a href="https://crt.sh/" target="_blank" rel="noopener">crt.sh</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Cert logs + ASN + acquisitions = scope you did not know existed. NXDOMAIN vs 404 decides takeover (Azure needs NXDOMAIN).</p><h4>Gap</h4><p>ASN + alt-TLD + reverse-WHOIS or log it.</p><h4>Search</h4><p>YT: <code>subdomain enumeration subfinder amass bug bounty</code>. X: <code>subdomain takeover min_faves:100 lang:en</code>.</p><h4>Done-when</h4><p>Sources + 4 dangling types + 3 fingerprints cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Passive harvest: crt.sh + 3 tools → sort -u (VDP)</p>
+<p class="t-act">Run <b><code>subfinder -d target -all -recursive -o subs.txt</code> + <code>amass enum -passive -d target</code> + <code>assetfinder --subs-only target</code> + crt.sh <code>%25.target</code> CSV</b>. <code>sort -u → passive-day1.txt</code>. <b>THM subdomainenumeration T2 (crt.sh/Google site:) + T3 (dnsrecon/sublist3r) READ ONLY</b>. No brute, no resolve yet.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/subfinder" target="_blank" rel="noopener">subfinder -all -recursive</a><a href="https://github.com/owasp-amass/amass" target="_blank" rel="noopener">amass passive</a><a href="https://github.com/tomnomnom/assetfinder" target="_blank" rel="noopener">assetfinder subs</a><a href="https://tryhackme.com/room/subdomainenumeration" target="_blank" rel="noopener">THM: subdomainenum</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Tools</h4><p><code>subfinder -dL scope.txt -o subs.txt</code>, <code>amass intel -asn AS12345</code> for range expansion.</p><h4>H1</h4><p>H1 #665398 Starbucks Azure + #953719 Acronis Webflow — both passive finds. Extract CNAME + proof shape.</p><h4>Done-when</h4><p>Deduped list + count logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Fingerprint study + H1 PoCs (read, no claiming)</p>
+<p class="t-act">Read <b>0xpatrik subdomain-takeover-basics — CNAME table + claim matrix ONLY</b> + <b>H1 #665398 (dig CNAME → NXDOMAIN → azurewebsites deploy) + #953719 (proxy-ssl.webflow 404 → paid-plan claim, screenshots F940499) ONLY</b> + <b>H1 #2567048 Smule SendGrid (claim to mark busy) thread ONLY</b>.</p>
+<div class="t-links"><a href="https://0xpatrik.com/subdomain-takeover-starbucks" target="_blank" rel="noopener">0xpatrik: Starbucks PoC</a><a href="https://hackerone.com/reports/665398" target="_blank" rel="noopener">H1 #665398</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports/blob/main/reports/953719.md" target="_blank" rel="noopener">H1 #953719</a><a href="https://hackerone.com/reports/2567048" target="_blank" rel="noopener">H1 #2567048</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p><code>dig CNAME</code> → service 404/NXDOMAIN → fingerprints.json match → benign claim file only. Never destructive.</p><h4>Done-when</h4><p>3 PoC shapes noted + candidates flagged, nothing claimed.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> ASN expand + acquisitions + alt-TLD sweep plan</p>
+<p class="t-act">Expand via <b>amass intel -asn + bgp.he.net range ONLY</b>. Check Crunchbase/Wikipedia acquisitions. Plan alt-TLD + reverse-WHOIS per <b>HackTricks External Recon § ASN/WHOIS ONLY</b>. <b>THM passiverecon T2–T4 (whois/dig/shodan) ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/generic-methodologies-and-resources/external-recon-methodology/index.html" target="_blank" rel="noopener">HackTricks: ASN §</a><a href="https://tryhackme.com/room/passiverecon" target="_blank" rel="noopener">THM: passiverecon</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Company recon beats domain recon. Sibling + alt-TLD = Week 11 infra wins preview.</p><h4>Done-when</h4><p>ASN ranges + 1 acquisition pivot + sweep list.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Passive-before-brute test + gap log</p>
+<p class="t-act">Explain why brute before passive burns scope + triggers WAF. Log gaps (amass intel? alt-TLD tool?).</p>
+<div class="t-links"><a href="https://github.com/jhaddix/tbhm/blob/master/02_Discovery.md" target="_blank" rel="noopener">TBHM: discovery bullets</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + passive-day1.txt archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d1c0"><label for="w02d1c0"><b>0:00–0:20</b> — sources + ASN + 3 fingerprints</label></li>
+<li><input type="checkbox" id="w02d1c1"><label for="w02d1c1"><b>0:20–1:10</b> — 4-source harvest deduped (no brute)</label></li>
+<li><input type="checkbox" id="w02d1c2"><label for="w02d1c2"><b>1:10–2:00</b> — 3 H1 PoC shapes, nothing claimed</label></li>
+<li><input type="checkbox" id="w02d1c3"><label for="w02d1c3"><b>2:00–2:35</b> — ASN + acquisition + sweep plan</label></li>
+<li><input type="checkbox" id="w02d1c4"><label for="w02d1c4"><b>2:35–3:00</b> — passive-first recited + gaps</label></li>
+<li><input type="checkbox" id="w02d1c5"><label for="w02d1c5"><b>Proof</b> — passive-day1.txt archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Map company, not domain.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Active brute + resolve + httpx ranking</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · brute the remaining namespace only</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Wordlist choice: Assetnote vs commonspeak vs namelist</p>
+<p class="t-act">Compare <b>SecLists Discovery/DNS subdomains-top1million-5000.txt + namelist.txt rows ONLY</b>. Rule: VDP = top-5000 first, never million-scale day 2. Note Assetnote best-dns-wordlist existence.</p>
+<div class="t-links"><a href="https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS" target="_blank" rel="noopener">SecLists: DNS lists</a><a href="https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt" target="_blank" rel="noopener">Assetnote: best-dns</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Right-sized list beats biggest list. 5000 + passive gaps = 95% hosts.</p><h4>Done-when</h4><p>List chosen + reason logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Brute + dnsx resolve + httpx rank (VDP, in-scope)</p>
+<p class="t-act">Brute remaining namespace (small list). <b><code>dnsx -l subs.txt -a -cname -resp -silent -o resolved.txt</code></b> + wildcard check <b><code>dnsx -wildcard</code> row ONLY</b>. <b><code>httpx -l resolved.txt -td -cdn -title -status-code -silent -o live.txt</code></b>. <b>THM gobusterthebasics T5 DNS + T6 vhost + furthernmap T3 (-sS/-sV) READ ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/dnsx" target="_blank" rel="noopener">dnsx -a -resp</a><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx rank flags</a><a href="https://tryhackme.com/room/gobusterthebasics" target="_blank" rel="noopener">THM: gobuster DNS/vhost</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Tools</h4><p>dnsx kills wildcards; httpx <code>-td -cdn -title -tech-detect -status-code</code> ranks. Order: scope → naming (admin/dev/staging) → tech → newness → no-WAF.</p><h4>YT</h4><p>Search <code>httpx naabu ranking live hosts</code> (@NahamSec/@STOKfm).</p><h4>Done-when</h4><p>resolved.txt + live.txt with status/title/tech.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Naming-signal top-10 + dev/staging writeup</p>
+<p class="t-act">Extract top-10 (dev/stage/admin/internal/api/mobile). Read <b>pentester.land 1 dev/staging bug — note the hostname pattern ONLY</b> + <b>X search <code>JS secrets bug bounty</code> skim for naming thread</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: staging</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Staging/dev = missing auth, verbose errors, old code. Naming beats tech for day-2 priority.</p><h4>Done-when</h4><p>Top-10 + 1 writeup pattern logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> WAF/CDN column + screenshots narrowed + outliers</p>
+<p class="t-act">Add WAF/no-WAF via <b>wafw00f single-host + httpx -cdn ONLY</b>. Screenshot top-10 only (not 500 hosts). Flag outliers: odd ports, old titles, huge content-length.</p>
+<div class="t-links"><a href="https://github.com/EnableSecurity/wafw00f" target="_blank" rel="noopener">wafw00f host</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>No-WAF + new + staging = Week 03–05 targets. WAF hosts = filter-evasion tax.</p><h4>Done-when</h4><p>Ranked table with WAF + outlier flags.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Ranking-order test + gaps</p>
+<p class="t-act">Recite: scope → naming → tech → newness → no-WAF. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: ranking</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + live.txt archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d2c0"><label for="w02d2c0"><b>0:00–0:15</b> — wordlist chosen + reason</label></li>
+<li><input type="checkbox" id="w02d2c1"><label for="w02d2c1"><b>0:15–1:05</b> — dnsx resolved + httpx live.txt</label></li>
+<li><input type="checkbox" id="w02d2c2"><label for="w02d2c2"><b>1:05–2:00</b> — top-10 naming + writeup pattern</label></li>
+<li><input type="checkbox" id="w02d2c3"><label for="w02d2c3"><b>2:00–2:35</b> — WAF column + outliers flagged</label></li>
+<li><input type="checkbox" id="w02d2c4"><label for="w02d2c4"><b>2:35–3:00</b> — ranking recited + gaps</label></li>
+<li><input type="checkbox" id="w02d2c5"><label for="w02d2c5"><b>Proof</b> — resolved + live archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Newness beats familiarity.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Ports + tech fingerprint + WAF map</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · naabu for breadth, nmap for depth</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> naabu vs nmap roles + httpx -td fields</p>
+<p class="t-act">State: naabu = fast SYN breadth, nmap -sV/-sC = depth on interesting only. Check <b>naabu README top-ports + exclude-cdn rows ONLY</b> + <b>nmap -sSVC pattern (no live run)</b>. httpx fields: title/tech/cdn/status.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/naabu" target="_blank" rel="noopener">naabu top-ports</a><a href="https://nmap.org/" target="_blank" rel="noopener">nmap -sSVC pattern</a><a href="https://tryhackme.com/room/furthernmap" target="_blank" rel="noopener">THM: furthernmap T3/T11</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Scan breadth fast, fingerprint deep rarely. Full-port nmap on VDP day 3 = noise + rate-limit.</p><h4>Done-when</h4><p>Roles + command shapes cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> naabu top-1000 + nmap -sV on interesting + whatweb (VDP)</p>
+<p class="t-act">Run <b><code>naabu -l live.txt -top-ports 1000 -exclude-cdn -o ports.txt</code></b>. <b><code>nmap -sV -sC -p&lt;open&gt;</code> on ≤3 interesting hosts ONLY</b> per <b>THM furthernmap T3 (-sS/-sV/-O) + T11 NSE ONLY</b>. <b><code>whatweb -a 3</code> + <code>wafw00f -i live.txt</code> (gentle)</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/naabu" target="_blank" rel="noopener">naabu live list</a><a href="https://github.com/urbanadventurer/WhatWeb" target="_blank" rel="noopener">whatweb -a 3</a><a href="https://tryhackme.com/room/webenumerationv2" target="_blank" rel="noopener">THM: webenum T3–T6</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>8889 Presto / 8761 Eureka / swagger / :8080 actuator = open-data gold. Odd port + old title = priority.</p><h4>Done-when</h4><p>ports.txt + 3 service banners + WAF map.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Tech clusters → bug-class expectations + CVE candidates</p>
+<p class="t-act">Cluster by <b>HackTricks web fingerprint table ONLY</b> (PHP/Node/Python/Java/Ruby/Go/.NET). Log versions → <b>NVD + CISA KEV search (1 candidate, no exploit)</b>. Read <b>pentester.land 1 exposed-panel/version→CVE case — note version string ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/network-services-pentesting/pentesting-web/index.html" target="_blank" rel="noopener">HackTricks: fingerprint</a><a href="https://nvd.nist.gov/" target="_blank" rel="noopener">NVD search</a><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Version today = CVE match tomorrow. Log host|product|version|source.</p><h4>Done-when</h4><p>Clusters + 1 CVE candidate logged, no exploit.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Shortlist interesting hosts (≤5) + nuclei tech dry-run (safe)</p>
+<p class="t-act">Pick ≤5 (staging + no-WAF + odd-port + old-stack). <b><code>nuclei -u host -t http/misconfiguration/ -rate-limit 5</code> dry-run on 1 host ONLY</b> (no vuln templates on live).</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei misconfig safe</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p>Full nuclei vuln scan on VDP. CUT — misconfig dry-run only.</p><h4>Done-when</h4><p>Shortlist + 1 dry-run log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> naabu vs nmap test + gaps</p>
+<p class="t-act">Recite roles + your shortlist rationale. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/naabu" target="_blank" rel="noopener">naabu: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + ports + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d3c0"><label for="w02d3c0"><b>0:00–0:15</b> — naabu/nmap roles cold</label></li>
+<li><input type="checkbox" id="w02d3c1"><label for="w02d3c1"><b>0:15–1:05</b> — ports.txt + 3 banners + WAF map</label></li>
+<li><input type="checkbox" id="w02d3c2"><label for="w02d3c2"><b>1:05–2:00</b> — clusters + 1 CVE candidate (no exploit)</label></li>
+<li><input type="checkbox" id="w02d3c3"><label for="w02d3c3"><b>2:00–2:35</b> — ≤5 shortlist + safe dry-run</label></li>
+<li><input type="checkbox" id="w02d3c4"><label for="w02d3c4"><b>2:35–3:00</b> — roles recited + gaps</label></li>
+<li><input type="checkbox" id="w02d3c5"><label for="w02d3c5"><b>Proof</b> — ports + tech map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Tech fingerprint → bug-class expectation.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — Spider + content discovery + parameters</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · every input = trust question</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> katana vs gau vs hakrawler + arjun purpose</p>
+<p class="t-act">State roles, then check <b>katana <code>-d 5 -js-crawl</code> + gau <code>--subs</code> + Arjun <code>-m GET,POST</code> flag rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener">katana flags</a><a href="https://github.com/lc/gau" target="_blank" rel="noopener">gau subs</a><a href="https://github.com/s0md3v/Arjun" target="_blank" rel="noopener">arjun methods</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>katana = live crawl, gau = archive URLs, Arjun = hidden params. Together = input inventory.</p><h4>Done-when</h4><p>Roles + flags cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> katana -jc -xhr + gau + ffuf api/v1/FUZZ + arjun 1 run (shortlist hosts)</p>
+<p class="t-act">Run <b><code>katana -u host -d 5 -js-crawl -o katana.txt</code> + <code>gau --subs host | httpx</code></b> on ≤3 hosts. <b><code>ffuf -u host/api/v1/FUZZ -w common.txt -mc 200,301</code> + <code>arjun -u host/api -m GET,POST</code> 1 run</b>. <b>THM contentdiscovery T2–T3 (robots/ffuf) + ffuf T5 (param FUZZ) ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener">katana crawl</a><a href="https://github.com/ffuf/ffuf" target="_blank" rel="noopener">ffuf api FUZZ</a><a href="https://tryhackme.com/room/contentdiscovery" target="_blank" rel="noopener">THM: content T2–T3</a><a href="https://tryhackme.com/room/ffuf" target="_blank" rel="noopener">THM: ffuf T5</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>katana gau js secrets trufflehog</code> (@STOKfm/@NahamSec).</p><h4>Done-when</h4><p>katana.txt + gau URLs + params + api versions.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Hidden vs duplicate vs alternate params + Swagger check</p>
+<p class="t-act">Classify found params. Probe <b><code>/swagger/v1, /v3/api-docs, /api-docs, /openapi.json</code> (4 paths, GET only)</b>. Read <b>pentester.land 1 param-miner + 1 api-docs exposure — note param name + endpoint ONLY</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: params</a><a href="https://wstg.owasp.org/stable/4-Web_Application_Security_Testing/01-Information_Gathering/" target="_blank" rel="noopener">WSTG: INFO index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Swagger = under-tested surface (Week 09–10). Hidden params = Week 03 mass-assignment fuel.</p><h4>Done-when</h4><p>Param classes + 4-path Swagger result logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Param + API-version inventory for target</p>
+<p class="t-act">Build inventory: param → method → auth → reflection (Day-3 trace link). Note v1 vs v2 gaps for Week 10.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: inventory</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Inventory sheet saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Param-type test + gaps</p>
+<p class="t-act">Recite hidden/duplicate/alternate with 1 example each. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/s0md3v/Arjun" target="_blank" rel="noopener">arjun: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + inventory archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d4c0"><label for="w02d4c0"><b>0:00–0:15</b> — crawler roles + flags</label></li>
+<li><input type="checkbox" id="w02d4c1"><label for="w02d4c1"><b>0:15–1:05</b> — katana + gau + ffuf api + arjun</label></li>
+<li><input type="checkbox" id="w02d4c2"><label for="w02d4c2"><b>1:05–2:00</b> — param classes + 4-path Swagger</label></li>
+<li><input type="checkbox" id="w02d4c3"><label for="w02d4c3"><b>2:00–2:35</b> — inventory sheet (v1/v2 noted)</label></li>
+<li><input type="checkbox" id="w02d4c4"><label for="w02d4c4"><b>2:35–3:00</b> — types recited + gaps</label></li>
+<li><input type="checkbox" id="w02d4c5"><label for="w02d4c5"><b>Proof</b> — katana/gau/params archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Inputs today = IDOR/SQLi/XSS tomorrow.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — JS deep analysis (endpoints + secrets)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · JS is the map thieves leave behind</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> LinkFinder vs SecretFinder vs manual regex roles</p>
+<p class="t-act">State roles, then check <b>LinkFinder <code>-i -o cli -d 1</code> + SecretFinder <code>-i -o cli</code> usage ONLY</b>. Regexes: <code>AKIA[0-9A-Z]{16}</code>, <code>eyJhbGciOi</code>, <code>BEGIN PRIVATE KEY</code>, <code>x-amz-credential</code>.</p>
+<div class="t-links"><a href="https://github.com/GerbenJavadoop/LinkFinder" target="_blank" rel="noopener">LinkFinder usage</a><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder usage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>LinkFinder = endpoints, SecretFinder = keys, grep = <code>fetch/axios/process.env</code> + internal URLs. Triage, never exfiltrate.</p><h4>Done-when</h4><p>Roles + 4 regexes cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Extract JS → endpoints + secrets triage (3 largest bundles)</p>
+<p class="t-act">List JS URLs (katana + Sources). Run <b>LinkFinder + grep fetch/axios + SecretFinder</b> on 3 largest. Check <b>source maps (<code>.js.map</code>) + <code>/package.json</code> exposure (GET only)</b>. <b>THM walkinganapplication Debugger/Network revisit</b>.</p>
+<div class="t-links"><a href="https://github.com/GerbenJavadoop/LinkFinder" target="_blank" rel="noopener">LinkFinder run</a><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder run</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/API_Key_Leaks" target="_blank" rel="noopener">PATT: API leaks triage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT/X</h4><p>YT: <code>katana gau js secrets trufflehog</code>. X: <code>JS secrets bug bounty</code>.</p><h4>H1</h4><p>JS AWS-key takeover pattern: validate via <code>aws sts get-caller-identity</code> read-only or report redacted — Week 09 deep-dives, today triage only.</p><h4>Done-when</h4><p>Endpoints + triaged secrets + map/source-map result.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> JS-secret + source-map writeups (key → impact)</p>
+<p class="t-act">Read <b>PATT API Key Leaks 1 AWS-key case — validation steps ONLY</b> + <b>pentester.land 1 source-map/bundle exposure — note exposed path ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/API_Key_Leaks" target="_blank" rel="noopener">PATT: key validation</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: sourcemap</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Key without impact = info. Key + <code>sts</code>/data read = bounty. Partial redaction always.</p><h4>Done-when</h4><p>2 triage notes with validation plan (no live validation beyond safe read).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Internal URLs + Swagger-from-JS inventory</p>
+<p class="t-act">Flag internal/staging URLs + API hosts from JS. Re-probe Swagger paths from Day 4 with JS-found hosts. Log excessive-data candidates for Week 10.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: JS inventory</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Internal-URL list + Swagger delta logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> 3-secret-types test + gaps</p>
+<p class="t-act">Name 3 secret shapes + where each hides in JS. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + JS triage sheet archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d5c0"><label for="w02d5c0"><b>0:00–0:15</b> — tool roles + 4 regexes</label></li>
+<li><input type="checkbox" id="w02d5c1"><label for="w02d5c1"><b>0:15–1:05</b> — 3 bundles endpoints + triage + maps</label></li>
+<li><input type="checkbox" id="w02d5c2"><label for="w02d5c2"><b>1:05–2:00</b> — 2 key→impact notes (redacted)</label></li>
+<li><input type="checkbox" id="w02d5c3"><label for="w02d5c3"><b>2:00–2:35</b> — internal URLs + Swagger delta</label></li>
+<li><input type="checkbox" id="w02d5c4"><label for="w02d5c4"><b>2:35–3:00</b> — 3 types recited + gaps</label></li>
+<li><input type="checkbox" id="w02d5c5"><label for="w02d5c5"><b>Proof</b> — JS triage sheet archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Triage fast, validate read-only, redact.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — GitHub dorking + cloud buckets (in-scope only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · fastest critical = exposed .env, no exploit needed</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Dork operators + trufflehog/gitleaks roles</p>
+<p class="t-act">Memorize <code>filename:.env AKIA "BEGIN PRIVATE KEY" org:target</code>. Check <b>trufflehog <code>filesystem . --only-verified</code> + gitleaks <code>detect --source . -v</code> rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/trufflesecurity/trufflehog" target="_blank" rel="noopener">trufflehog verified</a><a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks detect</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Org dorks find committed secrets; scanners verify without exfil. Scope-respect mandatory.</p><h4>Done-when</h4><p>Operators + 2 commands cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Org dorks + dry-run on test repo + in-scope buckets</p>
+<p class="t-act">Run org dorks (read-only). <b>Dry-run trufflehog/gitleaks on a TEST repo ONLY (never чужой full clone)</b>. Check buckets <b>in-scope ONLY</b> via <b>cloud_enum <code>-k target -m 50</code> + S3 URL pattern (<code>BucketRegionalDomainName + ListBucketResult</code>) READ</b>. YT: <code>github dorking bug bounty live</code>, <code>cloud_enum S3 takeover practical</code>.</p>
+<div class="t-links"><a href="https://github.com/trufflesecurity/trufflehog" target="_blank" rel="noopener">trufflehog dry-run</a><a href="https://github.com/initstring/cloud_enum" target="_blank" rel="noopener">cloud_enum -k -m</a><a href="https://book.hacktricks.xyz/pentesting-web/buckets-s3-and-cloud-storage" target="_blank" rel="noopener">HackTricks: buckets</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Open S3/Presto/Eureka: search hacktivity <code>open S3 bucket</code> — pattern ListBucketResult + write-test poc.txt (Week 11 deep-dives, today in-scope check only).</p><h4>Common mistake</h4><p>Brute-forcing OOS buckets, cloning entire orgs. CUT — in-scope + dry-run only.</p><h4>Done-when</h4><p>Dork log + dry-run + in-scope bucket result.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> S3-misconfig + GitHub-leak→ATO writeups</p>
+<p class="t-act">Read <b>PATT API Key Leaks 1 S3 case + pentester.land 1 GitHub-leak→ATO — validation + impact ONLY (no secret reuse)</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/API_Key_Leaks" target="_blank" rel="noopener">PATT: S3/leak triage</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: leak ATO</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Leaked key → read-only validation → impact (data/ATO path). Never use keys to pivot beyond proof.</p><h4>Done-when</h4><p>2 triage notes with stop-rule.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Exposure notes + partial-redaction rule</p>
+<p class="t-act">Write notes with <code>***-1234</code> redaction. Rule: full secret/PII never stored. Reference <b>WSTG INFO metafiles headings ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/stable/4-Web_Application_Security_Testing/01-Information_Gathering/" target="_blank" rel="noopener">WSTG: INFO metafiles</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Notes redacted + rule card written.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Dork + scope-respect test + gaps</p>
+<p class="t-act">Recite dork syntax + in-scope rule. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/trufflesecurity/trufflehog" target="_blank" rel="noopener">trufflehog: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + logs archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d6c0"><label for="w02d6c0"><b>0:00–0:15</b> — dorks + scanner roles</label></li>
+<li><input type="checkbox" id="w02d6c1"><label for="w02d6c1"><b>0:15–1:05</b> — dorks + dry-run + in-scope buckets</label></li>
+<li><input type="checkbox" id="w02d6c2"><label for="w02d6c2"><b>1:05–2:00</b> — 2 leak triage notes (stop-rule)</label></li>
+<li><input type="checkbox" id="w02d6c3"><label for="w02d6c3"><b>2:00–2:35</b> — redacted notes + rule card</label></li>
+<li><input type="checkbox" id="w02d6c4"><label for="w02d6c4"><b>2:35–3:00</b> — syntax + scope recited + gaps</label></li>
+<li><input type="checkbox" id="w02d6c5"><label for="w02d6c5"><b>Proof</b> — dork + exposure logs (redacted)</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Read-minimal, redact, stop-and-report.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live VDP mapping + diff workflow</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · recon 90%, attacks 10%</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Pipeline recall + WSTG INFO tick</p>
+<p class="t-act">Recite passive→resolve→rank→ports→spider→JS→dorks→diff. Tick <b>WSTG checklist INFO rows + HuntBook Phase 1–2 headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: INFO tick</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook Ph1–2</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + % logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:20</span> Full passive→httpx→katana on VDP + diff vs Day 1</p>
+<p class="t-act">Run pipeline on VDP (gentle flags only). <b><code>diff passive-day1.txt passive-day7.txt | tee diff.txt</code></b>. New hosts = Week 03 priority. <b>No vuln scans, no OOS.</b></p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx rank</a><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener">katana gentle</a><a href="https://github.com/projectdiscovery/subfinder" target="_blank" rel="noopener">subfinder re-run</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>github dorking bug bounty live</code> for diff-alert mindset.</p><h4>Done-when</h4><p>recon/ + diff.txt + ranked Week-03 list.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:20–2:20</span> Compare vs 1 published recon writeup</p>
+<p class="t-act">Read <b>pentester.land 1 recon-methodology — stages vs yours ONLY</b>. Log 1 missed stage (ASN? JS? alt-TLD?).</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: recon</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Gap paragraph logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:20–2:45</span> recon/ dir + ranked targets + reusable recon.sh</p>
+<p class="t-act">Save <b>recon.sh snippet (subfinder→dnsx→httpx→katana→diff)</b> + ranked list for Week 03 (staging/no-WAF/new first).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: pipeline</a><a href="https://github.com/lc/gau" target="_blank" rel="noopener">gau archive</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Script + list saved, stranger-readable.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:45–3:00</span> Pipeline recite + submit nothing + gaps</p>
+<p class="t-act">Recite full pipeline. Confirm no active/OOS violations. Assign gaps to Week 03.</p>
+<div class="t-links"><a href="https://github.com/jhaddix/tbhm" target="_blank" rel="noopener">TBHM: recon bullets</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + recon/ archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w02d7c0"><label for="w02d7c0"><b>0:00–0:20</b> — pipeline + INFO tick</label></li>
+<li><input type="checkbox" id="w02d7c1"><label for="w02d7c1"><b>0:20–1:20</b> — full run + diff vs Day 1</label></li>
+<li><input type="checkbox" id="w02d7c2"><label for="w02d7c2"><b>1:20–2:20</b> — recon gap note</label></li>
+<li><input type="checkbox" id="w02d7c3"><label for="w02d7c3"><b>2:20–2:45</b> — recon.sh + Week-03 ranked list</label></li>
+<li><input type="checkbox" id="w02d7c4"><label for="w02d7c4"><b>2:45–3:00</b> — recite + no violations + gaps</label></li>
+<li><input type="checkbox" id="w02d7c5"><label for="w02d7c5"><b>Proof</b> — recon/ + diff archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Diff daily. New assets = least tested.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Passive first, in-scope only. Takeovers benign-proof only. Secrets redacted. H1 login-walled? Mirrors: ajaysenr/HackerOne-Disclosed-Reports, bugpedia, TOPIDOR.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 04 — Auth & Session ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="04" data-wk="bbv2-04">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week03_access.html">← Prev</a><a class="current" href="week04_auth.html">W04</a><a href="week05_client.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 04 · Auth & Session ULTIMATE · 7 days × 180 min</p>
+<h1>Every login is an ATO attempt.</h1>
+<p class="lede">Enum → reset/OTP → session/JWT → OAuth → MFA/rate-limit → SAML/WebAuthn → logging. End with a publication-quality report draft. Self-registered accounts only, no destructive auth.</p>
+<div class="pills"><span class="tag tag--accent">ATO chains</span><span class="tag">report draft</span><span class="tag">ticks bbv2-04</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 05.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — Login / reset / OTP enumeration ULTIMATE</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · every NOS = maybe-bug</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Enum vectors + reset-token leak points cold</p>
+<p class="t-act">List error/timing/lockout enum + token via Host/Referer/ Niagara. Read <b>OWASP Forgot-Password sheet § token delivery/expiry/reuse/binding ONLY</b> + <b>WSTG weak-reset § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: forgot-password</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/" target="_blank" rel="noopener">WSTG: auth index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Enum tells who exists; reset flow tells how to steal them. GitLab $35k = no-interaction reset.</p><h4>Done-when</h4><p>Vectors + 4 leak points listed.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> PortSwigger enum + reset-poison labs (Host/Referer)</p>
+<p class="t-act">Do <b>lab-username-enumeration-via-different-responses (msg diff) + password-reset-broken-logic (token not tied) + Host-header reset-poisoning ATO lab — IN ORDER</b>. Poison via <code>Host: evil + X-Forwarded-Host</code>, check Referer leak. YT: <code>password reset poisoning Host header</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-different-responses" target="_blank" rel="noopener">Lab: enum diff</a><a href="https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-broken-logic" target="_blank" rel="noopener">Lab: reset logic</a><a href="https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning/lab-host-header-basic-password-reset-poisoning" target="_blank" rel="noopener">Lab: basic reset poisoning</a><a href="https://portswigger.net/web-security/all-labs#authentication" target="_blank" rel="noopener">All labs: auth filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>GitLab password reset token</code> — token tied to user? expiry? reuse? binding?</p><h4>Done-when</h4><p>Enum matrix + reset-flow map (delivery/expiry/reuse/binding).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> GitLab $35k + Host-poison + OTP rate math (10^6)</p>
+<p class="t-act">Read <b>H1 GitLab no-interaction reset summary + 1 Host-poison ATO — flaw family ONLY</b> + <b>PATT Rate-limit OTP section (0000–9999 + header rotation) ONLY</b>. Compute: 10^6 ÷ rate = time; rotation divides it.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=GitLab%20password%20reset" target="_blank" rel="noopener">H1: GitLab reset search</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Brute_Force_Rate_Limit" target="_blank" rel="noopener">PATT: OTP/rate</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: 2FA/race payloads</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Reset flaws: poisoning, token leak, no-expiry, reuse, no-binding. OTP: no-limit + rotation bypass.</p><h4>Done-when</h4><p>Families + math in notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Reset-flow map template + rate-limit map</p>
+<p class="t-act">Fill template per <b>OWASP Auth sheet § password section ONLY</b>: delivery/expiry/reuse/binding/rate. Log lockout + rotation behavior.</p>
+<div class="t-links"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: auth sheet</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Template + map saved, reusable all week.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Reset families test + gaps</p>
+<p class="t-act">Recite 5 families cold. Triage gaps (JWT/OAuth/MFA preview).</p>
+<div class="t-links"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d1c0"><label for="w04d1c0"><b>0:00–0:15</b> — enum + leak points</label></li>
+<li><input type="checkbox" id="w04d1c1"><label for="w04d1c1"><b>0:15–1:05</b> — 3 labs (enum + reset + poison)</label></li>
+<li><input type="checkbox" id="w04d1c2"><label for="w04d1c2"><b>1:05–2:00</b> — GitLab + poison + OTP math</label></li>
+<li><input type="checkbox" id="w04d1c3"><label for="w04d1c3"><b>2:00–2:35</b> — flow template + rate map</label></li>
+<li><input type="checkbox" id="w04d1c4"><label for="w04d1c4"><b>2:35–3:00</b> — families recited + gaps</label></li>
+<li><input type="checkbox" id="w04d1c5"><label for="w04d1c5"><b>Proof</b> — maps + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Reset flow = ATO blueprint.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Session + JWT (none / confusion / JWKS)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · server must key authz to session, not client value</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> JWT parts + HS256 vs RS256 vs none</p>
+<p class="t-act">Decode one token on <b>jwt.io (header/payload/signature panes) ONLY</b>. State confusion: RS→HS with public key as HMAC secret. Read <b>PortSwigger JWT topic intro § alg confusion ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/jwt" target="_blank" rel="noopener">PortSwigger: JWT intro</a><a href="https://jwt.io/" target="_blank" rel="noopener">jwt.io decoder</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Parts + confusion explained cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> JWT labs: none → weak secret → confusion → JWKS spoof → kid</p>
+<p class="t-act">Do <b>lab-jwt-authentication-bypass-via-unverified-signature (strip → alg:none) + weak-secret (hashcat -m 16500 rockyou) + jwk-header-injection (jku→attacker JWKS, kid traversal) IN ORDER</b>. YT: <code>portswigger JWT none algorithm jwks exploit</code>. <b>HackTricks JWT page § alg/kid/jku ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-unverified-signature" target="_blank" rel="noopener">Lab: unverified sig</a><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-jwk-header-injection" target="_blank" rel="noopener">Lab: JWKS injection</a><a href="https://portswigger.net/web-security/all-labs#jwt" target="_blank" rel="noopener">All labs: JWT filter</a><a href="https://hacktricks.wiki/en/pentesting-web/jwt.html" target="_blank" rel="noopener">HackTricks: JWT alg/kid</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>JWT weak secret</code> — secret1/admin/123456 + <code>kid: ../../key</code> traversal. Hammer JWKS-spoof chain = jku to attacker file.</p><h4>Done-when</h4><p>4 bypasses + matrix (alg/kid/jku/lifetime/storage).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> JWKS-spoof priv-esc + cross-service relay + fixation/rotation</p>
+<p class="t-act">Read <b>H1 JWT relay case (token accepted across services) — audience check ONLY</b> + test <b>cookie fixation + rotation on privilege change per WSTG Session headings ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=JWT%20weak%20secret" target="_blank" rel="noopener">H1: JWT secret search</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/" target="_blank" rel="noopener">WSTG: session index</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Json_Web_Token" target="_blank" rel="noopener">PATT: JWT matrix</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Missing aud/iss + long lifetime + localStorage = theft + replay. Fixation = session not rotated.</p><h4>Done-when</h4><p>Relay note + fixation/rotation results.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> JWT matrix: alg/kid/jku/lifetime/storage/audience</p>
+<p class="t-act">Consolidate matrix. Add nuclei <b>http/misconfiguration/jwt.yaml dry-run on lab ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei: jwt template</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix saved for live hunt.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> HS vs RS test + gaps</p>
+<p class="t-act">Explain confusion with key roles. Triage gaps (OAuth next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/jwt" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d2c0"><label for="w04d2c0"><b>0:00–0:15</b> — parts + confusion model</label></li>
+<li><input type="checkbox" id="w04d2c1"><label for="w04d2c1"><b>0:15–1:05</b> — 4 labs + matrix started</label></li>
+<li><input type="checkbox" id="w04d2c2"><label for="w04d2c2"><b>1:05–2:00</b> — relay + fixation/rotation</label></li>
+<li><input type="checkbox" id="w04d2c3"><label for="w04d2c3"><b>2:00–2:35</b> — full JWT matrix</label></li>
+<li><input type="checkbox" id="w04d2c4"><label for="w04d2c4"><b>2:35–3:00</b> — HS/RS recited + gaps</label></li>
+<li><input type="checkbox" id="w04d2c5"><label for="w04d2c5"><b>Proof</b> — matrix + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Unverified sig + weak secret + spoofed keys = ATO.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — OAuth / SSO (redirect + state + PKCE)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · redirect + referer = token leak path</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Code flow + redirect_uri + state + PKCE + nonce roles</p>
+<p class="t-act">Diagram the flow, then read <b>PortSwigger OAuth topic §爷爷 flow + implicit vs code ONLY</b> + <b>WSTG ATHZ-05 OAuth § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/oauth" target="_blank" rel="noopener">PortSwigger: OAuth flow</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/05-Testing_for_OAuth_Weaknesses" target="_blank" rel="noopener">WSTG: ATHZ-05</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Flow + 4 params cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> OAuth labs: redirect_uri + state + open-redirect chain</p>
+<p class="t-act">Do <b>lab-oauth-authentication-bypass-via-oauth-implicit-flow (token via redirect_uri + open-redirect chain) + 1 state-fixation lab</b>. Bypass table: <code>//evil%2f.. ?next= /*.target</code>. YT: <code>OAuth account takeover redirect_uri state</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/oauth/lab-oauth-authentication-bypass-via-oauth-implicit-flow" target="_blank" rel="noopener">Lab: implicit theft</a><a href="https://portswigger.net/web-security/all-labs#oauth-authentication" target="_blank" rel="noopener">All labs: OAuth filter</a><a href="https://hacktricks.wiki/en/pentesting-web/oauth-to-account-takeover.html" target="_blank" rel="noopener">HackTricks: OAuth→ATO table</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>OAuth account takeover disclosed</code> — code to attacker URI + missing state + dynamic registration logo_uri/jwks_uri SSRF.</p><h4>Done-when</h4><p>Bypass table + 2 lab solves.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Token theft via Referer/postMessage/history + Frans Rosen</p>
+<p class="t-act">Test leak channels on lab. Read <b>HackTricks OAuth § Dynamic Client Registration ONLY</b> + skim <b>Frans Rosen OAuth research index (detectify labs) headings ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/pentesting-web/oauth-to-account-takeover.html" target="_blank" rel="noopener">HackTricks: registration SSRF</a><a href="https://labs.detectify.com/" target="_blank" rel="noopener">Frans Rosen: OAuth research</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 leak channels + registration note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> OAuth checklist: redirect/state/PKCE/referer/postMessage/nonce</p>
+<p class="t-act">Consolidate + nuclei <b>oauth-open-redirect.yaml dry-run lab ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei: oauth template</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklist saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> PKCE purpose + leak paths test + gaps</p>
+<p class="t-act">Explain PKCE (code_intercept) + 3 leak paths. Triage gaps (MFA next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/oauth" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + checklist archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d3c0"><label for="w04d3c0"><b>0:00–0:15</b> — flow + 4 params</label></li>
+<li><input type="checkbox" id="w04d3c1"><label for="w04d3c1"><b>0:15–1:05</b> — 2 labs + bypass table</label></li>
+<li><input type="checkbox" id="w04d3c2"><label for="w04d3c2"><b>1:05–2:00</b> — 3 leak channels + registration</label></li>
+<li><input type="checkbox" id="w04d3c3"><label for="w04d3c3"><b>2:00–2:35</b> — full OAuth checklist</label></li>
+<li><input type="checkbox" id="w04d3c4"><label for="w04d3c4"><b>2:35–3:00</b> — PKCE + leaks recited + gaps</label></li>
+<li><input type="checkbox" id="w04d3c5"><label for="w04d3c5"><b>Proof</b> — table + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> redirect_uri is the new open redirect.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — MFA / brute / rate-limit bypass ULTIMATE</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · OTP keyspace 10^6 = brute math matters</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Bypass families: reuse/skip/tamper/backup + math</p>
+<p class="t-act">List families + compute 10^6 ÷ limit. Read <b>PortSwigger MFA topic § 2FA-simple-bypass (direct nav) ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass" target="_blank" rel="noopener">Lab: 2FA skip</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Families + math cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> MFA labs: reuse + step-skip + response-tamper + Turbo OTP race</p>
+<p class="t-act">Do <b>2FA-simple-bypass + 1 response-tamper lab</b>. <b>Turbo Intruder OTP 20-request race demo on lab ONLY (never full 10^6 on live)</b>. YT: <code>2FA bypass race condition bug bounty</code>. X: <code>MFA bypass OTP race</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass" target="_blank" rel="noopener">Lab: skip</a><a href="https://github.com/PortSwigger/turbo-intruder" target="_blank" rel="noopener">Turbo: OTP race</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>race condition 2FA bypass</code> — single-packet gate + parallel timing table (Week 10 executes).</p><h4>Done-when</h4><p>3 bypasses + 20-req race log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Rate-limit bypass: header rotation + method/param variants</p>
+<p class="t-act">Test <b><code>X-Forwarded-For: 127.0.{1-255}</code> rotation + null-byte + method override per PATT Rate-limit table ONLY</b> on lab (broken-brute-force-ip-block lab). Note lockout + backup-code abuse.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication/password-based/lab-broken-bruteforce-protection-ip-block" target="_blank" rel="noopener">Lab: IP-block bypass</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Brute_Force_Rate_Limit" target="_blank" rel="noopener">PATT: rotation table</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Rotation + 2 variants logged with lockout behavior.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> MFA + rate-limit matrices (headers/methods/backup)</p>
+<p class="t-act">Consolidate matrices. Add backup-code + downgrade <code>?mfa=false</code> row.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Brute_Force_Rate_Limit" target="_blank" rel="noopener">PATT: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrices saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Step-skip + lockout test + gaps</p>
+<p class="t-act">Recite skip + rotation logic. Triage gaps (SAML next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass" target="_blank" rel="noopener">Lab: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrices archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d4c0"><label for="w04d4c0"><b>0:00–0:15</b> — families + math</label></li>
+<li><input type="checkbox" id="w04d4c1"><label for="w04d4c1"><b>0:15–1:05</b> — 3 bypasses + 20-req race (lab)</label></li>
+<li><input type="checkbox" id="w04d4c2"><label for="w04d4c2"><b>1:05–2:00</b> — rotation + variants + lockout</label></li>
+<li><input type="checkbox" id="w04d4c3"><label for="w04d4c3"><b>2:00–2:35</b> — matrices (MFA + rate)</label></li>
+<li><input type="checkbox" id="w04d4c4"><label for="w04d4c4"><b>2:35–3:00</b> — skip/lockout recited + gaps</label></li>
+<li><input type="checkbox" id="w04d4c5"><label for="w04d4c5"><b>Proof</b> — matrices + race log archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Small keyspace + weak limit = ATO.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — SAML + WebAuthn workflow abuse</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · origin-bound ≠ workflow-safe</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Assertion parts + XSW idea + WebAuthn ceremony</p>
+<p class="t-act">Sketch Issuer/NameID/Conditions/Audience/Signature. Read <b>HackTricks SAML attacks § XSW variants list ONLY</b> + <b>WebAuthn ceremony (challenge → authenticator → origin check) summary ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/pentesting-web/saml.html" target="_blank" rel="noopener">HackTricks: SAML XSW</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Parts + XSW + ceremony cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> SAML Raider drills: wrap / comment / audience / replay (lab)</p>
+<p class="t-act">Install <b>SAMLRaider (Burp ext) — XSW wrap + cert-bypass + NameID tamper panes ONLY</b>. Drill: duplicate assertion, comment-in-NameID, audience removal, replay. YT: <code>SAML Raider XSW walkthrough</code>.</p>
+<div class="t-links"><a href="https://github.com/SAMLRaider/SAMLRaider" target="_blank" rel="noopener">SAMLRaider panes</a><a href="https://hacktricks.wiki/en/pentesting-web/saml.html" target="_blank" rel="noopener">HackTricks: XSW drills</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 drills + screenshots (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SAML-wrap ATO + audience-not-validated + WebAuthn downgrade</p>
+<p class="t-act">Read <b>HackTricks SAML 1 wrap-ATO + 1 audience-missing case — tampered node ONLY</b> + test <b><code>userVerification=preferred</code> downgrade idea (no secret theft)</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/pentesting-web/saml.html" target="_blank" rel="noopener">HackTricks: wrap cases</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: SAML</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 patterns + downgrade note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> SAML map: signature/audience/replay/binding + ceremony notes</p>
+<p class="t-act">Consolidate map. Note binding (POST vs Redirect) + clock-skew.</p>
+<div class="t-links"><a href="https://github.com/SAMLRaider/SAMLRaider" target="_blank" rel="noopener">SAMLRaider: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> XSW idea + passkey abuse test + gaps</p>
+<p class="t-act">Explain XSW in 3 sentences + 1 workflow abuse (not theft). Triage gaps.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/pentesting-web/saml.html" target="_blank" rel="noopener">HackTricks: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d5c0"><label for="w04d5c0"><b>0:00–0:15</b> — parts + XSW + ceremony</label></li>
+<li><input type="checkbox" id="w04d5c1"><label for="w04d5c1"><b>0:15–1:05</b> — 4 Raider drills (lab)</label></li>
+<li><input type="checkbox" id="w04d5c2"><label for="w04d5c2"><b>1:05–2:00</b> — 2 patterns + downgrade note</label></li>
+<li><input type="checkbox" id="w04d5c3"><label for="w04d5c3"><b>2:00–2:35</b> — SAML + ceremony map</label></li>
+<li><input type="checkbox" id="w04d5c4"><label for="w04d5c4"><b>2:35–3:00</b> — XSW recited + gaps</label></li>
+<li><input type="checkbox" id="w04d5c5"><label for="w04d5c5"><b>Proof</b> — drills + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Signature validates wrapper, not content — check.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Policy + provisioning + logging A09</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · log full auth lifecycle</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Policy controls + provisioning priv-esc + A09 logging</p>
+<p class="t-act">List weak-policy signals + <code>admin provisions admin?</code> + unlogged auth events. Read <b>OWASP Auth sheet § policy + WSTG Identity headings ONLY</b>.</p>
+<div class="t-links"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: policy §</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/" target="_blank" rel="noopener">WSTG: identity headings</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 lists cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Weak-policy + provision-admin-as-admin + deprovisioning (lab)</p>
+<p class="t-act">Test short/123456/no-lockout + invite-link reuse + removed-user session still valid (lab). Log which auth events produce no log entry.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication" target="_blank" rel="noopener">PortSwigger: auth surface</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>org takeover provisioning invite</code> — invite reuse + default-admin patterns.</p><h4>Done-when</h4><p>Policy + provisioning + deprovision results.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Org-takeover via provisioning + logging-failure impact</p>
+<p class="t-act">Read <b>H1 1 org/provisioning-takeover + 1 logging-gap (auth attacks invisible) — abused step ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=provisioning%20takeover" target="_blank" rel="noopener">H1: provisioning search</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: logging gap</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 patterns with abused-step note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Policy + provisioning + log-coverage checklist</p>
+<p class="t-act">Consolidate 3 checklists. Note remediation lines for report (Day 7).</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: checklist rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklists saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> A09 why-matters test + gaps</p>
+<p class="t-act">Explain why missing logs upgrade auth bugs. Triage gaps.</p>
+<div class="t-links"><a href="https://owasp.org/Top10/2025/en/" target="_blank" rel="noopener">OWASP Top 10: A09</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + checklists archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d6c0"><label for="w04d6c0"><b>0:00–0:15</b> — policy/provision/log model</label></li>
+<li><input type="checkbox" id="w04d6c1"><label for="w04d6c1"><b>0:15–1:05</b> — policy + provision + deprovision (lab)</label></li>
+<li><input type="checkbox" id="w04d6c2"><label for="w04d6c2"><b>1:05–2:00</b> — 2 takeover/logging patterns</label></li>
+<li><input type="checkbox" id="w04d6c3"><label for="w04d6c3"><b>2:00–2:35</b> — 3 checklists + remediation lines</label></li>
+<li><input type="checkbox" id="w04d6c4"><label for="w04d6c4"><b>2:35–3:00</b> — A09 recited + gaps</label></li>
+<li><input type="checkbox" id="w04d6c5"><label for="w04d6c5"><b>Proof</b> — checklists archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Unlogged auth = unpatchable auth.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live ATO hunt + first real report draft</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · bug = report quality</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Week recall: reset/session/OAuth/MFA surfaces</p>
+<p class="t-act">List 4 surfaces + 1 test each from memory. Check <b>WSTG checklist Identity+Session rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: IDNT+SESS rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4×1 recited + tick.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Reset + MFA + session probes on VDP (self-accounts, gentle)</p>
+<p class="t-act">Probe reset/OTP/session on own VDP accounts. <b>Archive transcripts (redacted). No brute beyond 20 requests, no victim accounts, no lockout abuse.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/authentication" target="_blank" rel="noopener">PortSwigger: probe guide</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: safe ATO probes</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Accounts: @Alra3ees @farah_hawaa for ATO threads (read-only today).</p><h4>Done-when</h4><p>Probes + transcripts (gentle, redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> 2 accepted ATO reports: remediation wording study</p>
+<p class="t-act">Read <b>H1 hacktivity <code>OAuth account takeover disclosed</code> 2 accepted — copy remediation sentences ONLY</b>. Note CVSS vectors.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=OAuth%20account%20takeover%20disclosed" target="_blank" rel="noopener">H1: OAuth ATO accepted</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 remediation quotes + vectors.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Draft 1 report: impact + repro + remediation + CVSS</p>
+<p class="t-act">Use <b>EdOverflow bugbounty-templates structure (title/summary/steps/impact/remediation) ONLY</b>. Score via <b>first.org calculator base ONLY</b>. Peer-check readability vs accepted reports.</p>
+<div class="t-links"><a href="https://github.com/ZephrFish/BugBountyTemplates" target="_blank" rel="noopener">ZephrFish: report templates</a><a href="https://docs.hackerone.com/en/articles/8496338-report-templates" target="_blank" rel="noopener">H1: report templates</a><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: score it</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Draft with 4 sections + vector (unsubmitted or VDP-ready).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Report parts + CVSS refine + gaps to Week 05</p>
+<p class="t-act">Recite parts. Refine vector (what moves it). Assign gaps (XSS/session-theft) to Week 05.</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: refine</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + draft archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w04d7c0"><label for="w04d7c0"><b>0:00–0:15</b> — 4 surfaces + tick</label></li>
+<li><input type="checkbox" id="w04d7c1"><label for="w04d7c1"><b>0:15–1:05</b> — gentle probes + redacted transcripts</label></li>
+<li><input type="checkbox" id="w04d7c2"><label for="w04d7c2"><b>1:05–2:00</b> — 2 remediation quotes + vectors</label></li>
+<li><input type="checkbox" id="w04d7c3"><label for="w04d7c3"><b>2:00–2:35</b> — draft (4 sections + CVSS)</label></li>
+<li><input type="checkbox" id="w04d7c4"><label for="w04d7c4"><b>2:35–3:00</b> — parts recited + gaps to W05</label></li>
+<li><input type="checkbox" id="w04d7c5"><label for="w04d7c5"><b>Proof</b> — transcripts + draft archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> ATO with clean report beats RCE with noise.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Self-accounts only, ≤20 auth requests, redacted transcripts. Surprise: your Day-7 draft template pays again in Weeks 06/12.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

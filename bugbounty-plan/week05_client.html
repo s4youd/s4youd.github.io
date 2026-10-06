@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 05 — Client-Side ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="05" data-wk="bbv2-05">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week04_auth.html">← Prev</a><a class="current" href="week05_client.html">W05</a><a href="week06_db.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 05 · Client-Side ULTIMATE · 7 days × 180 min</p>
+<h1>Track reflection. Map filters. Chain what pays.</h1>
+<p class="lede">Reflected → stored/blind → DOM/CSP/postMessage → CSRF → CORS cred-theft → clickjacking. dalfox gated, Collaborator callbacks, smallest Chrome-tested PoC. Kill self-XSS and no-impact instantly.</p>
+<div class="pills"><span class="tag tag--accent">method over spray</span><span class="tag">dalfox gated</span><span class="tag">ticks bbv2-05</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 06.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — Reflected XSS method (track, don't spray)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · 1 param deep beats 50 params shallow</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Contexts cold: HTML / attribute / JS / URL</p>
+<p class="t-act">Write 4 contexts + breakout char per context. Read <b>PortSwigger XSS topic § contexts ONLY + cheat-sheet § probe set (test strings, not payloads) ONLY</b> + <b>WSTG reflected XSS § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cross-site-scripting" target="_blank" rel="noopener">PortSwigger: XSS contexts</a><a href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet" target="_blank" rel="noopener">Cheat-sheet: probes</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/02-Testing_for_Reflected_Cross_Site_Scripting" target="_blank" rel="noopener">WSTG: reflected</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Context dictates breakout: <code>&lt;&gt;</code> in HTML, <code>"</code> in attribute, <code>'-alert()-'</code> in JS, <code>javascript:</code> in URL.</p><h4>Done-when</h4><p>4 contexts + breakouts cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Unique-tag tracking + filter map before payload (lab)</p>
+<p class="t-act">Inject <code>&lt;u&gt;u7t123</code> per param (NahamSec method), locate in DevTools (HTML/attr/JS). Map filter: stripped vs encoded vs executed. Do <b>THM xss Task 3 (reflected) + Task 7 (payload L1–L6 perfecting) ONLY</b> + <b>PortSwigger Lab: Reflected XSS into HTML context with nothing encoded (first reflected lab, context order) ONLY</b>. Chrome-test every candidate.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/xss" target="_blank" rel="noopener">THM: xss T3+T7</a><a href="https://portswigger.net/web-security/cross-site-scripting/reflected/lab-html-context-nothing-encoded" target="_blank" rel="noopener">Lab: reflected, nothing encoded</a><a href="https://portswigger.net/web-security/all-labs#cross-site-scripting" target="_blank" rel="noopener">All labs: XSS filter</a><a href="https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters" target="_blank" rel="noopener">NahamSec: unique-tag method</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>NahamSec how to find XSS bug bounty</code> — reflect-test segment only.</p><h4>Done-when</h4><p>Reflection map + filter table (3 columns) + Chrome proof.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Filter-evasion + WAF-bypass cases (read the bypass, not the payload)</p>
+<p class="t-act">Read <b>THM axss Task 4 (reflected Nay-server) — filter logic ONLY</b> + <b>H1/Intigriti 1 filter-evasion + 1 WAF-bypass (search <code>xss lang:en min_faves:50 bug bounty</code>) — bypassed rule ONLY</b> + <b>HackTricks XSS § filter-bypass table ONLY</b>.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/axss" target="_blank" rel="noopener">THM: axss T4</a><a href="https://book.hacktricks.xyz/pentesting-web/xss-cross-site-scripting" target="_blank" rel="noopener">HackTricks: filter bypass</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection" target="_blank" rel="noopener">PATT: XSS contexts</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Case, encoding, event-handler swap (<code>onfocus/onanimationstart</code>), WAF confidence games. Adapt, don't quit.</p><h4>Done-when</h4><p>2 bypass rules + your filter-table update.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> dalfox gated pipe (lab) + OWASP prevention quote</p>
+<p class="t-act"><b><code>cat urls.txt | dalfox scan --silence --json</code> on LAB ONLY, <code>--waf-min-confidence 0.7</code></b>. Read <b>OWASP XSS Prevention sheet § output-encoding contexts ONLY (for remediation quotes)</b>. Never point dalfox at live unscoped.</p>
+<div class="t-links"><a href="https://github.com/hahwul/dalfox" target="_blank" rel="noopener">dalfox pipe</a><a href="https://cheatsheetseries.owasp.org/cheatsheets/XSS_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: XSS prevention</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p>dalfox spray on live = WAF burn + rate-limit. CUT — lab pipe + manual live.</p><h4>Done-when</h4><p>Lab dalfox log + remediation quote.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Filter vs encode test + gaps</p>
+<p class="t-act">Explain difference + show Chrome-tested proof. Triage gaps (stored/DOM next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet" target="_blank" rel="noopener">Cheat-sheet: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + proof archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d1c0"><label for="w05d1c0"><b>0:00–0:15</b> — 4 contexts + breakouts</label></li>
+<li><input type="checkbox" id="w05d1c1"><label for="w05d1c1"><b>0:15–1:05</b> — u-tag map + filter table + Chrome proof</label></li>
+<li><input type="checkbox" id="w05d1c2"><label for="w05d1c2"><b>1:05–2:00</b> — 2 bypass rules logged</label></li>
+<li><input type="checkbox" id="w05d1c3"><label for="w05d1c3"><b>2:00–2:35</b> — lab dalfox + remediation quote</label></li>
+<li><input type="checkbox" id="w05d1c4"><label for="w05d1c4"><b>2:35–3:00</b> — filter/encode recited + gaps</label></li>
+<li><input type="checkbox" id="w05d1c5"><label for="w05d1c5"><b>Proof</b> — map + table + proof archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Track first. Payload last.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Stored + blind XSS (the paying kind)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · input shown later to others = gold</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Stored vs reflected vs blind (where each executes)</p>
+<p class="t-act">Diagram execution points (self vs other user vs admin panel vs OOB inbox). Read <b>WSTG stored XSS § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/03-Testing_for_Stored_Cross_Site_Scripting" target="_blank" rel="noopener">WSTG: stored</a><a href="https://portswigger.net/web-security/cross-site-scripting" target="_blank" rel="noopener">PortSwigger: stored intro</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Stored + admin viewer = ATO. Blind = callback proves execution you cannot see. ~1/3 of XSS bounties are blind.</p><h4>Done-when</h4><p>3 diagrams + why-stored-outranks cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Stored labs: profile/comment → admin view + blind dual-payload</p>
+<p class="t-act">Do <b>PortSwigger Lab: Stored XSS into HTML context with nothing encoded (profile/comment → second view) + THM xss Task 4 (stored) + Task 6/8 (blind + practical) ONLY</b>. Fire <b>alert(1) + blind <code>&lt;script src=//CB&gt;</code> dual</b> (lab). Poll <b>interactsh-client -oob -correlate / Collaborator</b>. Extra free reps: <b>Hacker101 CTF — do the XSS flags ONLY (https://ctf.hacker101.com/, free, same class)</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cross-site-scripting/stored/lab-html-context-nothing-encoded" target="_blank" rel="noopener">Lab: stored, nothing encoded</a><a href="https://tryhackme.com/room/xss" target="_blank" rel="noopener">THM: stored+blind</a><a href="https://ctf.hacker101.com/" target="_blank" rel="noopener">Hacker101 CTF: XSS flags (free)</a><a href="https://github.com/projectdiscovery/interactsh" target="_blank" rel="noopener">interactsh OOB</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT/X</h4><p>YT: <code>John Hammond blind XSS interactsh</code>. X: <code>blind xss interactsh from:hacker</code>.</p><h4>Done-when</h4><p>Stored PoC + OOB callback logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Stored admin-ATO + S3-takeover→JS-inject chains</p>
+<p class="t-act">Read <b>H1 #1598347 (deleted S3 vspcode → page_widget JS inject → login-form replace + history.pushState harvest) FULL chain</b> + <b>H1 #1028332 (stored via 3rd-party CNAME) — sink ONLY</b>. Extract handoff: inject → harvest → ATO.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/1598347" target="_blank" rel="noopener">H1 #1598347 S3→XSS</a><a href="https://hackerone.com/reports/1028332" target="_blank" rel="noopener">H1 #1028332 stored CNAME</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Takeover + stored XSS compose: unclaimed asset serves your JS on trusted domain. Week 02 + Week 05 chaining preview.</p><h4>Done-when</h4><p>2 chains with handoff steps.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Stored-input inventory (who views, with what privilege)</p>
+<p class="t-act">List inputs (profile, comments, tickets, uploads/SVG) × viewer (self/support/admin) × privilege. Note SVG-upload vector for Week 09.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection" target="_blank" rel="noopener">PATT: stored vectors</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Inventory sheet saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Stored&gt;reflected test + gaps</p>
+<p class="t-act">Argue with 2 reasons + callback proof. Triage gaps (DOM next).</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/03-Testing_for_Stored_Cross_Site_Scripting" target="_blank" rel="noopener">WSTG: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + inventory archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d2c0"><label for="w05d2c0"><b>0:00–0:15</b> — 3 execution models</label></li>
+<li><input type="checkbox" id="w05d2c1"><label for="w05d2c1"><b>0:15–1:05</b> — stored PoC + OOB callback (lab)</label></li>
+<li><input type="checkbox" id="w05d2c2"><label for="w05d2c2"><b>1:05–2:00</b> — 2 chains with handoffs</label></li>
+<li><input type="checkbox" id="w05d2c3"><label for="w05d2c3"><b>2:00–2:35</b> — stored inventory (viewer × priv)</label></li>
+<li><input type="checkbox" id="w05d2c4"><label for="w05d2c4"><b>2:35–3:00</b> — stored&gt;reflected + gaps</label></li>
+<li><input type="checkbox" id="w05d2c5"><label for="w05d2c5"><b>Proof</b> — PoC + callback archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Victim + privilege = severity.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — DOM XSS + CSP + postMessage</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · server never sees the sink</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Sources/sinks + postMessage origin rule</p>
+<p class="t-act">List <code>location.hash/search → innerHTML/document.write/eval + postMessage(*)</code>. Read <b>PortSwigger DOM topic § sources/sinks ONLY</b> + <b>HackTricks postMessage § origin check ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: DOM sources</a><a href="https://book.hacktricks.xyz/pentesting-web/postmessage-vulnerabilities" target="_blank" rel="noopener">HackTricks: postMessage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>5 pairs + origin rule cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> DOM labs: source→sink trace + postMessage + clobber (lab)</p>
+<p class="t-act">Do <b>PortSwigger DOM labs (trace in DevTools Sources) + THM domattacks (hash→innerHTML, clobber) + THM xss Task 5 (DOM) ONLY</b>. Test <code>origin</code> check + <code>id→window</code> clobber hijack (lab).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: DOM labs</a><a href="https://portswigger.net/web-security/all-labs#dom-based-vulnerabilities" target="_blank" rel="noopener">All labs: DOM filter</a><a href="https://tryhackme.com/room/domattacks" target="_blank" rel="noopener">THM: domattacks</a><a href="https://tryhackme.com/room/xss" target="_blank" rel="noopener">THM: DOM task</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>LiveOverflow DOM clobbering explained</code> + <code>InsiderPhD postMessage XSS</code>.</p><h4>Done-when</h4><p>1 end-to-end trace + clobber demo (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> DOM-clobber→XSS + CSP-bypass + sanitizer cases</p>
+<p class="t-act">Read <b>1 DOM-clobber→XSS (search <code>postMessage XSS bounty</code>) + 1 CSP-bypass (allowlist/nonce/strict-dynamic gap) + Google Closure sanitizer bypass summary — bypassed rule ONLY each</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/postmessage-vulnerabilities" target="_blank" rel="noopener">HackTricks: clobber cases</a><a href="https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: DOM prevention</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>React <code>dangerouslySetInnerHTML</code>, Vue <code>v-html</code>, AngularJS <code>$sce</code>, jQuery <code>html()</code> — framework predicts sink.</p><h4>Done-when</h4><p>3 bypass rules logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Source-sink map + CSP weakness notes</p>
+<p class="t-act">Map your lab target + note CSP <code>script-src</code> gaps (unsafe-inline, allowlisted CDN, nonce reuse).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: re-check sinks</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + CSP notes saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Sink-example test + gaps</p>
+<p class="t-act">Trace one sink end-to-end aloud. Triage gaps (CSRF next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Traced + archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d3c0"><label for="w05d3c0"><b>0:00–0:15</b> — sources/sinks + origin rule</label></li>
+<li><input type="checkbox" id="w05d3c1"><label for="w05d3c1"><b>0:15–1:05</b> — trace + postMessage + clobber (lab)</label></li>
+<li><input type="checkbox" id="w05d3c2"><label for="w05d3c2"><b>1:05–2:00</b> — 3 bypass rules</label></li>
+<li><input type="checkbox" id="w05d3c3"><label for="w05d3c3"><b>2:00–2:35</b> — sink map + CSP notes</label></li>
+<li><input type="checkbox" id="w05d3c4"><label for="w05d3c4"><b>2:35–3:00</b> — trace recited + gaps</label></li>
+<li><input type="checkbox" id="w05d3c5"><label for="w05d3c5"><b>Proof</b> — traces archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Client sink = invisible to server logs.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — CSRF + SameSite + login CSRF</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · non-sensitive CSRF = usually N/A</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Preconditions: cookies + state-changing GET/POST</p>
+<p class="t-act">State CSRF needs (cookie auth + no token + state change). Read <b>PortSwigger CSRF topic § token/method/SameSite ONLY</b> + <b>WSTG CSRF § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/csrf" target="_blank" rel="noopener">PortSwigger: CSRF tokens</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/05-Testing_for_Cross_Site_Request_Forgery" target="_blank" rel="noopener">WSTG: CSRF</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Preconditions + 3 defenses cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> CSRF labs: token omission + method override + mirrored cookie</p>
+<p class="t-act">Do <b>PortSwigger Lab: CSRF with no defenses (build the HTML PoC first — the baseline every bypass lab mutates) + THM csrfV2 Task 2–5 (form/fetch, Lax/None bypass, token weakness) ONLY</b>. Build 1 HTML PoC (lab) + test SameSite=Lax top-level-GET gap.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/csrf/lab-no-defenses" target="_blank" rel="noopener">Lab: CSRF, no defenses</a><a href="https://portswigger.net/web-security/all-labs#cross-site-request-forgery-csrf" target="_blank" rel="noopener">All labs: CSRF filter</a><a href="https://tryhackme.com/room/csrfV2" target="_blank" rel="noopener">THM: csrfV2 T2–5</a><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: CSRF sheet</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>PoC + SameSite bypass note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Login-CSRF + CSRF→ATO chain (when it pays)</p>
+<p class="t-act">Read <b>H1 login-CSRF resolved report — session-fixation handoff ONLY</b> + <b>1 CSRF→ATO (email-change → takeover) — chained action ONLY</b>. Filter: password/email/2FA-disable = pay; preference-toggle = N/A.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=login%20CSRF" target="_blank" rel="noopener">H1: login-CSRF search</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Cross_Site_Request_Forgery" target="_blank" rel="noopener">PATT: CSRF chains</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Pay/N/A filter + 2 chain notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Sensitive-action inventory for your target class</p>
+<p class="t-act">List actions (email/pass/2FA/API-key/payout) × method × token presence. Kill the rest in kill-log.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: CSRF triage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Inventory + kills logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Pay-vs-N/A test + gaps</p>
+<p class="t-act">Judge 3 endpoints pay/N/A with reasons. Triage gaps (CORS next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/csrf" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Judged + PoC archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d4c0"><label for="w05d4c0"><b>0:00–0:15</b> — preconditions + defenses</label></li>
+<li><input type="checkbox" id="w05d4c1"><label for="w05d4c1"><b>0:15–1:05</b> — labs + HTML PoC + Lax gap</label></li>
+<li><input type="checkbox" id="w05d4c2"><label for="w05d4c2"><b>1:05–2:00</b> — pay/N/A filter + 2 chains</label></li>
+<li><input type="checkbox" id="w05d4c3"><label for="w05d4c3"><b>2:00–2:35</b> — sensitive inventory + kills</label></li>
+<li><input type="checkbox" id="w05d4c4"><label for="w05d4c4"><b>2:35–3:00</b> — judgments + gaps</label></li>
+<li><input type="checkbox" id="w05d4c5"><label for="w05d4c5"><b>Proof</b> — PoC + inventory archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Sensitive action or kill.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — CORS misconfiguration (cred-theft math)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · reflect + credentials = vuln</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Danger combos: reflect+creds, null vs wildcard</p>
+<p class="t-act">Write combos, then read <b>PortSwigger CORS § reflection + ACAC + null/wildcard ONLY</b> + <b>HackTricks CORS-bypass § trusted-subdomain row ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cors" target="_blank" rel="noopener">PortSwigger: CORS combos</a><a href="https://book.hacktricks.xyz/pentesting-web/cors-bypass" target="_blank" rel="noopener">HackTricks: CORS rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Combos + null-risk cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Origin matrix incl. null (lab)</p>
+<p class="t-act">Do <b>PortSwigger Lab: Basic origin reflection attack (send <code>Origin: https://evil.com</code>, read ACAO/ACAC — the template every other CORS lab mutates) + THM corsandsop (reflection, preflight, null, cred-theft) ONLY</b>. Matrix columns: origin sent → ACAO/ACAC returned → creds? → verdict.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cors/lab-basic-origin-reflection-attack" target="_blank" rel="noopener">Lab: basic origin reflection</a><a href="https://portswigger.net/web-security/all-labs#cross-origin-resource-sharing-cors" target="_blank" rel="noopener">All labs: CORS filter</a><a href="https://tryhackme.com/room/corsandsop" target="_blank" rel="noopener">THM: corsandsop</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CORS_Misconfiguration" target="_blank" rel="noopener">PATT: CORS matrix</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Full matrix with verdicts.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Kettle bitcoins + Rockstar/Zomato cred-theft</p>
+<p class="t-act">Read <b>Kettle CORS bitcoins research § creds:true theft flow ONLY</b> + <b>H1 #317391 Rockstar + #426165 Zomato — ACAO reflection + withCredentials PoC ONLY</b>. Build 1 <code>fetch(url,{credentials:'include'})</code> PoC (lab).</p>
+<div class="t-links"><a href="https://portswigger.net/research/blasting-cors-fishing-inside-your-network" target="_blank" rel="noopener">Kettle: CORS fishing</a><a href="https://hackerone.com/reports/317391" target="_blank" rel="noopener">H1 #317391 Rockstar</a><a href="https://hackerone.com/reports/426165" target="_blank" rel="noopener">H1 #426165 Zomato</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>CORS + trusted-subdomain takeover (Week 02 skill) = cred theft without XSS. Layers compose.</p><h4>Done-when</h4><p>PoC + 2 H1 reflection patterns.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Regex/substring/HTTP-downgrade + subdomain-chain note</p>
+<p class="t-act">Test <code>eviltarget.com</code>, <code>target.evil.com</code>, <code>http://target</code> variants (lab). Note which trusted subdomain you would claim (theory).</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CORS_Misconfiguration" target="_blank" rel="noopener">PATT: regex rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Variant table + chain note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Null-origin risk test + gaps</p>
+<p class="t-act">Explain sandboxed-iframe null risk + creds rule. Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/cors" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d5c0"><label for="w05d5c0"><b>0:00–0:15</b> — combos + null risk</label></li>
+<li><input type="checkbox" id="w05d5c1"><label for="w05d5c1"><b>0:15–1:05</b> — origin matrix + verdicts</label></li>
+<li><input type="checkbox" id="w05d5c2"><label for="w05d5c2"><b>1:05–2:00</b> — Kettle flow + 2 H1 PoCs</label></li>
+<li><input type="checkbox" id="w05d5c3"><label for="w05d5c3"><b>2:00–2:35</b> — variant table + chain note</label></li>
+<li><input type="checkbox" id="w05d5c4"><label for="w05d5c4"><b>2:35–3:00</b> — null recited + gaps</label></li>
+<li><input type="checkbox" id="w05d5c5"><label for="w05d5c5"><b>Proof</b> — matrix + PoC archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> No creds + no PII = no CORS bounty.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Clickjacking + HTML/CSS injection</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · UI redress amplifies CSRF</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> XFO vs frame-ancestors + HTML-injection line</p>
+<p class="t-act">State header values (<code>DENY/SAMEORIGIN</code> vs <code>frame-ancestors 'none'/'self'</code>). Read <b>PortSwigger clickjacking § defenses ONLY</b> + <b>WSTG clickjacking § objectives ONLY</b>. Line: HTML injection (no JS) → escalate to XSS only if JS executes.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/clickjacking" target="_blank" rel="noopener">PortSwigger: frame defenses</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side_Testing/09-Testing_for_Clickjacking" target="_blank" rel="noopener">WSTG: clickjacking</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Headers + line cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Clickjacking labs: framing + bypass + chain draft</p>
+<p class="t-act">Do <b>PortSwigger clickjacking labs — start with the basic framing lab, then the bypass variant (filter: All labs → Clickjacking, Apprentice → Practitioner order) ONLY</b>. Draft chain: framing + drag-drop/likejack/cursorjack → CSRF action (lab). Test <code>XFO: ALLOW-FROM</code> + nested-iframe bypasses.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/all-labs#clickjacking" target="_blank" rel="noopener">All labs: clickjacking filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Framing PoC + bypass table + chain draft.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Clickjack→CSRF + HTML-injection phish cases</p>
+<p class="t-act">Read <b>1 clickjack→CSRF chain + 1 HTML-injection form-harvest (payment page) — chained action ONLY</b>. Severity: sensitive action + framing + no defense.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: UI redress</a><a href="https://book.hacktricks.xyz/pentesting-web/xss-cross-site-scripting" target="_blank" rel="noopener">HackTricks: HTML→XSS line</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 chains with severity notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> UI-redress triage: frame tests + severity gate</p>
+<p class="t-act">Gate: framable? sensitive? defense absent? chainable? Kill decorative-only framing.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: UI triage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Gate card + kills logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> XFO vs ancestors test + gaps</p>
+<p class="t-act">Recite + show header diff. Triage gaps (live hunt next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/clickjacking" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + evidence archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d6c0"><label for="w05d6c0"><b>0:00–0:15</b> — headers + injection line</label></li>
+<li><input type="checkbox" id="w05d6c1"><label for="w05d6c1"><b>0:15–1:05</b> — framing PoC + bypasses + chain</label></li>
+<li><input type="checkbox" id="w05d6c2"><label for="w05d6c2"><b>1:05–2:00</b> — 2 chain severities</label></li>
+<li><input type="checkbox" id="w05d6c3"><label for="w05d6c3"><b>2:00–2:35</b> — triage gate + kills</label></li>
+<li><input type="checkbox" id="w05d6c4"><label for="w05d6c4"><b>2:35–3:00</b> — headers recited + gaps</label></li>
+<li><input type="checkbox" id="w05d6c5"><label for="w05d6c5"><b>Proof</b> — PoCs + gate archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Framing alone = low. Framing + sensitive CSRF = pay.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live client hunt (method, smallest PoC)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · one wrong triage = kill + move on</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Week checklist recall (5 classes + kill rules)</p>
+<p class="t-act">List XSS/DOM/CSRF/CORS/clickjack + kill rules (self-XSS, no-creds CORS, decorative framing). Check <b>WSTG checklist client-side rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: client rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + tick.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Full client-surface crawl + JS re-check on VDP (gentle)</p>
+<p class="t-act">Crawl inputs/sinks + re-run Day-5 JS triage on 2 pages. <b>dalfox OFF on live (manual only). Blind payloads to YOUR Collaborator only, lab + 1 VDP input max.</b> Reference <b>HuntBook client-surface procedure headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: client surface</a><a href="https://github.com/hahwul/dalfox" target="_blank" rel="noopener">dalfox: careful-use note</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>CORS Account Takeover HackerOne</code> if CORS signals appear — else stay on XSS.</p><h4>Done-when</h4><p>Coverage map + smallest PoCs (Chrome-tested).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-target disclosed client reports (2)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program (XSS/CORS) 2 — sink + defense-gap ONLY</b>. Compare your coverage gaps.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: same-target client</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 pattern matches + gap paragraph.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> XSS playbook update + kill log (triage gate enforced)</p>
+<p class="t-act">Update playbook (contexts/filters/bypasses that worked). Kill self-XSS/no-impact with reasons. <b>No spam payloads on live — smallest PoC only.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection" target="_blank" rel="noopener">PATT: playbook update</a><a href="https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters" target="_blank" rel="noopener">NahamSec: method re-check</a><a href="https://github.com/hanzalaghayasabbasi/portswigger-all-labs" target="_blank" rel="noopener">Community: all-labs solutions (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + kills logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Triage-gate test + gaps to Week 06</p>
+<p class="t-act">Recite gate. Assign gaps (injection sinks → Week 06). Archive PoCs (redacted).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage gate</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w05d7c0"><label for="w05d7c0"><b>0:00–0:15</b> — 5 classes + kills recited</label></li>
+<li><input type="checkbox" id="w05d7c1"><label for="w05d7c1"><b>0:15–1:05</b> — crawl + JS re-check (manual, smallest PoC)</label></li>
+<li><input type="checkbox" id="w05d7c2"><label for="w05d7c2"><b>1:05–2:00</b> — 2 same-target patterns</label></li>
+<li><input type="checkbox" id="w05d7c3"><label for="w05d7c3"><b>2:00–2:35</b> — playbook + kill log</label></li>
+<li><input type="checkbox" id="w05d7c4"><label for="w05d7c4"><b>2:35–3:00</b> — gate + gaps to W06</label></li>
+<li><input type="checkbox" id="w05d7c5"><label for="w05d7c5"><b>Proof</b> — PoCs + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Smallest working PoC wins triage.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Chrome-test every vector. Blind callbacks to your inbox only. Surprise: CORS + subdomain-takeover composes — keep both matrices open.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

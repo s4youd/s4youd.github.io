@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 01 — Base Camp ULTIMATE: HTTP, Burp, Scope, Notes · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="01" data-wk="bbv2-01">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a class="current" href="week01_base.html">W01</a>
+<a href="week02_recon.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 01 · Base Camp ULTIMATE · 7 days × 180 min</p>
+<h1>Become unshakeable: HTTP, Burp, scope, notes.</h1>
+<p class="lede">Not a restudy. Gap-collecting deep dive to ultimate level. Every block pins the exact section to read, the exact lab task, the exact YouTube search, the exact H1 report pattern, the exact tool flags — plus what to CUT. Open every Why-dropdown: it holds objectives, gaps, mistakes, and where to go deeper.</p>
+<div class="pills"><span class="tag tag--accent">ultimate depth</span><span class="tag">gap log required</span><span class="tag">ticks auto-save bbv2-01</span><span class="tag">checklist mirrors timeline</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 02.</div>
+
+<!-- DAY 1 -->
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — HTTP deep + Burp ultimate setup (no gaps survive)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · ultimate rule: every unknown word goes into gap-log.md with a fix date</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Deep recall: HTTP request/response + methods + status codes cold</p>
+<p class="t-act">Draw from memory: <code>METHOD path HTTP/1.1 + Host + headers + blank line + body</code>, methods GET/POST/PUT/PATCH/DELETE/OPTIONS, codes 200/301/302/400/401/403/404/405/429/500. Then read <b>MDN HTTP Messages § HTTP Requests ONLY (stop before Responses)</b> + <b>MDN Methods GET/POST/PUT/DELETE rows ONLY</b> + <b>THM webapplicationbasics Task 3–6 (URL, req/resp, methods, codes, headers) ONLY</b>. Fix your drawing, log gaps.</p>
+<div class="t-links"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages#http_requests" target="_blank" rel="noopener">MDN: Messages § Requests</a><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods" target="_blank" rel="noopener">MDN: Methods</a><a href="https://tryhackme.com/room/webapplicationbasics" target="_blank" rel="noopener">THM: webapplicationbasics T3–6</a><a href="https://tryhackme.com/room/howwebsiteswork" target="_blank" rel="noopener">THM: howwebsiteswork T1–5</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Request line + Host/Cookie/Content-Type/Authorization/Origin + status classes. Verb-tampering, 405-vs-403 routing logic, and every Repeater edit live here.</p>
+<h4>Why ultimate</h4><p>Best hunters read status + length like a language. <code>405</code> = wrong verb, try another. <code>403 vs 404</code> = exists but blocked. <code>429</code> = stop, you are rate-limited.</p>
+<h4>Gap to collect</h4><p>Safe vs idempotent in one sentence each. One example per status class. If you hesitate on PUT vs PATCH, that is tomorrow's first 15 min.</p>
+<h4>Search deeper</h4><p>YouTube: <code>John Hammond Burpsuite Basics FREE Community Edition</code> (first 15 min, HTTP framing). X: <code>from:InsiderPhD scope OR notes</code> for HTTP note templates.</p>
+<h4>Common mistake</h4><p>Reading full RFC9110 today. CUT it — only the rows above. Depth comes from using them in Repeater, not memorizing specs.</p>
+<h4>Done-when</h4><p>Drawing matches MDN + THM questions answered + gaps logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Burp install → CA isolated → intercept login → Repeater + Comparer (lab)</p>
+<p class="t-act">Do <b>Burp docs Step 2 Intercepting HTTP traffic Steps 1–3 ONLY</b> + <b>Step 3 Modifying (Forward/Drop/on-off) ONLY</b> + <b>Step 5 Reissuing (Send to Repeater, edit, resend) ONLY</b> + <b>CA cert http://burp/cert in a FRESH test profile ONLY (never main)</b>. Then <b>THM burpsuitebasics Task 4–8 (Proxy + FoxyProxy + CA + Intercept + Target) ONLY</b> + <b>THM burpsuiterepeater Task 3–6 (send Ctrl+R, Views Render/Hex, Inspector, practical) ONLY</b>. Intercept a lab login, change one param, compare responses.</p>
+<div class="t-links"><a href="https://portswigger.net/burp/documentation/desktop/getting-started/intercepting-http-traffic" target="_blank" rel="noopener">Burp: Step 2 Intercept</a><a href="https://portswigger.net/burp/documentation/desktop/getting-started/modifying-http-requests" target="_blank" rel="noopener">Burp: Step 3 Modify</a><a href="https://portswigger.net/burp/documentation/desktop/getting-started/reissuing-http-requests" target="_blank" rel="noopener">Burp: Step 5 Repeater</a><a href="https://tryhackme.com/room/burpsuitebasics" target="_blank" rel="noopener">THM: basics T4–8</a><a href="https://tryhackme.com/room/burpsuiterepeater" target="_blank" rel="noopener">THM: repeater T3–6</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Proxy 127.0.0.1:8080 + CA + Intercept on/off + Forward/Drop + <code>Ctrl+R</code> Repeater + Views + Comparer. 90% of manual hunting.</p>
+<h4>Tools</h4><p>Burp Community <code>https://portswigger.net/burp/communitydownload</code>. Shortcuts: <code>Ctrl+R</code> Repeater, <code>Ctrl+I</code> Intruder. Scope filter per host to silence noise.</p>
+<h4>YouTube</h4><p>Search <code>John Hammond Burpsuite Basics FREE Community Edition</code> — watch 0–51 min (install → 127.0.0.1:8080 → CA → intercept on/off). Search <code>InsiderPhD Burp for Beginners Introduction to Burp</code> — Proxy → History → Repeater ONLY, ignore Intruder.</p>
+<h4>H1 motivation</h4><p>H1 #2586584 (DoD numeric-ID IDOR leaks email) and #380410 (Pornhub gallery-delete) both start as Repeater replays — proof you need this muscle today.</p>
+<h4>Common mistake</h4><p>Installing CA in main browser, leaving Intercept on, spraying live. CUT active scanning — lab only today.</p>
+<h4>Done-when</h4><p>Login intercepted, one param changed + resent, Comparer diff saved, history shows both, CA only in test profile.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Mapping-before-payloads + scope discipline + target selection</p>
+<p class="t-act">Read <b>TBHM 03_Mapping.md FULL (mapping only)</b> + <b>TBHM 02_Discovery.md passive bullets ONLY</b> + <b>HuntBook Phase 0 Scope section ONLY (in/out-of-scope, rate rules)</b>. Watch <b>YouTube search <code>Jason Haddix The Bug Hunter's Methodology v4 Recon Edition</code> — Mapping section ONLY, stop at fuzzing</b>. Then <b>HackerOne directory → 1 VDP → copy Scope tab VERBATIM</b> + filter <b>hacktivity <code>scope out of scope duplicate</code> → 1 N/A report, note the exact policy line violated</b>.</p>
+<div class="t-links"><a href="https://github.com/jhaddix/tbhm/blob/master/03_Mapping.md" target="_blank" rel="noopener">TBHM: 03_Mapping FULL</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026/blob/main/phases/01_scope_and_program_analysis.md" target="_blank" rel="noopener">HuntBook: Phase 0 scope</a><a href="https://hackerone.com/directory/programs" target="_blank" rel="noopener">H1: directory</a><a href="https://hackerone.com/hacktivity?query=type%3Ahacktivity%20scope%20out%20of%20scope" target="_blank" rel="noopener">H1: scope N/A search</a><a href="https://www.youtube.com/watch?v=gIz_yn0Uvb8" target="_blank" rel="noopener">YT: Haddix v4 mapping</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Haddix order: recon → mapping → tactical fuzzing. Scope page = legal contract. Target selection = hours-to-dollars.</p>
+<h4>YouTube + X + LinkedIn</h4><p>YT: <code>NahamSec The Truth About Recon</code> (passive vs active), <code>InsiderPhD Finding Your First Bug Choosing Your Target</code> (narrow scope you can hold in head). X: <code>from:jhaddix mapping methodology</code>, <code>from:nahamsec recon mapping</code>. LinkedIn: Katie Paxton-Fear posts on API methodology; search <code>bug bounty methodology scope discipline site:linkedin.com</code> — motivation only, truth lives on H1/YT.</p>
+<h4>H1 pattern</h4><p>Do not hunt today — read 1 N/A: what wording trapped them (DoS, social engineering, out-of-scope asset). Paste that line into scope.md.</p>
+<h4>Common mistake</h4><p>Testing from memory, picking a huge scope you cannot map. CUT giant programs — one VDP you can hold in head.</p>
+<h4>Done-when</h4><p>Scope pasted verbatim + 5-line mapping note + 1 N/A lesson logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Notes rig + accounts + extensions (HUNT) + gap log</p>
+<p class="t-act">Create <code>scope.md</code> (program/in/out/rate/contacts) + <code>notes/</code> + <code>gap-log.md</code>. Create <b>A/B accounts in 2 separate profiles</b>. Install <b>Bugcrowd HUNT README param lists ONLY + use as passive highlighter during mapping</b>. Watch <b>YT <code>InsiderPhD Note-Taking for Bug Bounty Hunters Notion</code> + <code>Why do Bug Bounty hunters love Obsidian InsiderPhD</code> — template structure ONLY</b>. Tick <b>WSTG checklist INFO rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/bugcrowd/HUNT" target="_blank" rel="noopener">HUNT: README params</a><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: INFO rows</a><a href="https://owasp.org/Top10/2025/en/" target="_blank" rel="noopener">OWASP Top 10:2025 A01+A05</a><a href="https://github.com/InsiderPhD/BugBountyKnowledgeBase" target="_blank" rel="noopener">InsiderPhD: knowledge base</a><a href="https://www.youtube.com/watch?v=Fz3Hn_oU0_o" target="_blank" rel="noopener">YT: InsiderPhD notes</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Transcript-first notes + per-target Burp project + HUNT highlights + gap log = ultimate retention. A01/A05 explain why Week 03 exists.</p>
+<h4>Stacks preview</h4><p>Log Server/X-Powered-By/X-Generator today — Week 05 routes PHP→LFI, Node→pollution, Java→deser, Python→SSTI. Today: only log, no exploit.</p>
+<h4>Common mistake</h4><p>Notes as prose. CUT it — notes are transcripts: request/response/screenshot/URL+timestamp, no cookie/PII.</p>
+<h4>Done-when</h4><p>scope.md + notes/ + gap-log.md exist, A/B log in cleanly, HUNT installed, INFO ticked.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> OOB proof + idempotency test + Day-1 gaps triage</p>
+<p class="t-act">Recite safe/idempotent cold. Read <b>Burp Collaborator Getting Started — Generate + Poll ONLY</b> + <b>interactsh README — <code>interactsh-client -o out.txt</code> ONLY</b>. Confirm <b>1 ping</b> to Collaborator/interactsh. Triage gap-log: each gap gets fix-day assigned.</p>
+<div class="t-links"><a href="https://portswigger.net/burp/documentation/desktop/tools/collaborator/getting-started" target="_blank" rel="noopener">Collaborator: start</a><a href="https://github.com/projectdiscovery/interactsh" target="_blank" rel="noopener">interactsh: client</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>OOB inbox from day 1 — blind XSS/SSRF otherwise invisible. Gap triage prevents debt.</p>
+<h4>Done-when</h4><p>Idempotency recited + 1 OOB hit screenshotted + gaps assigned. Screenshot history + scope + OOB.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d1c0"><label for="w01d1c0"><b>0:00–0:20</b> — HTTP drawing + THM web basics, gaps logged</label></li>
+<li><input type="checkbox" id="w01d1c1"><label for="w01d1c1"><b>0:20–1:10</b> — Burp CA isolated + login→Repeater→Comparer (THM T4–8/T3–6)</label></li>
+<li><input type="checkbox" id="w01d1c2"><label for="w01d1c2"><b>1:10–2:00</b> — TBHM mapping + verbatim scope + 1 N/A lesson</label></li>
+<li><input type="checkbox" id="w01d1c3"><label for="w01d1c3"><b>2:00–2:35</b> — scope.md + notes/ + gap-log + A/B + HUNT</label></li>
+<li><input type="checkbox" id="w01d1c4"><label for="w01d1c4"><b>2:35–3:00</b> — OOB ping + idempotency + gaps triaged</label></li>
+<li><input type="checkbox" id="w01d1c5"><label for="w01d1c5"><b>Proof</b> — history + scope shot + OOB shot archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Map first, payloads later. Scope verbatim or ban.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 2 -->
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — DNS / TLS / target profiling ULTIMATE (passive only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · zero packets to target beyond passive sources + crt.sh</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> DNS + TLS deep recall (records, certs, headers)</p>
+<p class="t-act">Write A/AAAA/CNAME/MX/TXT/NS/SOA + recursive vs authoritative + TTL. Then <b>Cloudflare record types A/CNAME/MX/TXT rows ONLY</b> + <b>THM dnsindetail Task 2–5 (types, TTL, dig) ONLY</b> + <b>THM passiverecon Task 2–4 (whois, nslookup, dig MX/TXT) ONLY</b>. List TLS log fields: issuer, SAN/CN, Server, X-Powered-By.</p>
+<div class="t-links"><a href="https://developers.cloudflare.com/dns/management/dns-records/reference/dns-record-types/" target="_blank" rel="noopener">Cloudflare: types</a><a href="https://tryhackme.com/room/dnsindetail" target="_blank" rel="noopener">THM: dnsindetail T2–5</a><a href="https://tryhackme.com/room/passiverecon" target="_blank" rel="noopener">THM: passiverecon T2–4</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>DNS = what exists. SAN = what else org owns. Dangling CNAME/NS/MX/A = takeover. TLS headers = stack.</p>
+<h4>Gap to collect</h4><p>If <code>dig</code>, <code>nslookup</code>, or SAN reading hesitates, log it — Week 11 takeover needs it fluent.</p>
+<h4>Search deeper</h4><p>YT: <code>NahamSec The Truth About Recon</code>. X: <code>subdomain takeover dangling CNAME writeup</code>.</p>
+<h4>Done-when</h4><p>Record table + dig commands + TLS fields written cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Passive enum: crt.sh + subfinder/amass/assetfinder → sort -u (VDP)</p>
+<p class="t-act">Run <b>crt.sh <code>%.target.com</code> export CSV ONLY</b> + <b><code>subfinder -d target -silent</code> passive ONLY</b> + <b><code>amass enum -passive -d target</code> + <code>assetfinder --subs-only target</code> (one each, no brute)</b> + <b>THM subdomainenumeration Task 1–6 (brute/OSINT/VHost, crt.sh, Google site:, dnsrecon, sublist3r, ffuf Host FUZZ) — READ ONLY, do passive steps on VDP</b>. <code>sort -u → recon/passive.txt</code>. Headers via Burp history only.</p>
+<div class="t-links"><a href="https://crt.sh/" target="_blank" rel="noopener">crt.sh export</a><a href="https://github.com/projectdiscovery/subfinder" target="_blank" rel="noopener">subfinder passive</a><a href="https://github.com/owasp-amass/amass" target="_blank" rel="noopener">amass passive</a><a href="https://github.com/tomnomnom/assetfinder" target="_blank" rel="noopener">assetfinder subs</a><a href="https://tryhackme.com/room/subdomainenumeration" target="_blank" rel="noopener">THM: subdomainenum T1–6</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Passive-first pipeline. Brute before passive burns time + rate limits.</p>
+<h4>Tools</h4><p><code>subfinder -dL scope.txt -o subs.txt</code>, <code>amass enum -passive</code>, <code>assetfinder | tee</code>. No <code>-brute</code>, no naabu/nmap on live today.</p>
+<h4>H1 pattern</h4><p>H1 #665398 (Starbucks Azure CNAME), #953719 (Acronis Webflow), #2567048 (Smule SendGrid CNAME) — all passive wins, zero payload. Extract: CNAME value + 404/NXDOMAIN proof shape.</p>
+<h4>Common mistake</h4><p>Active brute on VDP day 2. CUT it — Week 02 does active, today passive + dedup only.</p>
+<h4>Done-when</h4><p>Deduped list + Server/X-Powered-By table in recon/.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Takeover fingerprints + program selection (3 + 1)</p>
+<p class="t-act">Study <b>Can-I-Take-Over-XYZ Heroku + S3 + GitHub Pages fingerprints ONLY</b> + <b>H1 #665398 + #953719 (read PoC: CNAME + unclaimed proof) ONLY</b> + <b>NahamSec Resources program-selection section ONLY + InsiderPhD Choosing Your Target video</b>. Score your VDP: scope width, freshness, response time, dup rate.</p>
+<div class="t-links"><a href="https://github.com/EdOverflow/can-i-take-over-xyz" target="_blank" rel="noopener">Takeover fingerprints</a><a href="https://hackerone.com/reports/665398" target="_blank" rel="noopener">H1 #665398 Azure</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports/blob/main/reports/953719.md" target="_blank" rel="noopener">H1 #953719 Webflow</a><a href="https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters" target="_blank" rel="noopener">NahamSec: selection</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: takeover tag</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Fingerprint = service 404 string + unclaimed check. Selection = where hours earn.</p>
+<h4>YouTube/X</h4><p>YT: <code>Jason Haddix The Bug Hunter's Methodology v4 Recon Edition</code> discovery section. X: <code>from:jhaddix mapping methodology</code> for SecLists updates.</p>
+<h4>Done-when</h4><p>3 fingerprints noted + VDP scored + takeover candidates flagged (no claiming today).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> ASN + acquisitions + target-profile.md + WAF/stack log</p>
+<p class="t-act">Do <b>HackTricks External Recon § ASN/WHOIS/acquisitions ONLY (stop at brute)</b> + <b>THM redteamrecon Task 2–4 (WHOIS/DNS/footprinting) ONLY</b>. Fill <code>target-profile.md</code> (company/scope/ASN/tech/industry/acquisitions). Log <code>wafw00f https://target</code> + <code>whatweb -a 3</code> + <code>httpx -td</code> (one host, gentle). Check Wikipedia/Crunchbase acquisitions.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/generic-methodologies-and-resources/external-recon-methodology/index.html" target="_blank" rel="noopener">HackTricks: ASN §</a><a href="https://tryhackme.com/room/redteamrecon" target="_blank" rel="noopener">THM: redteamrecon T2–4</a><a href="https://github.com/EnableSecurity/wafw00f" target="_blank" rel="noopener">wafw00f</a><a href="https://github.com/urbanadventurer/WhatWeb" target="_blank" rel="noopener">whatweb -a 3</a><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx -td</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Company, not domain. ASN + acquired brands = hidden scope. WAF/stack log routes all future weeks.</p>
+<h4>Stacks</h4><p>PHP→SQLi/LFI, Node→pollution/SSTI, Python→Jinja SSTI, Java→SpEL/deser/actuator, Ruby→mass-assignment, Go→auth gaps, .NET→ViewState. Today: only log vendor+version.</p>
+<h4>CVE workflow</h4><p>Log <code>host|product|version|source URL</code>. Search NVD/CISA KEV later — no exploit in W01.</p>
+<h4>Done-when</h4><p>Profile + ASN + 1 acquisition pivot + WAF/stack line saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Lock VDP + explain passive-before-brute + gaps</p>
+<p class="t-act">Justify VDP in 3 lines via <b>WSTG INFO index headings ONLY</b>. State passive-before-brute rule + rate-limit respect. Triage gaps into gap-log.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/stable/4-Web_Application_Security_Testing/01-Information_Gathering/" target="_blank" rel="noopener">WSTG: INFO index</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>Done-when</h4><p>VDP locked + rule recited + recon/passive.txt archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d2c0"><label for="w01d2c0"><b>0:00–0:20</b> — DNS/TLS table + dig cold</label></li>
+<li><input type="checkbox" id="w01d2c1"><label for="w01d2c1"><b>0:20–1:10</b> — crt.sh + 3 passive sources deduped (no brute)</label></li>
+<li><input type="checkbox" id="w01d2c2"><label for="w01d2c2"><b>1:10–2:00</b> — 3 fingerprints + H1 #665398/#953719 notes + VDP scored</label></li>
+<li><input type="checkbox" id="w01d2c3"><label for="w01d2c3"><b>2:00–2:35</b> — ASN + profile + WAF/stack log</label></li>
+<li><input type="checkbox" id="w01d2c4"><label for="w01d2c4"><b>2:35–3:00</b> — VDP locked + passive-first recited</label></li>
+<li><input type="checkbox" id="w01d2c5"><label for="w01d2c5"><b>Proof</b> — recon/passive.txt + headers + profile archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Company, not domain. Passive first, always.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 3 -->
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Cookies / sessions / SOP / CORS / JS ULTIMATE</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · track reflection, never spray</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Cookie flags + session types + SOP vs CORS deep</p>
+<p class="t-act">Write, then verify <b>MDN Set-Cookie Attributes (HttpOnly/Secure/SameSite/Path/Expires) ONLY</b> + <b>PortSwigger CORS § SOP def + CORS headers (Origin/ACAO/ACAC) ONLY</b> + <b>OWASP Same-Origin Policy def + relaxation matrix ONLY</b> + <b>THM walkinganapplication Task 2–6 (Explore, View-Source, Inspector, Debugger, Network) ONLY</b>. Distinguish cookie token vs JWT vs localStorage.</p>
+<div class="t-links"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie" target="_blank" rel="noopener">MDN: cookie attrs</a><a href="https://portswigger.net/web-security/cors" target="_blank" rel="noopener">PortSwigger: SOP/CORS</a><a href="https://owasp.org/www-community/Same_Origin_Policy" target="_blank" rel="noopener">OWASP: SOP</a><a href="https://tryhackme.com/room/walkingauthentication" target="_blank" rel="noopener">THM: walking T2–6</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>HttpOnly stops cookie theft, not XSS. SameSite=Lax-by-default has gaps (top-level GET, 2-min window). SOP triple scheme/host/port; CORS <code>reflect + credentials</code> = critical.</p>
+<h4>Gap to collect</h4><p>Session expiry/logout behavior + flag table per cookie. If SameSite=None without Secure confuses you, log it — Week 05 CSRF needs it.</p>
+<h4>Done-when</h4><p>Flags + 3 session types + SOP/CORS recited without notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Flag table + u7test123 reflection trace + DevTools mastery (no payloads)</p>
+<p class="t-act">On 2 sites log HttpOnly/Secure/SameSite per cookie. Inject <code>u7test123</code> into search/profile, trace in DevTools (Elements/Network/Storage) where it lands: HTML / attribute / JS / URL — <b>tracking ONLY, zero payloads</b>. Do <b>THM introwebapplicationsecurity (OWASP map) READ + THM owaspjuiceshop Task 3–7 (Injection, Broken Auth, Data Exposure, Access Control, XSS) — map ONLY, exploit later</b>. Note logout/expiry.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/introwebapplicationsecurity" target="_blank" rel="noopener">THM: intro websec</a><a href="https://tryhackme.com/room/owaspjuiceshop" target="_blank" rel="noopener">THM: Juice Shop T3–7</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>NahamSec method: track before triggering WAF. Context dictates payload (Week 05).</p>
+<h4>Common mistake</h4><p>Firing <code>&lt;svg onload&gt;</code> everywhere first. CUT all payloads today — contexts + screenshots only.</p>
+<h4>Done-when</h4><p>Flag table + 1 trace with context labels + expiry note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Stored-XSS → admin view: sinks, not payloads (H1 patterns)</p>
+<p class="t-act">Read <b>H1 payloads repo — 1 stored case, extract input → display → viewer privilege ONLY</b> + <b>H1 #380410 Pornhub gallery-delete (photo_id swap) + H1 #858662 Starbucks card balance (CardNumber swap) — mapping lesson ONLY</b> + <b>NahamSec Resources XSS methodology section ONLY</b>. For each: what field, where shown, who views it.</p>
+<div class="t-links"><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: XSS cases</a><a href="https://hackerone.com/reports/380410" target="_blank" rel="noopener">H1 #380410 gallery</a><a href="https://hackerone.com/reports/858662" target="_blank" rel="noopener">H1 #858662 balance</a><a href="https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters" target="_blank" rel="noopener">NahamSec: XSS method</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Stored input shown later to higher privilege = Week 05 gold. Reflected visible only to you = usually low.</p>
+<h4>YouTube/X</h4><p>YT: <code>InsiderPhD How To Do Recon API Enumeration</code> (endpoints as sinks). X: <code>from:nahamsec recon mapping</code>.</p>
+<h4>Done-when</h4><p>2 notes with sink + viewer + key/param name, zero payload strings.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> SOP one-pager + JS bundle inventory + LinkFinder preview</p>
+<p class="t-act">Write SOP/CORS one-pager (triple + 2 relaxations + credential rule). Manually list JS URLs from 1 page (Sources tab, no scanner). Preview <b>LinkFinder README usage (<code>-i app.js -o cli</code>) ONLY — do not run bulk today</b> + <b>WSTG Client-side index headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/GerbenJavadoop/LinkFinder" target="_blank" rel="noopener">LinkFinder usage</a><a href="https://wstg.owasp.org/stable/4-Web_Application_Security_Testing/11-Client-side_Testing/" target="_blank" rel="noopener">WSTG: client-side</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>JS = map thieves leave behind (endpoints/keys). One-pager becomes Week 05 cheat sheet.</p>
+<h4>Stacks</h4><p>Note bundle framework (React/Vue/Angular/_next) — predicts Week 07/12 classes (pollution, SSTI). Log only.</p>
+<h4>Done-when</h4><p>One-pager + JS URL list saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> HttpOnly test + evidence + gaps</p>
+<p class="t-act">Answer: what HttpOnly stops vs does NOT stop + SameSite bypass idea in one line. Archive trace + table (URL+timestamp, redact cookies). Triage gaps.</p>
+<div class="t-links"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie" target="_blank" rel="noopener">MDN: re-check row</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>Done-when</h4><p>Paragraph logged + artifacts archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d3c0"><label for="w01d3c0"><b>0:00–0:20</b> — flags + sessions + SOP/CORS cold</label></li>
+<li><input type="checkbox" id="w01d3c1"><label for="w01d3c1"><b>0:20–1:10</b> — flag table + u7test123 contexts (no payload)</label></li>
+<li><input type="checkbox" id="w01d3c2"><label for="w01d3c2"><b>1:10–2:00</b> — 2 sink+viewer notes (H1 #380410/#858662)</label></li>
+<li><input type="checkbox" id="w01d3c3"><label for="w01d3c3"><b>2:00–2:35</b> — SOP one-pager + JS inventory</label></li>
+<li><input type="checkbox" id="w01d3c4"><label for="w01d3c4"><b>2:35–3:00</b> — HttpOnly answer + archive + gaps</label></li>
+<li><input type="checkbox" id="w01d3c5"><label for="w01d3c5"><b>Proof</b> — screenshots with URL+timestamp</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Context first. Payloads are Week 05.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 4 -->
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — CLI + Python + toolchain ULTIMATE (prove every install)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · pipes + regex + JSONL or it did not happen</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Linux pipes + regex + requests vs httpx vs naabu roles</p>
+<p class="t-act">Drill <code>| grep/cut/sort -u/awk/xargs/tee</code> + regex <code>.* ^$ []{} () | FUZZ</code> on your passive.txt. Read <b>httpx README basic flags ONLY</b> + <b>naabu README port flags ONLY</b> + <b>nmap <code>-sV -sC -p80,443</code> pattern (no live run)</b>. State: requests=glue, httpx=HTTP probe, naabu/nmap=ports.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx flags</a><a href="https://github.com/projectdiscovery/naabu" target="_blank" rel="noopener">naabu flags</a><a href="https://nmap.org/" target="_blank" rel="noopener">nmap patterns</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Chains are <code>subfinder | dnsx | httpx | katana</code>. Regex is ffuf/Intruder/JS-secret grep.</p>
+<h4>Gap to collect</h4><p>If <code>sort -u</code>, <code>cut -d? -f1</code>, or <code>§</code> placement hesitates, log it — speed compounds.</p>
+<h4>Done-when</h4><p>Roles + 5 pipe/regex one-liners cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> requests script + httpx JSONL + ffuf filtered (lab ONLY)</p>
+<p class="t-act">Write 20-line <b>requests Quickstart (Make a Request + Passing Parameters ONLY): Session + headers/cookies/proxies/timeout</b>. Run <b><code>httpx -sc -title -td -json -o live.jsonl</code> on Day-2 list</b>. Run <b>ONE ffuf on Juice Shop: <code>-u /FUZZ -w common.txt -mc 200 -fc 404</code> per THM ffuf Task 2–4 (basics + filters) ONLY + Task 5 param FUZZ preview (no live)</b>. Use <b>SecLists Discovery/Web-Content/common.txt + raft-medium + Discovery/DNS/namelist.txt paths ONLY</b>.</p>
+<div class="t-links"><a href="https://requests.readthedocs.io/" target="_blank" rel="noopener">requests: Quickstart</a><a href="https://github.com/ffuf/ffuf" target="_blank" rel="noopener">ffuf docs</a><a href="https://tryhackme.com/room/ffuf" target="_blank" rel="noopener">THM: ffuf T2–5</a><a href="https://tryhackme.com/room/contentdiscovery" target="_blank" rel="noopener">THM: content discovery</a><a href="https://github.com/danielmiessler/SecLists" target="_blank" rel="noopener">SecLists paths</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>JSONL + <code>-mc/-fc/-fs</code> filtering kills false positives. <code>-fr '/..*'</code> lesson: <code>-fc 403</code> hides gold like <code>wp-forum.phps</code>.</p>
+<h4>YouTube</h4><p>Search <code>NahamCon TomNomNom Who What Where When Wordlist</code> — wordlist thinking for mapping, not spraying.</p>
+<h4>Tools</h4><p><code>ffuf -u https://t/FUZZ -w raft-medium-directories.txt -mc 200,301 -fs N</code>, <code>-recursion -e .php,.bak</code>, <code>-H "Host: FUZZ.t" -ac</code>. One small list today.</p>
+<h4>Common mistake</h4><p>Big wordlist + no filter on live. CUT it — top-200 + filter or nothing.</p>
+<h4>Done-when</h4><p>Script + live.jsonl + filtered ffuf output in recon/.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> NOS mindset + playbook gaps + katana/gau preview</p>
+<p class="t-act">Read <b>PATT Business Logic README + 1 numeric case ONLY</b> + <b>AnukarOP index — mark top-5 gaps ONLY</b> + <b>katana README (<code>-u -d 3 -jc -xhr</code>) + gau README (<code>--subs</code>) flag rows ONLY (no bulk run)</b>. Note “every No = maybe-bug”.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Business_Logic_Errors" target="_blank" rel="noopener">PATT: logic README</a><a href="https://github.com/AnukarOP/Web-Vulnerabilities" target="_blank" rel="noopener">AnukarOP: index</a><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener">katana flags</a><a href="https://github.com/lc/gau" target="_blank" rel="noopener">gau subs</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>NOS previews Week 10. katana+gau = Week 02 spider. Playbook index = blind-spot map.</p>
+<h4>Done-when</h4><p>Top-5 gaps + 1 NOS example + spider flags noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Versions log + shallow clones + BBOT/testssl/wafw00f/whatweb preview</p>
+<p class="t-act">Log <code>httpx/naabu/ffuf/katana -version</code> + <b>BBOT README (<code>-t -p subdomain-enum</code>) + testssl (<code>--fast</code>) + wafw00f + whatweb (<code>-a 3</code>) usage lines ONLY</b>. Clone <b>SecLists + PATT depth-1 ONLY</b>. Start <code>host|product|version|source</code> inventory (CVE workflow for later).</p>
+<div class="t-links"><a href="https://github.com/blacklanternsecurity/bbot" target="_blank" rel="noopener">BBOT usage</a><a href="https://github.com/testssl/testssl.sh" target="_blank" rel="noopener">testssl fast</a><a href="https://github.com/EnableSecurity/wafw00f" target="_blank" rel="noopener">wafw00f</a><a href="https://github.com/urbanadventurer/WhatWeb" target="_blank" rel="noopener">whatweb -a 3</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="noopener">PATT index</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Reproducible rig + version inventory → NVD/CISA KEV matching in later weeks (e.g. WordPress CVE-2024-10924 pattern via THM bypassreallysimplesecurity — note only today).</p>
+<h4>Common mistake</h4><p>Full clones + active scans on VDP. CUT — depth-1 + versions only.</p>
+<h4>Done-when</h4><p>Versions file + 2 clones + inventory header created.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Filter discipline test + gaps</p>
+<p class="t-act">Explain httpx vs naabu + why <code>-fc 404 -fs N -ac</code> matters with your ffuf line. Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>Done-when</h4><p>Recited + recon/ archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d4c0"><label for="w01d4c0"><b>0:00–0:20</b> — pipes/regex + 3 tool roles cold</label></li>
+<li><input type="checkbox" id="w01d4c1"><label for="w01d4c1"><b>0:20–1:10</b> — script + JSONL + filtered ffuf (lab, THM T2–5)</label></li>
+<li><input type="checkbox" id="w01d4c2"><label for="w01d4c2"><b>1:10–2:00</b> — NOS + top-5 gaps + spider flags</label></li>
+<li><input type="checkbox" id="w01d4c3"><label for="w01d4c3"><b>2:00–2:35</b> — versions + depth-1 clones + version inventory</label></li>
+<li><input type="checkbox" id="w01d4c4"><label for="w01d4c4"><b>2:35–3:00</b> — filter discipline + gaps triaged</label></li>
+<li><input type="checkbox" id="w01d4c5"><label for="w01d4c5"><b>Proof</b> — recon/ outputs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Filtered + logged + reproducible beats big wordlists.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 5 -->
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — App mapping ULTIMATE (features × objects × trust)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · the midlevel differentiator — juniors spray, ultimates map</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Model cold: BOLA vs BFLA vs mass assignment</p>
+<p class="t-act">Sketch features × objects × trust (anon/A/B/admin). Read <b>TBHM README Mapping bullets ONLY</b> + <b>PortSwigger Access Control § horizontal/vertical + BOLA/BFLA defs ONLY</b> + <b>H1 #2633771 (GraphQL AddTagToAssets gid brute-force) summary — note per-field, not per-query ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/jhaddix/tbhm" target="_blank" rel="noopener">TBHM: mapping</a><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: BOLA/BFLA</a><a href="https://hackerone.com/reports/2633771" target="_blank" rel="noopener">H1 #2633771 GraphQL</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Mapping table = endpoint × method × auth × object key. H1 #2633771 proves per-field authz failure.</p>
+<h4>Gap to collect</h4><p>BOLA (horizontal) vs BFLA (vertical) vs mass-assignment (extra field) in one line each or log it.</p>
+<h4>Done-when</h4><p>Model sketched + 3 defs recited.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Endpoint × method × auth table + object map (VDP, gentle)</p>
+<p class="t-act">Crawl 1 VDP app (manual + sitemap). Build table per <b>WSTG INFO index § Attack Surface headings ONLY</b> + <b>katana <code>-u -d 3 -jc -xhr -silent</code> on 1–2 pages ONLY</b> + <b>THM walkinganapplication T2–6 revisit for View-Source/Inspector/Network discipline</b>. Log every ID/UUID/slug (URL/body/cookie/GraphQL) + <code>httpx -td</code> stack.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/stable/4-Web_Application_Security_Testing/01-Information_Gathering/" target="_blank" rel="noopener">WSTG: INFO surface</a><a href="https://github.com/projectdiscovery/katana" target="_blank" rel="noopener">katana: -jc -xhr</a><a href="https://tryhackme.com/room/walkingauthentication" target="_blank" rel="noopener">THM: walking revisit</a><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx -td</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>The deliverable Week 03 hunts from. Numeric vs UUID vs slug predicts exploitability.</p>
+<h4>YouTube</h4><p>Search <code>STOK 10 GREAT habits for bug bounty hunters</code> — daily map-review habit.</p>
+<h4>Common mistake</h4><p>Spidering entire VDP loudly. CUT bulk — 1–2 pages + manual table today.</p>
+<h4>Done-when</h4><p>Table + object map + stack line saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Two IDORs, two key types (numeric vs encoded/UUID)</p>
+<p class="t-act">Read <b>PATT IDOR 1 numeric case ONLY</b> + <b>H1 #2586584 (numeric UpdateProfile ID → email leak) + H1 #2633771 (base64 gid brute-force) — key-swap steps ONLY</b> + <b>pentester.land Tags:IDOR → 1 UUID case, note predictability analysis ONLY</b>. Extract <code>123→124</code> vs decode-then-enumerate.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Insecure_Direct_Object_Reference" target="_blank" rel="noopener">PATT: IDOR</a><a href="https://hackerone.com/reports/2586584" target="_blank" rel="noopener">H1 #2586584 numeric</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: IDOR</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: IDOR cases</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>OWASP API #1. Key type dictates attack: numeric = swap, UUID/base64 = decode + analyze entropy.</p>
+<h4>Done-when</h4><p>2 notes: key type + swap + impact boundary (PII vs action).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Tech → bug-class routing (7 stacks) + Ebb &amp; Flow preview</p>
+<p class="t-act">From headers/cookies/errors/JS, route per <b>HackTricks web fingerprint table ONLY</b>: PHP→SQLi/LFI/upload, Node→pollution/SSTI/JWT-none, Python→Jinja SSTI/debug, Java→SpEL/deser/actuator, Ruby→mass-assign/redirect, Go→auth/SSRF/JWT, .NET→ViewState/IIS-tilde. Read <b>HuntBook Ebb &amp; Flow summary (3–5 vectors → test briefly → back to recon) ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/network-services-pentesting/pentesting-web/index.html" target="_blank" rel="noopener">HackTricks: fingerprint</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: Ebb &amp; Flow</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Stack tells payload. Ebb &amp; Flow prevents tunnel vision — ultimate tempo.</p>
+<h4>CVE hook</h4><p>Note versions for later NVD/KEV matching (e.g. Spring4Shell-class, WP plugin). No exploit today.</p>
+<h4>Done-when</h4><p>3+ routing rows for your target + Ebb &amp; Flow rule written.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Horizontal vs vertical cold + archive</p>
+<p class="t-act">Recite with examples (A→B profile vs user→admin). Archive table + map + routing.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>Done-when</h4><p>Recited + artifacts in notes/ + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d5c0"><label for="w01d5c0"><b>0:00–0:20</b> — model + 3 defs + H1 #2633771 lesson</label></li>
+<li><input type="checkbox" id="w01d5c1"><label for="w01d5c1"><b>0:20–1:10</b> — endpoint table + object map + stack (gentle)</label></li>
+<li><input type="checkbox" id="w01d5c2"><label for="w01d5c2"><b>1:10–2:00</b> — 2 IDOR key-type notes (#2586584 + UUID)</label></li>
+<li><input type="checkbox" id="w01d5c3"><label for="w01d5c3"><b>2:00–2:35</b> — 7-stack routing + Ebb &amp; Flow rule</label></li>
+<li><input type="checkbox" id="w01d5c4"><label for="w01d5c4"><b>2:35–3:00</b> — horiz vs vert + archive</label></li>
+<li><input type="checkbox" id="w01d5c5"><label for="w01d5c5"><b>Proof</b> — table + map + routing saved</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Boring endpoint + cross-tenant beats exotic no-impact.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 6 -->
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Intruder + OOB + evidence ULTIMATE (lab only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · confirm before celebrate: isolate + baseline + reproduce</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Attack types math + OOB-mandatory cases</p>
+<p class="t-act">Memorize via <b>Burp Intruder attack-types rows ONLY (Sniper 1 set, BatteringRam same, Pitchfork ≤20 parallel, ClusterBomb product)</b> + <b>THM burpsuiteintruder Attacks section (300 = 3×100 Sniper, 6000 = 100×2×30 ClusterBomb) ONLY</b>. List OOB-mandatory: blind SQLi / blind SSRF / second-order / stored-admin.</p>
+<div class="t-links"><a href="https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/attack-types" target="_blank" rel="noopener">Burp: attack types</a><a href="https://tryhackme.com/room/burpsuiteintruder" target="_blank" rel="noopener">THM: intruder math</a><a href="https://portswigger.net/burp/documentation/desktop/tools/collaborator/getting-started" target="_blank" rel="noopener">Collaborator: start</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Math prevents 6000-request accidents on live. OOB list = when silence is the signal.</p>
+<h4>Gap to collect</h4><p><code>§</code> placement + payload set count without looking or log it.</p>
+<h4>Done-when</h4><p>300/6000 math + 4 OOB cases cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:10</span> Sniper lab + Collaborator UA/Referer + grep-match + throttle</p>
+<p class="t-act">Do <b>THM burpsuiteintruder Practical (usernames+passwords, sort by length/status) ONLY, throttled, lab ONLY</b> + <b>Burp Intruder Getting Started § positions ONLY</b>. Inject Collaborator into UA + Referer, poll. Set grep-match + throttle. Preview <b>THM burpsuiteom Decoder/Comparer/Sequencer tasks ONLY</b> for evidence support.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/burpsuiteintruder" target="_blank" rel="noopener">THM: practical throttled</a><a href="https://portswigger.net/burp/documentation/desktop/tools/intruder/getting-started" target="_blank" rel="noopener">Burp: positions</a><a href="https://github.com/projectdiscovery/interactsh" target="_blank" rel="noopener">interactsh alt</a><a href="https://tryhackme.com/room/burpsuiteom" target="_blank" rel="noopener">THM: OM tools</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>One param, small list, grep-match, throttle — the only safe Intruder pattern for live later.</p>
+<h4>YouTube</h4><p>Search <code>STOK Burp Suite tutorial IDOR Autorize AutoRepeater</code> — scope + Autorize setup preview (Week 03), learn scope part only today.</p>
+<h4>Common mistake</h4><p>ClusterBomb on live login. CUT — Sniper lab only, never spray VDP.</p>
+<h4>Done-when</h4><p>Sniper log + 1 OOB hit + throttle proof.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:10–2:00</span> Blind-SSRF proof shape + desync vocab + Slack H1 preview</p>
+<p class="t-act">Read <b>PortSwigger SSRF § Blind + hidden surface ONLY</b> + <b>Smuggler docs probes list ONLY (no exploit)</b> + <b>H1 #386292 (Slack SSRF) + #61312 + #207170 summaries — note Event-Subscription URL as sink + parser bypass idea ONLY</b>. Skim <b>H1 #2567048 Smule SendGrid CNAME thread for claim-vs-dispute lesson</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/ssrf" target="_blank" rel="noopener">PortSwigger: blind SSRF</a><a href="https://github.com/PortSwigger/http-request-smuggler/blob/master/DOCUMENT.md" target="_blank" rel="noopener">Smuggler: probes</a><a href="https://hackerone.com/reports/386292" target="_blank" rel="noopener">H1 #386292 Slack</a><a href="https://hackerone.com/reports/2567048" target="_blank" rel="noopener">H1 #2567048 Smule</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>SSRF proof = server-side Collaborator ping. Desync vocab (CL.TE/TE.CL/H2) for Week 08. Slack = sink-mapping lesson.</p>
+<h4>X search</h4><p>X: <code>subdomain takeover dangling CNAME writeup</code> + <code>from:stokfredrik recon scope</code>.</p>
+<h4>Common mistake</h4><p>Attempting smuggling on live. CUT — probes vocabulary only.</p>
+<h4>Done-when</h4><p>Proof shape + 5 desync terms + sink note (no live smuggle).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Rate-limit + evidence hygiene + exploit-server flow</p>
+<p class="t-act">Read <b>PATT Rate Limit headers table ONLY (X-Forwarded-For etc.)</b> + rehearse <b>PortSwigger exploit-server victim flow (lab) ONLY</b>. Rule: 429 = stop + backoff; every proof = request + response + transcript triple, cookies/PII redacted. Preview <b>InsiderPhD hackerone-reports mirror structure</b> for report shape.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Brute_Force_Rate_Limit" target="_blank" rel="noopener">PATT: rate headers</a><a href="https://portswigger.net/web-security/cross-site-scripting/exploit-server" target="_blank" rel="noopener">Exploit server flow</a><a href="https://github.com/InsiderPhD/hackerone-reports" target="_blank" rel="noopener">InsiderPhD: H1 mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Triage-grade evidence from day 6. Ultimate = reports that need no follow-up.</p>
+<h4>LinkedIn</h4><p>Search <code>"target selection" bug bounty "out of scope" LinkedIn posts</code> — process discipline, not technique.</p>
+<h4>Done-when</h4><p>Rule card + redacted triple template + flow rehearsed.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> OOB-mandatory recite + archive + gaps</p>
+<p class="t-act">Recite 4 cases + Sniper vs ClusterBomb math. Archive OOB shot + Sniper log (redacted). Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/burp/documentation/desktop/tools/collaborator/getting-started" target="_blank" rel="noopener">Collaborator: poll re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>Done-when</h4><p>Recited + artifacts archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d6c0"><label for="w01d6c0"><b>0:00–0:20</b> — attack math 300/6000 + 4 OOB cases</label></li>
+<li><input type="checkbox" id="w01d6c1"><label for="w01d6c1"><b>0:20–1:10</b> — throttled Sniper + OOB hit (lab)</label></li>
+<li><input type="checkbox" id="w01d6c2"><label for="w01d6c2"><b>1:10–2:00</b> — SSRF proof + desync vocab + H1 #386292 note</label></li>
+<li><input type="checkbox" id="w01d6c3"><label for="w01d6c3"><b>2:00–2:35</b> — rate rule + redacted triple + flow rehearsed</label></li>
+<li><input type="checkbox" id="w01d6c4"><label for="w01d6c4"><b>2:35–3:00</b> — recite + archive + gaps</label></li>
+<li><input type="checkbox" id="w01d6c5"><label for="w01d6c5"><b>Proof</b> — OOB shot + Intruder log (redacted)</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Isolate trigger + baseline + reproduce twice or kill.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<!-- DAY 7 -->
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Passive VDP + review + base-checklist ULTIMATE</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · submit nothing — leave with rig + gaps + Week-02 entry ticket</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:20</span> Weakest-2 re-quiz + WSTG INFO ≥80% + gap triage</p>
+<p class="t-act">Re-answer 2 weakest self-tests cold (e.g. idempotency, SOP vs CORS, Sniper math). Tick <b>WSTG checklist INFO rows ONLY → ≥80%</b>. Every remaining gap in gap-log gets owner-day (W02D1 etc.). CUT anything below INFO this week.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: INFO rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Gate to Week 02. Ultimate = no silent gaps carried forward.</p>
+<h4>Done-when</h4><p>2 answers + % + assignments logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:20–1:20</span> Passive-only VDP: crt.sh + subfinder + dnsx + httpx → diff (zero active)</p>
+<p class="t-act"><b>PASSIVE ONLY, VDP scope ONLY:</b> <b>crt.sh export + <code>subfinder -all -silent</code></b> → <b><code>dnsx -a -resp -silent</code> basic flags ONLY</b> → <b><code>httpx -sc -title -td -cl -silent</code> ONLY</b>. Diff vs Day-2 passive.txt → <code>recon/day7/diff.txt</code> (added/removed = W02 priority). <b>No naabu/nmap/ffuf bulk, no OOS, no CVE exploit.</b> Reference <b>THM passiverecon + redteamrecon discipline (passive sections) ONLY</b>.</p>
+<div class="t-links"><a href="https://crt.sh/" target="_blank" rel="noopener">crt.sh</a><a href="https://github.com/projectdiscovery/dnsx" target="_blank" rel="noopener">dnsx flags</a><a href="https://github.com/projectdiscovery/httpx" target="_blank" rel="noopener">httpx rank</a><a href="https://tryhackme.com/room/passiverecon" target="_blank" rel="noopener">THM: passive discipline</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Recon 90%, attacks 10%. Diff = new assets outrank old.</p>
+<h4>Tools</h4><p><code>sort -u</code>, <code>diff old new | tee diff.txt</code>, <code>httpx -mc 200,301,403</code>. One gentle pass.</p>
+<h4>Common mistake</h4><p>“Just one nmap” on VDP. CUT — passive + diff only, submit nothing.</p>
+<h4>Done-when</h4><p>recon/day7/ + diff saved, zero violations logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:20–2:20</span> Calibrate vs 1 recon writeup + H1 same-program search</p>
+<p class="t-act">Read <b>pentester.land 1 recon-methodology writeup — pipeline stages vs yours ONLY</b> (+ <b>bugpedia mirror if paywalled</b>). Then <b>H1 hacktivity search your VDP family (<code>type:hacktivity takeover/recon/IDOR</code>) — 2 reports, extract recon source + mapping step ONLY</b>. Log 1 thing they did you missed (ASN, alt-TLD, JS, Shodan, GitHub).</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: recon</a><a href="https://termireum.github.io/bugpedia" target="_blank" rel="noopener">bugpedia mirror</a><a href="https://hackerone.com/hacktivity?query=type%3Ahacktivity%20subdomain%20takeover" target="_blank" rel="noopener">H1: takeover search</a><a href="https://hackerone.com/hacktivity?query=type%3Ahacktivity%20IDOR%20delete" target="_blank" rel="noopener">H1: IDOR search</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Your pipeline vs working hunter's pipeline + same-program disclosure pattern.</p>
+<h4>YouTube/X</h4><p>YT: <code>STOK 10 GREAT habits for bug bounty hunters</code> (review habit). X: <code>from:InsiderPhD scope OR notes</code>.</p>
+<h4>Done-when</h4><p>Gap paragraph + 2 H1 patterns logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:20–2:45</span> base-checklist.md + scope re-verify + evidence pack</p>
+<p class="t-act">Write <code>base-checklist.md</code>: scope→proxy→history→Collaborator→A/B→passive→dnsx→httpx→katana-ready→diff→gaps. Re-verify scope.md against live program page (policies change). Pack evidence: history + scope shot + OOB shot + tables (redacted). Reference <b>HackTricks recon summary + TBHM recon bullets ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/generic-methodologies-and-resources/external-recon-methodology/index.html" target="_blank" rel="noopener">HackTricks: summary</a><a href="https://github.com/jhaddix/tbhm" target="_blank" rel="noopener">TBHM: recon bullets</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Entry ticket to Week 02 + disclosure-ethics muscle (re-verify scope, redact PII/cookies).</p>
+<h4>Done-when</h4><p>File readable by stranger + pack complete.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:45–3:00</span> Pipeline recite + Week-02 ready + gaps assigned</p>
+<p class="t-act">Aloud: scope → passive → resolve → rank → katana → JS → diff → gaps. Confirm <code>scope.md, notes/, gap-log.md, recon/, base-checklist.md</code> exist. Assign every open gap to a Week-02 day. Submit nothing.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: final tick</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: W02 entry</a></div>
+<details class="why"><summary>Why this matters ▼</summary>
+<h4>What it is</h4><p>Ultimate exit: rig proven, gaps owned, newest-30-days priority set for Week 02.</p>
+<h4>Done-when</h4><p>Recited + inventory confirmed + zero violations + W02 tools ready.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w01d7c0"><label for="w01d7c0"><b>0:00–0:20</b> — weakest-2 + INFO ≥80% + gaps assigned</label></li>
+<li><input type="checkbox" id="w01d7c1"><label for="w01d7c1"><b>0:20–1:20</b> — passive diff vs Day 2, zero violations</label></li>
+<li><input type="checkbox" id="w01d7c2"><label for="w01d7c2"><b>1:20–2:20</b> — recon gap + 2 same-program H1 patterns</label></li>
+<li><input type="checkbox" id="w01d7c3"><label for="w01d7c3"><b>2:20–2:45</b> — base-checklist.md + scope re-verify + pack</label></li>
+<li><input type="checkbox" id="w01d7c4"><label for="w01d7c4"><b>2:45–3:00</b> — pipeline recited + W02 ready</label></li>
+<li><input type="checkbox" id="w01d7c5"><label for="w01d7c5"><b>Proof</b> — recon/day7/ + diff + pack archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Newest 30 days = least tested. Document or it did not happen.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">ULTIMATE Week 01 · passive-first · VDP-only · isolated profile · redacted evidence · submit nothing Day 7. THM slugs move — search room name in-app. H1 login-walled? Use mirrors: ajaysenr/HackerOne-Disclosed-Reports, InsiderPhD/hackerone-reports, bugpedia, TOPIDOR list.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

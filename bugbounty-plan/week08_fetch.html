@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 08 — Fetch & HTTP ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="08" data-wk="bbv2-08">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week07_server.html">← Prev</a><a class="current" href="week08_fetch.html">W08</a><a href="week09_files.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 08 · Fetch & HTTP ULTIMATE · 7 days × 180 min</p>
+<h1>Fetch features first. Probe gently. Never DoS.</h1>
+<p class="lede">SSRF → metadata → redirect chains → Host/CRLF → smuggling → cache. Collaborator-gated blind proofs, 307/308 OAuth chains, 1× smuggle timing, no cache DoS. Inventory everything.</p>
+<div class="pills"><span class="tag tag--accent">OOB-gated</span><span class="tag">probe-no-DoS</span><span class="tag">ticks bbv2-08</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 09.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — SSRF basic → blind (fetch features first)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · import-URL/webhook/PDF/avatar = SSRF</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Fetch-feature inventory model + response types</p>
+<p class="t-act">List import/webhook/PDF/avatar/fetch + full/partial/blind responses. Read <b>PortSwigger SSRF topic § basic vs blind ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/ssrf" target="_blank" rel="noopener">PortSwigger: SSRF basic/blind</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Inventory model + 3 response types cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Localhost → blind OOB labs + THM ssrfhr (lab)</p>
+<p class="t-act">Do <b>PortSwigger SSRF 7 labs (localhost → 192.168 backends → blacklist/whitelist bypass → blind OOB) IN ORDER</b> + <b>THM ssrfhr Task 1–5 (intro/impact/locations/blind/practical) ONLY</b>. Blind via Collaborator, baseline first.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost" target="_blank" rel="noopener">Lab: SSRF vs localhost first</a><a href="https://portswigger.net/web-security/all-labs#server-side-request-forgery-ssrf" target="_blank" rel="noopener">All labs: SSRF filter (7 labs)</a><a href="https://tryhackme.com/room/ssrfhr" target="_blank" rel="noopener">THM: ssrfhr T1–5</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery" target="_blank" rel="noopener">PATT: SSRF bypass rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>SSRF to AWS metadata takeover bug bounty</code> + <code>blind SSRF out of band Burp Collaborator</code>.</p><h4>Done-when</h4><p>Localhost + bypass + OOB proofs (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Slack [::] $100 + Evernote metadata patterns</p>
+<p class="t-act">Read <b>Slack <code>[::]</code> blacklist-bypass $100 summary + H1 #264671 Evernote (<code>stockApi=</code> + <code>2130706433/127.1</code> bypass + token order) — bypass + order ONLY</b> + <b>H1 #341876 ImageMagick SSRF (file-format fetch + Collaborator) — sink ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/264671" target="_blank" rel="noopener">H1 #264671 Evernote</a><a href="https://hackerone.com/reports/341876" target="_blank" rel="noopener">H1 #341876 ImageMagick</a><a href="https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery" target="_blank" rel="noopener">HackTricks: URL bypass</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Fetch-param + filter-bypass (encode/octal/IPv6/0.0.0.0/@/#) + OOB → internal. SSRF bible table is the reference.</p><h4>Done-when</h4><p>2 bypasses + fetch→internal order noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Bypass table: encode/octal/IPv6/0.0.0.0/@/#/redirect</p>
+<p class="t-act">Consolidate per <b>PATT SSRF blacklist + whitelist-via-@/ # rows + HackTricks cloud-metadata endpoints ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md" target="_blank" rel="noopener">SSRF bible: bypass tables</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Table saved for Day 2.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Bypass-types test + gaps</p>
+<p class="t-act">Recite 5 bypass families cold. Triage gaps (metadata next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/ssrf" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + table archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d1c0"><label for="w08d1c0"><b>0:00–0:15</b> — inventory model + responses</label></li>
+<li><input type="checkbox" id="w08d1c1"><label for="w08d1c1"><b>0:15–1:05</b> — 7 labs + THM + OOB (lab)</label></li>
+<li><input type="checkbox" id="w08d1c2"><label for="w08d1c2"><b>1:05–2:00</b> — Slack/Evernote/ImageMagick patterns</label></li>
+<li><input type="checkbox" id="w08d1c3"><label for="w08d1c3"><b>2:00–2:35</b> — bypass table</label></li>
+<li><input type="checkbox" id="w08d1c4"><label for="w08d1c4"><b>2:35–3:00</b> — 5 families + gaps</label></li>
+<li><input type="checkbox" id="w08d1c5"><label for="w08d1c5"><b>Proof</b> — labs + table archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Every URL fetch is a suspect.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — SSRF → cloud metadata (IMDSv1/v2, stop rule)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · cloud cred = critical, stop + report</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> IMDSv1 vs v2 + ECS/GCP/Azure variants</p>
+<p class="t-act">Write <code>GET /latest/meta-data/iam/security-credentials/</code> vs <code>PUT /latest/api/token</code> hop. Read <b>AWS IMDS retrieval + IMDSv2 configuration § token TTL ONLY</b>.</p>
+<div class="t-links"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html" target="_blank" rel="noopener">AWS: IMDS retrieval</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html" target="_blank" rel="noopener">AWS: IMDSv2 config</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>v1/v2 + 2 variants cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> IMDSv1 creds → role + v2 token hop (lab only)</p>
+<p class="t-act">On LAB SSRF: fetch <b>role-name → creds JSON (lab)</b>, then <b>PUT token + <code>X-aws-ec2-metadata-token</code> header hop (lab)</b>. Note ECS task-role + GCP/Azure header variants per <b>HackTricks cloud-metadata endpoints ONLY</b>. <b>If v2 enforced → STOP takeover, pivot to internal HTTP scan theory.</b></p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery" target="_blank" rel="noopener">HackTricks: metadata endpoints</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>v1 chain + v2 hop (lab) + stop rule written.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SSRF→IAM→s3-ls chain + task-role pivot</p>
+<p class="t-act">Read <b>1 metadata-takeover chain (role creds → <code>aws s3 ls</code> read-only) + 1 ECS task-role pivot — credential-handling + stop point ONLY</b>. X: <code>SSRF IMDS bugbounty lang:en min_faves:50</code>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=type%3Ahacktivity%20ssrf%20metadata" target="_blank" rel="noopener">H1: SSRF metadata search</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>DB creds (W06) + SSRF creds + JS keys (W02) converge on <code>aws s3 ls</code> — same read-only validation everywhere.</p><h4>Done-when</h4><p>Chain diagram with stop point.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Cred-handling + stop-and-report card</p>
+<p class="t-act">Write card: redact keys, no privilege use beyond <code>role-name + s3 ls</code>, 24h report. Reference <b>OWASP SSRF prevention sheet § remediation quote ONLY</b>.</p>
+<div class="t-links"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: SSRF sheet</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Card saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> IMDSv2-diff test + gaps</p>
+<p class="t-act">Explain v2 token defense + bypass condition (PUT allowed?). Triage gaps.</p>
+<div class="t-links"><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html" target="_blank" rel="noopener">AWS: re-check v2</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + card archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d2c0"><label for="w08d2c0"><b>0:00–0:15</b> — v1/v2 + variants</label></li>
+<li><input type="checkbox" id="w08d2c1"><label for="w08d2c1"><b>0:15–1:05</b> — v1 + v2 hop (lab) + stop rule</label></li>
+<li><input type="checkbox" id="w08d2c2"><label for="w08d2c2"><b>1:05–2:00</b> — chain + pivot diagrams</label></li>
+<li><input type="checkbox" id="w08d2c3"><label for="w08d2c3"><b>2:00–2:35</b> — handling card</label></li>
+<li><input type="checkbox" id="w08d2c4"><label for="w08d2c4"><b>2:35–3:00</b> — v2 diff + gaps</label></li>
+<li><input type="checkbox" id="w08d2c5"><label for="w08d2c5"><b>Proof</b> — chain + card archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Role-name is enough proof. Keys stay redacted.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Open redirect → OAuth/SSRF chains</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · redirect alone low, chain high</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Bypass primitives: // \\ %2f %5c pollution</p>
+<p class="t-act">List scheme-relative/backslash/encoding/param-pollution. Read <b>PortSwigger open-redirect § bypass rows ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/open-redirect" target="_blank" rel="noopener">PortSwigger: redirect bypass</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 primitives + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> 30+ bypass matrix (lab)</p>
+<p class="t-act">Build matrix per <b>PATT Open Redirect 30+ rows (//, \\, %2f, %5c, @, #, ?next=) ONLY</b> on lab <code>?next=/, ?redirect=, ?returnUrl=</code>. Note 301/302 (downgrade POST→GET) vs 307/308 (preserve) split.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Open%20Redirect" target="_blank" rel="noopener">PATT: 30+ bypass rows</a><a href="https://portswigger.net/web-security/open-redirect" target="_blank" rel="noopener">PortSwigger: redirect labs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix with status + Location per cell.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Redirect→OAuth-theft + SSRF-aid + 307/308 method chain</p>
+<p class="t-act">Chain on lab: redirect → OAuth <code>redirect_uri</code> mismatch → code theft (Week 04 bridge) + redirect → SSRF filter aid (<code>//evil%2f..</code>). Read <b>hacktivity <code>open redirect OAuth takeover</code> 1 report — chained param ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=open%20redirect%20OAuth%20takeover" target="_blank" rel="noopener">H1: redirect→OAuth search</a><a href="https://book.hacktricks.xyz/pentesting-web/open-redirect" target="_blank" rel="noopener">HackTricks: redirect chains</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 chain diagrams with status codes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Redirect matrix + chain templates</p>
+<p class="t-act">Consolidate + write OAuth-theft + SSRF-aid templates (param → bypass → impact).</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Open%20Redirect" target="_blank" rel="noopener">PATT: template rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Templates saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Pay-vs-alone test + gaps</p>
+<p class="t-act">Judge 3 redirects (alone vs chained). Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/open-redirect" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Judged + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d3c0"><label for="w08d3c0"><b>0:00–0:15</b> — 4 primitives</label></li>
+<li><input type="checkbox" id="w08d3c1"><label for="w08d3c1"><b>0:15–1:05</b> — 30+ matrix + 301/307 split</label></li>
+<li><input type="checkbox" id="w08d3c2"><label for="w08d3c2"><b>1:05–2:00</b> — 2 chains (OAuth + SSRF)</label></li>
+<li><input type="checkbox" id="w08d3c3"><label for="w08d3c3"><b>2:00–2:35</b> — templates saved</label></li>
+<li><input type="checkbox" id="w08d3c4"><label for="w08d3c4"><b>2:35–3:00</b> — judgments + gaps</label></li>
+<li><input type="checkbox" id="w08d3c5"><label for="w08d3c5"><b>Proof</b> — matrix + chains archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Test 301/302/307/308 separately.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — Host header + CRLF + log injection</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · backend trusts Host = poison</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Host trust points: reset links, cache keys, routing</p>
+<p class="t-act">List 3 trust points. Read <b>PortSwigger host-header topic § reset-poisoning ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/host-header" target="_blank" rel="noopener">PortSwigger: Host trust</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 points + poison idea cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Reset-poisoning labs + cache-key Host variants (lab)</p>
+<p class="t-act">Do <b>PortSwigger host-header 5 labs (password-reset poisoning ATO incl.) IN ORDER</b>. Test <code>Host: evil + X-Forwarded-Host</code> + cache-key variants. <b>THM httpin137minutes Task 8 (Host/Cache headers) ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning/lab-host-header-basic-password-reset-poisoning" target="_blank" rel="noopener">Lab: basic reset poisoning first</a><a href="https://portswigger.net/web-security/all-labs#http-host-header-attacks" target="_blank" rel="noopener">All labs: Host attacks filter</a><a href="https://tryhackme.com/room/httpin137minutes" target="_blank" rel="noopener">THM: http headers T8</a><a href="https://book.hacktricks.xyz/pentesting-web/host-header" target="_blank" rel="noopener">HackTricks: Host rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>H1</h4><p>Search hacktivity <code>host header reset poisoning</code> — poisoned link + token theft flow (Week 04 bridge).</p><h4>Done-when</h4><p>Poison proof (lab) + variant table.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> CRLF header-split + log→admin XSS/SQL</p>
+<p class="t-act">Test <b><code>%0d%0aSet-Cookie</code> split → fixation/XSS per PATT CRLF rows ONLY (lab)</b> + <b>log injection (<code>\n[admin]</code>) → admin-panel XSS/SQL theory (no prod log writes)</b>. Read <b>HackTricks CRLF § log-sink rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CRLF%20Injection" target="_blank" rel="noopener">PATT: CRLF rows</a><a href="https://book.hacktricks.xyz/pentesting-web/crlf-0d-0a" target="_blank" rel="noopener">HackTricks: CRLF/log rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Split demo (lab) + sink list (theory).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Host + CRLF matrices + log-sink list</p>
+<p class="t-act">Consolidate 2 matrices + sinks (auth logs, error logs, analytics).</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: checklist rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrices + list saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Host-impact test + gaps</p>
+<p class="t-act">Summarize 3 impacts (ATO/cache/route). Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/host-header" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrices archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d4c0"><label for="w08d4c0"><b>0:00–0:15</b> — 3 trust points</label></li>
+<li><input type="checkbox" id="w08d4c1"><label for="w08d4c1"><b>0:15–1:05</b> — 5 labs + variant table</label></li>
+<li><input type="checkbox" id="w08d4c2"><label for="w08d4c2"><b>1:05–2:00</b> — split demo + sink list</label></li>
+<li><input type="checkbox" id="w08d4c3"><label for="w08d4c3"><b>2:00–2:35</b> — 2 matrices + sinks</label></li>
+<li><input type="checkbox" id="w08d4c4"><label for="w08d4c4"><b>2:35–3:00</b> — impacts + gaps</label></li>
+<li><input type="checkbox" id="w08d4c5"><label for="w08d4c5"><b>Proof</b> — matrices + lab proof archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Trusted header + attacker value = poison.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — Request smuggling CL.TE / TE.CL / H2 (probe, no DoS)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · front vs back disagree = smuggle</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> CL.TE vs TE.CL vs H2-downgrade vs TE.0 shapes</p>
+<p class="t-act">Draw 4 shapes. Read <b>PortSwigger smuggling topic § CL.TE/TE.CL defs ONLY</b> + <b>Kettle Must-Die § TE.0 + H2.CL rows ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/request-smuggling" target="_blank" rel="noopener">PortSwigger: CL.TE/TE.CL</a><a href="https://portswigger.net/research/http-1-must-die" target="_blank" rel="noopener">Kettle: TE.0/H2.CL</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 shapes + differentials cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Smuggler probe + Turbo confirm on lab (timing only)</p>
+<p class="t-act">Run <b><code>smuggler.py -u lab -m POST -x -q -l smug.log -c default.py</code> probe ONLY</b> + <b>Turbo single-packet DesyncAttack_CLTE/TECL on LAB ONLY (timing differential, no exploit)</b>. <b>Smuggler DOCUMENT.md § detection probes ONLY</b>. YT: <code>HTTP request smuggling CL.TE TE.CL James Kettle</code>.</p>
+<div class="t-links"><a href="https://github.com/defparam/smuggler" target="_blank" rel="noopener">smuggler probe flags</a><a href="https://github.com/PortSwigger/turbo-intruder" target="_blank" rel="noopener">Turbo: desync scripts</a><a href="https://github.com/PortSwigger/http-request-smuggler/blob/master/DOCUMENT.md" target="_blank" rel="noopener">Smuggler: probes list</a><a href="https://portswigger.net/web-security/request-smuggling/lab-basic-cl-te" target="_blank" rel="noopener">Lab: basic CL.TE first</a><a href="https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl" target="_blank" rel="noopener">Lab: basic TE.CL second</a><a href="https://portswigger.net/web-security/all-labs#http-request-smuggling" target="_blank" rel="noopener">All labs: smuggling filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Accounts: @albinowax @defparam for desync threads (read-only).</p><h4>Common mistake</h4><p>Smuggling on live/CDN. CUT — lab timing only.</p><h4>Done-when</h4><p>Probe log + timing differential (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Desync cred-hijack paper + TE.0 CDN case (read, no replay)</p>
+<p class="t-act">Read <b>Kettle Must-Die § cred-hijack flow + mitigation table ONLY</b> + <b>1 TE.0 CDN report summary — variant shape ONLY</b>. Note H2 rapid-reset as DoS class (recognize, never test live).</p>
+<div class="t-links"><a href="https://portswigger.net/research/http-1-must-die" target="_blank" rel="noopener">Kettle: hijack flow</a><a href="https://portswigger.net/research/http-2-rapid-reset" target="_blank" rel="noopener">Kettle: rapid-reset (recognize)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Flow + variant + mitigation noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Probe log + false-positive checks</p>
+<p class="t-act">Log probe → confirm → FP checks (retry, connection reuse, timeout vs desync). Reference <b>Turbo tiscripts gate comments ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/defparam/tiscripts" target="_blank" rel="noopener">tiscripts: gate comments</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Log format with FP column.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> CL.TE vs TE.CL test + gaps</p>
+<p class="t-act">Explain with header pairs. Triage gaps (cache next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/request-smuggling" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + log archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d5c0"><label for="w08d5c0"><b>0:00–0:15</b> — 4 shapes cold</label></li>
+<li><input type="checkbox" id="w08d5c1"><label for="w08d5c1"><b>0:15–1:05</b> — probe + timing (lab, no exploit)</label></li>
+<li><input type="checkbox" id="w08d5c2"><label for="w08d5c2"><b>1:05–2:00</b> — hijack flow + TE.0 variant</label></li>
+<li><input type="checkbox" id="w08d5c3"><label for="w08d5c3"><b>2:00–2:35</b> — log + FP checks</label></li>
+<li><input type="checkbox" id="w08d5c4"><label for="w08d5c4"><b>2:35–3:00</b> — CL/TE recited + gaps</label></li>
+<li><input type="checkbox" id="w08d5c5"><label for="w08d5c5"><b>Proof</b> — probe log archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Timing alone is not desync. Confirm + FP-check.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Cache poisoning + deception (no DoS)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · cache stores attacker output for victims</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Key vs unkeyed + Vary + deception paths</p>
+<p class="t-act">Define keyed (Host/URI) vs unkeyed (X-Forwarded-Host/UTM/UA) + <code>Vary</code> + <code>/profile/.json</code> confusion. Read <b>PortSwigger cache-poisoning § unkeyed ONLY + deception § path-confusion ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/web-cache-poisoning" target="_blank" rel="noopener">PortSwigger: unkeyed</a><a href="https://portswigger.net/web-security/web-cache-deception" target="_blank" rel="noopener">PortSwigger: deception</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Defs + 3 examples each cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Unkeyed header/param labs + Vary check (lab)</p>
+<p class="t-act">Do <b>PortSwigger cache labs (unkeyed header/param) IN ORDER</b>. Check <code>Vary</code> + cache headers (<code>Age/X-Cache/Hit-Miss</code>). YT: <code>web cache poisoning deception XSS</code>. X: <code>cache deception PII bounty</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/web-cache-poisoning/exploiting-design-flaws/lab-web-cache-poisoning-with-multiple-headers" target="_blank" rel="noopener">Lab: multiple-headers poisoning first</a><a href="https://portswigger.net/web-security/all-labs#web-cache-poisoning" target="_blank" rel="noopener">All labs: cache filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Key map + Vary + header evidence (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Cache→XSS hijack + deception PII-leak cases</p>
+<p class="t-act">Read <b>1 cache→XSS (unkeyed header reflected into cached JS) + 1 deception (<code>/profile.css</code>-style → PII cache) — key + payload + victim impact ONLY</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: cache/deception</a><a href="https://hackerone.com/hacktivity?query=cache%20poisoning" target="_blank" rel="noopener">H1: cache search</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Cache + CORS/XSS compose: poisoned JS with cred-theft runs on victim origin. Keep Day-5 matrix open.</p><h4>Done-when</h4><p>2 key→impact diagrams.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Key map + deception path list (lab)</p>
+<p class="t-act">Map keys + list <code>.css/.json/.ico</code>-suffixed authed paths. <b>No cache-busting floods, no victim poisoning on live.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/web-cache-deception" target="_blank" rel="noopener">PortSwigger: path list</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map + list saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Unkeyed test + gaps</p>
+<p class="t-act">Explain unkeyed with lab example. Triage gaps (live hunt next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/web-cache-poisoning" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d6c0"><label for="w08d6c0"><b>0:00–0:15</b> — key/unkeyed/Vary/deception</label></li>
+<li><input type="checkbox" id="w08d6c1"><label for="w08d6c1"><b>0:15–1:05</b> — key map + Vary (lab)</label></li>
+<li><input type="checkbox" id="w08d6c2"><label for="w08d6c2"><b>1:05–2:00</b> — 2 key→impact diagrams</label></li>
+<li><input type="checkbox" id="w08d6c3"><label for="w08d6c3"><b>2:00–2:35</b> — deception list (no flood)</label></li>
+<li><input type="checkbox" id="w08d6c4"><label for="w08d6c4"><b>2:35–3:00</b> — unkeyed recited + gaps</label></li>
+<li><input type="checkbox" id="w08d6c5"><label for="w08d6c5"><b>Proof</b> — map + list archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Poison lab only. Live = key map + headers.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live fetch/HTTP hunt (inventory first)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · inventory + safe differentials only on live</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Fetch + redirect + Host inventory recall</p>
+<p class="t-act">List every <code>fetch/import/export/preview/webhook + redirect/next/returnUrl + Host reflection</code> from your map. Check <b>WSTG SSRF § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/19-Testing_for_Server-Side_Request_Forgery" target="_blank" rel="noopener">WSTG: SSRF objectives</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Inventory checklist ready.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> URL-fetch + redirect + Host safe probes (VDP, gentle)</p>
+<p class="t-act">Probe each fetch/redirect/Host with <b>Collaborator/canary + 301/302/307/308 split note, ONE request each</b>. <b>No IMDS beyond role-name (and only if prior SSRF proof), no smuggle/cache exploit on live.</b></p>
+<div class="t-links"><a href="https://portswigger.net/web-security/ssrf" target="_blank" rel="noopener">PortSwigger: safe probe guide</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: safe differentials</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Probes + split notes, no DoS/exfil.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-program SSRF disclosures (2)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program SSRF 2 — fetch-param + bypass ONLY</b>. Compare your inventory gaps.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=type%3Ahacktivity%20ssrf%20metadata" target="_blank" rel="noopener">H1: same-program SSRF</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 param patterns + gap paragraph.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> SSRF playbook update + minimal proofs (redacted)</p>
+<p class="t-act">Update playbook (fetch→bypass→OOB→internal→role-name). Archive minimal proofs. <b>No cache/smuggle exploit artifacts on live.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md" target="_blank" rel="noopener">SSRF bible: playbook rows</a><a href="https://github.com/hanzalaghayasabbasi/portswigger-all-labs" target="_blank" rel="noopener">Community: all-labs solutions (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + proofs (redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> SSRF triage + no-DoS test + gaps to Week 09</p>
+<p class="t-act">Recite triage + no-DoS rule. Assign gaps (upload/parser sinks) to Week 09.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage + no-DoS</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w08d7c0"><label for="w08d7c0"><b>0:00–0:15</b> — fetch inventory ready</label></li>
+<li><input type="checkbox" id="w08d7c1"><label for="w08d7c1"><b>0:15–1:05</b> — safe probes + split notes (no DoS)</label></li>
+<li><input type="checkbox" id="w08d7c2"><label for="w08d7c2"><b>1:05–2:00</b> — 2 same-program patterns</label></li>
+<li><input type="checkbox" id="w08d7c3"><label for="w08d7c3"><b>2:00–2:35</b> — playbook + redacted proofs</label></li>
+<li><input type="checkbox" id="w08d7c4"><label for="w08d7c4"><b>2:35–3:00</b> — triage + gaps to W09</label></li>
+<li><input type="checkbox" id="w08d7c5"><label for="w08d7c5"><b>Proof</b> — inventory + proofs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Smuggle/cache stay in lab unless program permits.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Probe-no-DoS: 1× timing, no victim cache, role-name max. Surprise: Host + cache-key compose — your Day-4 matrix is a cache-poison starter.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

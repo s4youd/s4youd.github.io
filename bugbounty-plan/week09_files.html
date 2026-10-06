@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 09 — Files & Secrets ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="09" data-wk="bbv2-09">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week08_fetch.html">← Prev</a><a class="current" href="week09_files.html">W09</a><a href="week10_api.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 09 · Files & Secrets ULTIMATE · 7 days × 180 min</p>
+<h1>Upload → RCE. Exposure → keys. Redact everything.</h1>
+<p class="lede">LFI/RFI → upload bypasses → backup/config → JS/Swagger → headers/TLS/debug → error disclosure. Partial proof (<code>***-1234</code>), read-only validation, stop on sensitive data.</p>
+<div class="pills"><span class="tag tag--accent">redacted proofs</span><span class="tag">read-only validation</span><span class="tag">ticks bbv2-09</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 10.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — LFI / RFI deep (include + wrappers + log path)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · file param = traversal first</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Include sinks + wrappers + RFI precondition</p>
+<p class="t-act">List <code>include/require + ?file= ?page= ?lang=</code> + <code>php://filter/zip/data + allow_url_include</code> for RFI. Read <b>WSTG ATHZ-01 § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/01-Testing_Directory_Traversal_File_Include" target="_blank" rel="noopener">WSTG: ATHZ-01</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Sinks + wrappers + RFI condition cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Traversal + wrappers + log-poison path (lab only)</p>
+<p class="t-act">Do <b>THM filepathtraversal Task 3–6 (LFI/RFI/payloads/challenges) + PortSwigger traversal labs (stripped ../, null-byte legacy) ONLY</b>. Test <b><code>....// + %2e%2e/ + php://filter/convert.base64-encode/resource=index</code> (lab)</b> + <b>log-poison THEORY (no prod writes)</b> per HackTricks.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/filepathtraversal" target="_blank" rel="noopener">THM: filepathtraversal T3–6</a><a href="https://portswigger.net/web-security/file-path-traversal/lab-simple" target="_blank" rel="noopener">Lab: traversal simple first</a><a href="https://portswigger.net/web-security/all-labs#path-traversal" target="_blank" rel="noopener">All labs: traversal filter</a><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: wrappers/poison</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>LFI to RCE log poisoning bug bounty</code>.</p><h4>Done-when</h4><p>Depth + 2 bypasses + wrapper read (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Config-read chain + LFI→RCE pivot (which fired)</p>
+<p class="t-act">Read <b>1 config-read (THM Include-style: /etc/passwd → app config → key) + 1 LFI→RCE (log/wrapper/upload pivot named) — pivot ONLY each</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: LFI→RCE pivot</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: LFI mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 pivots named with conditions.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Include + wrapper + RFI matrix</p>
+<p class="t-act">Consolidate per <b>PATT File Inclusion rows ONLY</b>. Add RFI <code>allow_url_include</code> check column (lab).</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion" target="_blank" rel="noopener">PATT: file inclusion rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Poison-path test + gaps</p>
+<p class="t-act">Explain log-poison flow without touching prod. Triage gaps (upload next).</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: re-check poison</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d1c0"><label for="w09d1c0"><b>0:00–0:15</b> — sinks + wrappers + RFI</label></li>
+<li><input type="checkbox" id="w09d1c1"><label for="w09d1c1"><b>0:15–1:05</b> — THM + labs + wrapper (lab)</label></li>
+<li><input type="checkbox" id="w09d1c2"><label for="w09d1c2"><b>1:05–2:00</b> — 2 pivot notes</label></li>
+<li><input type="checkbox" id="w09d1c3"><label for="w09d1c3"><b>2:00–2:35</b> — include/wrapper/RFI matrix</label></li>
+<li><input type="checkbox" id="w09d1c4"><label for="w09d1c4"><b>2:35–3:00</b> — poison flow + gaps</label></li>
+<li><input type="checkbox" id="w09d1c5"><label for="w09d1c5"><b>Proof</b> — matrix + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Read config first, RCE second.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Upload bypasses (ext / MIME / polyglot / SVG / archives)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · upload + exec = RCE</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Bypass families: ext/MIME/magic/polyglot/SVG/archive</p>
+<p class="t-act">List <code>.php5/.phtml/.svg/.htaccess + image/jpeg + GIF89a + polyglot + unzip-slip</code>. Read <b>OWASP Upload sheet § validation checklist ONLY</b>.</p>
+<div class="t-links"><a href="https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload" target="_blank" rel="noopener">OWASP: upload checklist</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>6 families + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Ext/MIME/magic/polyglot/SVG/double-ext + race (lab)</p>
+<p class="t-act">Do <b>PortSwigger upload 9 labs (ext/MIME/content/race/polyglot) + THM uploadvulnerabilities Task 2–6 (bypass/magic/race/shell) ONLY</b>. Proofs: <b>magic-byte <code>GIF89a</code> + double-ext + SVG <code>&lt;svg onload&gt;</code> + race <code>Turbo 1×gate</code> (lab)</b>. YT: <code>unrestricted file upload bypass pentest</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/file-upload/lab-file-upload-web-shell-upload-via-race-condition" target="_blank" rel="noopener">Lab: race-condition upload (hardest first look)</a><a href="https://portswigger.net/web-security/all-labs#file-upload-vulnerabilities" target="_blank" rel="noopener">All labs: upload filter (start simple)</a><a href="https://tryhackme.com/room/uploadvulnerabilities" target="_blank" rel="noopener">THM: upload T2–6</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files" target="_blank" rel="noopener">PATT: upload rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Bypass matrix (family × result) + exec proof (lab URL).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Upload→webshell critical + SVG-XXE + ImageTragick/ExifTool/ZIP-slip</p>
+<p class="t-act">Read <b>1 upload→webshell critical (search <code>file upload RCE</code>) — bypassed check + exec URL ONLY</b> + <b>1 SVG-XXE (Week 07 bridge) + ImageTragick CVE-2016-3714 / ExifTool CVE-2021-22204 / Zip-Slip pattern names ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=file%20upload%20RCE" target="_blank" rel="noopener">H1: upload RCE search</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files" target="_blank" rel="noopener">PATT: polyglot/slip rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>Image pipelines (convert/identify) = shell-out; archives = traversal. Note <code>.htaccess</code> on Apache.</p><h4>Done-when</h4><p>3 vector notes with bypass + exec.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Bypass matrix + execution-proof column</p>
+<p class="t-act">Consolidate + add <code>.htaccess</code> + race-timing columns.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files" target="_blank" rel="noopener">PATT: re-check matrix</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Magic-byte test + gaps</p>
+<p class="t-act">Explain magic-byte bypass end-to-end. Triage gaps (exposure next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/file-upload" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d2c0"><label for="w09d2c0"><b>0:00–0:15</b> — 6 families + examples</label></li>
+<li><input type="checkbox" id="w09d2c1"><label for="w09d2c1"><b>0:15–1:05</b> — matrix + exec proof (lab)</label></li>
+<li><input type="checkbox" id="w09d2c2"><label for="w09d2c2"><b>1:05–2:00</b> — 3 vector notes (exec URL)</label></li>
+<li><input type="checkbox" id="w09d2c3"><label for="w09d2c3"><b>2:00–2:35</b> — full matrix + proof column</label></li>
+<li><input type="checkbox" id="w09d2c4"><label for="w09d2c4"><b>2:35–3:00</b> — magic-byte + gaps</label></li>
+<li><input type="checkbox" id="w09d2c5"><label for="w09d2c5"><b>Proof</b> — matrix + lab exec archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Bypass without exec = info. Bypass + URL = RCE.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Backup / config exposure (fast wins, redacted)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · exposure needs no exploit</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Extension list: .bak/.old/.swp/~/ .zip/.sql/.git/.env</p>
+<p class="t-act">Write list + tool mapping (<code>ffuf -e</code>). Read <b>SecLists Discovery/Web-Content README § backup/config lists ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/danielmiessler/SecLists/tree/master/Discovery/Web-Content" target="_blank" rel="noopener">SecLists: backup lists</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>List + tool flags cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> ffuf -e + .git/HEAD + .env triage (lab + gentle VDP paths)</p>
+<p class="t-act">Run <b><code>ffuf -u host/FUZZ -w common.txt -e .bak,.old,.zip,.sql -mc 200,403 -fc 404</code> (1 small list)</b> + <b><code>/.git/HEAD + /.env + config.php~</code> GET-only checks</b>. <b>WSTG INFO-03 metafiles § objectives ONLY</b>. <b>nuclei <code>http/exposures/configs/ + http/exposures/backups/</code> on LAB ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/ffuf/ffuf" target="_blank" rel="noopener">ffuf -e flags</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/03-Review_Webserver_Metafiles_for_Information_Leakage" target="_blank" rel="noopener">WSTG: INFO-03</a><a href="https://github.com/projectdiscovery/nuclei" target="_blank" rel="noopener">nuclei: exposures (lab)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>".git exposed" bugbounty</code> for <code>git-dumper</code> replay pattern.</p><h4>Done-when</h4><p>Ext fuzz + 3 triage results.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> .git-leak + secrets.yml prod-key cases</p>
+<p class="t-act">Read <b>H1 #768322 (.git → code → chain: /.git/HEAD + git-dumper replay) FULL</b> + <b>1 secrets.yml prod-key (read-only <code>s3 ls</code>/endpoint 200 proof, redacted) — validation ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/768322" target="_blank" rel="noopener">H1 #768322 .git leak</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: secrets.yml key</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>.git = full source = more bugs. One exposure funds the rest of the hunt.</p><h4>Done-when</h4><p>2 validation flows (redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Partial-capture + stop rule card</p>
+<p class="t-act">Write card: <code>***-1234</code> capture, no full secret/PII storage, stop on sensitive data + 24h report.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: redaction rule</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Card saved + notes redacted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> .git-reconstruct test + gaps</p>
+<p class="t-act">Explain <code>HEAD → objects → dumper</code> flow. Triage gaps (JS next).</p>
+<div class="t-links"><a href="https://hackerone.com/reports/768322" target="_blank" rel="noopener">H1 #768322: re-check flow</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + logs archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d3c0"><label for="w09d3c0"><b>0:00–0:15</b> — ext list + flags</label></li>
+<li><input type="checkbox" id="w09d3c1"><label for="w09d3c1"><b>0:15–1:05</b> — ffuf -e + 3 triages</label></li>
+<li><input type="checkbox" id="w09d3c2"><label for="w09d3c2"><b>1:05–2:00</b> — .git + prod-key flows (redacted)</label></li>
+<li><input type="checkbox" id="w09d3c3"><label for="w09d3c3"><b>2:00–2:35</b> — stop-rule card + redaction</label></li>
+<li><input type="checkbox" id="w09d3c4"><label for="w09d3c4"><b>2:35–3:00</b> — reconstruct + gaps</label></li>
+<li><input type="checkbox" id="w09d3c5"><label for="w09d3c5"><b>Proof</b> — logs (redacted) archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Capture partial, stop, report.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — JS secrets + Swagger (validate safely)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · large Swagger = under-tested surface</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Secret shapes: AKIA/JWT/private-key/internal-URL</p>
+<p class="t-act">Write 4 regexes + triage rule (verify read-only or redact). Check <b>SecretFinder README verification rows ONLY</b>. YT: <code>JavaScript secrets bug bounty LinkFinder SecretFinder</code>.</p>
+<div class="t-links"><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder: verify rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Shapes + rule cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> LinkFinder + SecretFinder on 3 largest + Swagger 4-path (gentle)</p>
+<p class="t-act">Run <b><code>linkfinder.py -i app.js -o cli -d 1</code> + <code>SecretFinder.py -i app.js -o cli</code> on 3 bundles</b> + <b>GET <code>/swagger/v1, /v3/api-docs, /api-docs, /openapi.json</code></b>. Extract paths→keys via <code>jq</code> on lab spec. X: <code>JS secrets AWS key takeover min_faves:100</code>.</p>
+<div class="t-links"><a href="https://github.com/GerbenJavadoop/LinkFinder" target="_blank" rel="noopener">LinkFinder run</a><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder run</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Secrets list + Swagger endpoints + risk rank.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> JS AWS-key takeover + Swagger under-tested API</p>
+<p class="t-act">Read <b>1 JS AWS-key takeover (<code>aws sts get-caller-identity</code> read-only validation) + 1 Swagger hidden-route BOLA (Week 10 bridge) — validation ONLY, redacted</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/API_Key_Leaks" target="_blank" rel="noopener">PATT: key→takeover validation</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: Swagger hidden API</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 validation flows (redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Validation log + risk rank (no damage)</p>
+<p class="t-act">Log each secret: value(redacted) → validation (safe read/200) → risk → stop point. <b>Never use keys beyond proof.</b></p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: safe validation</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Log saved, all redacted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Safe-validation test + gaps</p>
+<p class="t-act">Recite validation ladder (regex → read-only → redact → stop). Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + log archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d4c0"><label for="w09d4c0"><b>0:00–0:15</b> — 4 shapes + rule</label></li>
+<li><input type="checkbox" id="w09d4c1"><label for="w09d4c1"><b>0:15–1:05</b> — 3 bundles + 4-path Swagger</label></li>
+<li><input type="checkbox" id="w09d4c2"><label for="w09d4c2"><b>1:05–2:00</b> — 2 validation flows (redacted)</label></li>
+<li><input type="checkbox" id="w09d4c3"><label for="w09d4c3"><b>2:00–2:35</b> — validation log + ranks</label></li>
+<li><input type="checkbox" id="w09d4c4"><label for="w09d4c4"><b>2:35–3:00</b> — ladder recited + gaps</label></li>
+<li><input type="checkbox" id="w09d4c5"><label for="w09d4c5"><b>Proof</b> — log (redacted) archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Validate read-only, then stop.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — Headers / TLS / debug panels</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · misconfig enables higher bugs</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> CSP/HSTS/cookie/TLS fields + debug paths</p>
+<p class="t-act">List headers + <code>/actuator/*, /debug, /console, /.env</code>. Read <b>testssl README <code>--fast</code> row ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/testssl/testssl.sh" target="_blank" rel="noopener">testssl --fast row</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Fields + paths cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> testssl + header table + debug inventory (2 hosts, gentle)</p>
+<p class="t-act">Run <b><code>./testssl.sh --fast host:443</code> + header table (CSP/HSTS/cookies) + debug-endpoint GETs</b> on 2 hosts. Check <b>actuator auth (Week 07 bridge): mappings vs 401/403</b>.</p>
+<div class="t-links"><a href="https://github.com/testssl/testssl.sh" target="_blank" rel="noopener">testssl run</a><a href="https://book.hacktricks.xyz/pentesting-web/spring-boot-actuators" target="_blank" rel="noopener">HackTricks: actuator auth</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Table + TLS + debug results.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Debug-panel RCE + TLS-misconfig note</p>
+<p class="t-act">Read <b>1 debug-panel RCE (Django/Rails debug=true → console) + 1 TLS-misconfig (HSTS absent/weak cipher) — trigger + impact ONLY</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: debug/TLS</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: debug mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Debug + version strings are Week 07/CVE fuel — log versions here, match NVD later.</p><h4>Done-when</h4><p>2 trigger→impact notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Panel-auth checklist + version log</p>
+<p class="t-act">Checklist: endpoint × auth × data. Log versions → KEV match (no exploit).</p>
+<div class="t-links"><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV match</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklist + version log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Misconfig-impact test + gaps</p>
+<p class="t-act">Summarize how each misconfig enables a higher bug. Triage gaps.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/03-Review_Webserver_Metafiles_for_Information_Leakage" target="_blank" rel="noopener">WSTG: INFO-03 re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + table archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d5c0"><label for="w09d5c0"><b>0:00–0:15</b> — fields + paths</label></li>
+<li><input type="checkbox" id="w09d5c1"><label for="w09d5c1"><b>0:15–1:05</b> — TLS + headers + debug (gentle)</label></li>
+<li><input type="checkbox" id="w09d5c2"><label for="w09d5c2"><b>1:05–2:00</b> — 2 trigger→impact notes</label></li>
+<li><input type="checkbox" id="w09d5c3"><label for="w09d5c3"><b>2:00–2:35</b> — auth checklist + versions</label></li>
+<li><input type="checkbox" id="w09d5c4"><label for="w09d5c4"><b>2:35–3:00</b> — impacts + gaps</label></li>
+<li><input type="checkbox" id="w09d5c5"><label for="w09d5c5"><b>Proof</b> — table + logs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Headers today, shells tomorrow.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Error / info disclosure (500s + versions + comments)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · 500 = injection hint, version = CVE</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Error shapes: stack/SQL/version/path</p>
+<p class="t-act">List shapes + example strings. Read <b>WSTG INFO-05 content-review § objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/05-Review_Web_Page_Content_for_Information_Leakage" target="_blank" rel="noopener">WSTG: INFO-05</a><a href="https://portswigger.net/web-security/all-labs#information-disclosure" target="_blank" rel="noopener">All labs: info-disclosure filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 shapes + 1 example each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Forced 404/500 collection + bodies saved (lab + gentle VDP)</p>
+<p class="t-act">Force errors (<code>' " \ .. ; {{7*7}}</code> singles, observe only) on lab + 2 VDP pages. Save bodies. Note SQL/stack/version/path leaks. <b>No fuzz floods.</b></p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/05-Review_Web_Page_Content_for_Information_Leakage" target="_blank" rel="noopener">WSTG: error drill</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Error log with bodies (redacted as needed).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Stack-trace DB-leak + version→CVE RCE</p>
+<p class="t-act">Read <b>1 stack-trace (DB creds/SQL in trace) + 1 version→CVE RCE (banner → NVD → patched-version diff) — leaked string + match ONLY</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: trace/CVE</a><a href="https://nvd.nist.gov/" target="_blank" rel="noopener">NVD: version match</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>LinkedIn/X</h4><p>X: <code>"information disclosure" bug bounty triaged</code> for version-info gate debates.</p><h4>Done-when</h4><p>2 leak→match notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> HTML comments + source-maps review</p>
+<p class="t-act">Review comments + <code>.js.map</code> (Week 02 bridge) for keys/paths. Update version map → KEV.</p>
+<div class="t-links"><a href="https://github.com/GerbenJavadoop/LinkFinder" target="_blank" rel="noopener">LinkFinder: map re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Comment/map findings + version update.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Error-triage test + gaps</p>
+<p class="t-act">Recite triage (shape → leak → match → impact). Triage gaps (live hunt next).</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/01-Information_Gathering/05-Review_Web_Page_Content_for_Information_Leakage" target="_blank" rel="noopener">WSTG: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + log archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d6c0"><label for="w09d6c0"><b>0:00–0:15</b> — 4 shapes + examples</label></li>
+<li><input type="checkbox" id="w09d6c1"><label for="w09d6c1"><b>0:15–1:05</b> — 404/500 log with bodies</label></li>
+<li><input type="checkbox" id="w09d6c2"><label for="w09d6c2"><b>1:05–2:00</b> — 2 leak→match notes</label></li>
+<li><input type="checkbox" id="w09d6c3"><label for="w09d6c3"><b>2:00–2:35</b> — comments/maps + versions</label></li>
+<li><input type="checkbox" id="w09d6c4"><label for="w09d6c4"><b>2:35–3:00</b> — triage + gaps</label></li>
+<li><input type="checkbox" id="w09d6c5"><label for="w09d6c5"><b>Proof</b> — log + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Errors are free recon. Log them.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live files/secrets hunt (redacted only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · sweep order: upload → backup → JS → errors</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Sweep plan + no-PII rule recall</p>
+<p class="t-act">Write order + redaction rule (<code>***-1234</code>, no storage). Check <b>WSTG checklist INFO + BUSL-08 malicious-upload rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: INFO+BUSL-08</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Plan + rule cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Upload matrix + backup fuzz + JS re-scan (VDP, gentle)</p>
+<p class="t-act">Run Day-2 matrix (safe extensions only, no webshell on live) + Day-3 <code>ffuf -e</code> (1 small) + Day-4 JS re-scan (2 bundles). <b>Safe probes, redacted captures.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files" target="_blank" rel="noopener">PATT: safe matrix rows</a><a href="https://github.com/ffuf/ffuf" target="_blank" rel="noopener">ffuf -e gentle</a><a href="https://github.com/m4ll0k/SecretFinder" target="_blank" rel="noopener">SecretFinder re-scan</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>swagger API hidden endpoints bounty</code> if Swagger signals appear.</p><h4>Done-when</h4><p>Matrix + fuzz + re-scan logged (redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-program exposures (2, redacted)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program (upload/exposure/git/JS) 2 — vector + validation ONLY, redacted</b>. Compare your sweep gaps.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=file%20inclusion%20RCE" target="_blank" rel="noopener">H1: same-program exposure</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 vectors + gap paragraph (redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Exposure playbook + duplicate check</p>
+<p class="t-act">Update playbook (upload/backup/JS/errors). <b>Dup-check pentester.land + H1 before drafting.</b> Kill unvalidated regex hits.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: dup check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + dup result + kills.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Disclosure-ethics test + gaps to Week 10</p>
+<p class="t-act">Recite redaction + stop + 24h rules. Assign gaps (API/logic) to Week 10.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: ethics + handoff</a><a href="https://github.com/rodnt/PortSwiggerLabs" target="_blank" rel="noopener">Community: lab solutions by topic (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w09d7c0"><label for="w09d7c0"><b>0:00–0:15</b> — plan + no-PII rule</label></li>
+<li><input type="checkbox" id="w09d7c1"><label for="w09d7c1"><b>0:15–1:05</b> — matrix + fuzz + re-scan (redacted)</label></li>
+<li><input type="checkbox" id="w09d7c2"><label for="w09d7c2"><b>1:05–2:00</b> — 2 same-program vectors</label></li>
+<li><input type="checkbox" id="w09d7c3"><label for="w09d7c3"><b>2:00–2:35</b> — playbook + dup + kills</label></li>
+<li><input type="checkbox" id="w09d7c4"><label for="w09d7c4"><b>2:35–3:00</b> — ethics + gaps to W10</label></li>
+<li><input type="checkbox" id="w09d7c5"><label for="w09d7c5"><b>Proof</b> — playbook + logs (redacted)</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Redact first, ask impact later.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Redacted proofs only. No PII/secret storage. Surprise: Swagger hidden routes are Week-10 BOLA starters — export that list today.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

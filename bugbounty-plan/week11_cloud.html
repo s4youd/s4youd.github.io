@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 11 — Cloud & Takeover ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="11" data-wk="bbv2-11">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week10_api.html">← Prev</a><a class="current" href="week11_cloud.html">W11</a><a href="week12_hunt.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 11 · Cloud & Takeover ULTIMATE · 7 days × 180 min</p>
+<h1>Unlinked infra + open storage + leaked secrets.</h1>
+<p class="lede">Dangling DNS → buckets/Firebase → IAM chain (lab) → GitHub/supply (no publish) → OSINT pivots → email takeover. Benign file proof only. Read-minimal, redact, stop-and-report.</p>
+<div class="pills"><span class="tag tag--accent">benign proof only</span><span class="tag">in-scope only</span><span class="tag">ticks bbv2-11</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 12.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — Takeover fingerprints (dangling DNS done right)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · unlinked infra = takeover</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Dangling types + fingerprint idea (CNAME/NS/MX/A)</p>
+<p class="t-act">Write 4 types + <code>dig CNAME + NXDOMAIN/404</code> proof shape. Read <b>Can-I-Take-Over-XYZ fingerprints.json — S3 + CloudFront + Heroku + Azure + Fastly rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/EdOverflow/can-i-take-over-xyz" target="_blank" rel="noopener">fingerprints.json rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 types + proof shape cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> 30+ fingerprints + nuclei takeovers + subzy (scope, no claim)</p>
+<p class="t-act">Study <b>30+ service fingerprints (response strings)</b> + dry-run <b><code>nuclei -u hosts.txt -t http/takeovers/ -o take.txt</code> + <code>subzy run --targets subs.txt --hide_fails --vuln</code> on SCOPE ONLY (no claiming)</b>. <b>THM takeover Task 2–4 (gobuster vhost, blog/support clues, claim THEORY) ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/projectdiscovery/nuclei-templates/tree/main/http/takeovers" target="_blank" rel="noopener">nuclei: takeovers</a><a href="https://github.com/PentestPad/subzy" target="_blank" rel="noopener">subzy run flags</a><a href="https://tryhackme.com/room/takeover" target="_blank" rel="noopener">THM: takeover T2–4</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>subdomain takeover bug bounty methodology 2025</code> (STÖK/NahamSec).</p><h4>Done-when</h4><p>Fingerprint table + dry-run log, nothing claimed.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> resources.hackerone $500 + CloudFront Grab + Smule SendGrid</p>
+<p class="t-act">Read <b>hacktivity <code>subdomain takeover</code> (resources.* $500 pattern) + CloudFront/Grab CNAME-claim PoC + H1 #2567048 Smule (claim to mark busy) — CNAME + fingerprint + benign-fix ONLY each</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=subdomain%20takeover" target="_blank" rel="noopener">H1: takeover search</a><a href="https://hackerone.com/reports/2567048" target="_blank" rel="noopener">H1 #2567048 Smule</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports/blob/main/reports/953719.md" target="_blank" rel="noopener">H1 #953719 Webflow</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>CNAME value + NXDOMAIN/404 screenshot + benign file (never phishing/malware). Claiming to prevent abuse = mitigation, not exploit.</p><h4>Done-when</h4><p>3 PoC shapes with fix lines.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Dangling list + responsible-claim procedure card</p>
+<p class="t-act">Write card: verify → screenshot dig+body → benign file → impact (cookie/session/sibling scope) → report. <b>No destructive content, no cert abuse beyond proof.</b></p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: claim procedure</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Card + candidate list (unclaimed).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Dangling-types test + gaps</p>
+<p class="t-act">Recite 4 + proof shape. Triage gaps (buckets next).</p>
+<div class="t-links"><a href="https://github.com/EdOverflow/can-i-take-over-xyz" target="_blank" rel="noopener">fingerprints: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + list archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d1c0"><label for="w11d1c0"><b>0:00–0:15</b> — 4 types + proof shape</label></li>
+<li><input type="checkbox" id="w11d1c1"><label for="w11d1c1"><b>0:15–1:05</b> — 30+ prints + dry-runs (no claim)</label></li>
+<li><input type="checkbox" id="w11d1c2"><label for="w11d1c2"><b>1:05–2:00</b> — 3 PoC shapes + fixes</label></li>
+<li><input type="checkbox" id="w11d1c3"><label for="w11d1c3"><b>2:00–2:35</b> — claim card + candidates</label></li>
+<li><input type="checkbox" id="w11d1c4"><label for="w11d1c4"><b>2:35–3:00</b> — types recited + gaps</label></li>
+<li><input type="checkbox" id="w11d1c5"><label for="w11d1c5"><b>Proof</b> — fingerprints + log archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Screenshot dig + body before touching claim.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — S3 / GCS / Azure buckets + Firebase (read-minimal)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · open list = fast high</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> List vs read vs write + policy shapes</p>
+<p class="t-act">Define <code>ListBucketResult</code> vs GetObject vs PutObject + <code>BucketRegionalDomainName</code>. Read <b>HackTricks S3 unauthenticated-enum § list/read/write ONLY</b>.</p>
+<div class="t-links"><a href="https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-s3-unauthenticated-enum/index.html" target="_blank" rel="noopener">HackTricks: S3 unauth enum</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 levels + 2 XML markers cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> cloud_enum + naming permutes + Firebase .json (in-scope)</p>
+<p class="t-act">Run <b><code>cloud_enum -k target -m s3,gcs,azure -l mutations.txt</code> IN-SCOPE ONLY</b> + <b><code>https://app.firebaseio.com/.json</code> rules check (GET only)</b>. <b>THM awshacking101 Task 2 (S3) ONLY (lab)</b>. YT: <code>S3 bucket misconfiguration bug bounty poc</code>.</p>
+<div class="t-links"><a href="https://github.com/initstring/cloud_enum" target="_blank" rel="noopener">cloud_enum -k -m</a><a href="https://tryhackme.com/room/awshacking101" target="_blank" rel="noopener">THM: aws S3 task</a><a href="https://book.hacktricks.wiki/en/network-services-pentesting/pentesting-web/buckets/index.html" target="_blank" rel="noopener">HackTricks: buckets index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Bucket + Firebase results (list-level max).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Open Presto $5k + Eureka $500 + S3 write-test rule</p>
+<p class="t-act">Read <b>hacktivity Presto open-dashboard $5k pattern (<code>:8889</code> no-auth queries) + Eureka <code>:8761</code> info-disclosure $500 pattern — port + proof ONLY each</b>. Rule: write-test = <code>PUT poc.txt</code> then DELETE, only if policy explicitly allows + scope permits; else list-only + report.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=open%20S3%20bucket" target="_blank" rel="noopener">H1: open bucket/dashboard search</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>Odd ports (8889/8761/8080) from Week-02 ports.txt are today's targets.</p><h4>Done-when</h4><p>2 port patterns + write rule card.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Bucket checklist + data-minimization + stop rule</p>
+<p class="t-act">Write checklist (permute → list → policy → sample-one → stop). <b>One file sample max, redact, no bulk download.</b></p>
+<div class="t-links"><a href="https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-services/aws-s3-athena-and-glacier-enum.html" target="_blank" rel="noopener">HackTricks: S3/Athena enum</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklist + stop card.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> List-vs-read test + gaps</p>
+<p class="t-act">Explain with XML markers. Triage gaps (IAM next).</p>
+<div class="t-links"><a href="https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-unauthenticated-enum-access/aws-s3-unauthenticated-enum/index.html" target="_blank" rel="noopener">HackTricks: re-check levels</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + results archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d2c0"><label for="w11d2c0"><b>0:00–0:15</b> — 3 levels + markers</label></li>
+<li><input type="checkbox" id="w11d2c1"><label for="w11d2c1"><b>0:15–1:05</b> — cloud_enum + Firebase (in-scope)</label></li>
+<li><input type="checkbox" id="w11d2c2"><label for="w11d2c2"><b>1:05–2:00</b> — 2 port patterns + write rule</label></li>
+<li><input type="checkbox" id="w11d2c3"><label for="w11d2c3"><b>2:00–2:35</b> — checklist + stop card</label></li>
+<li><input type="checkbox" id="w11d2c4"><label for="w11d2c4"><b>2:35–3:00</b> — levels recited + gaps</label></li>
+<li><input type="checkbox" id="w11d2c5"><label for="w11d2c5"><b>Proof</b> — results (minimal) archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> One sample proves openness. Bulk proves ban.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — IAM / metadata / SSRF chain (lab creds only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · metadata disagree = escalation</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> IMDSv1/v2 + task-role + policy-eval basics</p>
+<p class="t-act">Recap Week-08 v1/v2 + ECS task-role endpoint + <code>role-name → creds → s3 ls</code> order. Read <b>HackTricks AWS security index § metadata ONLY</b>.</p>
+<div class="t-links"><a href="https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/" target="_blank" rel="noopener">HackTricks: AWS metadata</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html" target="_blank" rel="noopener">AWS: IMDS retrieval</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Order + 2 endpoints cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Role-cred → privilege check (lab) + over-permissive patterns</p>
+<p class="t-act">On LAB SSRF: <b>fetch role-name → creds → <code>aws s3 ls</code> read-only (lab)</b>. Note <code>*:*</code> policies (flag, don't use). <b>THM awshacking101 Task 3–4 (IAM + EC2 metadata) ONLY (lab)</b>. YT: <code>SSRF to AWS metadata IAM takeover lab</code>.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/awshacking101" target="_blank" rel="noopener">THM: IAM/metadata (lab)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Lab chain + policy note (no prod keys).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SSRF→IAM→s3-ls chain + flaws.cloud walkthrough</p>
+<p class="t-act">Do <b>flaws.cloud (first 3 levels, own env) + flaws2.cloud intro — chain order ONLY</b>. Read <b>1 SSRF→IAM→s3-ls writeup — credential-handling + stop point ONLY</b>.</p>
+<div class="t-links"><a href="http://flaws.cloud/" target="_blank" rel="noopener">flaws.cloud levels 1–3</a><a href="http://flaws2.cloud/" target="_blank" rel="noopener">flaws2.cloud intro</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Chain order + handling note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Cred rotation + severity + 24h rule</p>
+<p class="t-act">Write rotation note (keys rotate — report fast) + severity (role-name vs full creds) + 24h card.</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: chain vector</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Card saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Task-role test + gaps</p>
+<p class="t-act">Explain ECS task-role vs EC2 role. Triage gaps (supply next).</p>
+<div class="t-links"><a href="https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/" target="_blank" rel="noopener">HackTricks: re-check roles</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + chain archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d3c0"><label for="w11d3c0"><b>0:00–0:15</b> — order + endpoints</label></li>
+<li><input type="checkbox" id="w11d3c1"><label for="w11d3c1"><b>0:15–1:05</b> — lab chain + policy note</label></li>
+<li><input type="checkbox" id="w11d3c2"><label for="w11d3c2"><b>1:05–2:00</b> — flaws.cloud + chain handling</label></li>
+<li><input type="checkbox" id="w11d3c3"><label for="w11d3c3"><b>2:00–2:35</b> — rotation + severity + 24h</label></li>
+<li><input type="checkbox" id="w11d3c4"><label for="w11d3c4"><b>2:35–3:00</b> — roles recited + gaps</label></li>
+<li><input type="checkbox" id="w11d3c5"><label for="w11d3c5"><b>Proof</b> — lab chain archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Lab keys teach. Prod keys report.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — GitHub secrets + supply chain (no publish)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · lockfile tells truth</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Dork operators + confusion/typosquat mechanics</p>
+<p class="t-act">Write <code>org: filename:.env AKIA</code> + confusion (private name → public claim) + typosquat (<code>lodahs</code>). Read <b>OWASP supply-chain failures § confusion/typosquat ONLY</b>.</p>
+<div class="t-links"><a href="https://owasp.org/Top10/2025/en/0x03_A03-Software-Supply-Chain-Failures/" target="_blank" rel="noopener">OWASP: supply-chain §</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Operators + 2 mechanics cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Org dorks + SBOM/lockfile review (public, read-only)</p>
+<p class="t-act">Run dorks (read-only). Review <b><code>package-lock.json/requirements.txt/Gemfile.lock</code> + <code>package.json</code> deps (versions → KEV match, no install)</b>. Dry-run <b><code>trufflehog github --org=X --only-verified + gitleaks detect</code> on TEST data ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/trufflesecurity/trufflehog" target="_blank" rel="noopener">trufflehog org (test)</a><a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks detect (test)</a><a href="https://owasp.org/www-project-top-10-ci-cd-security-risks/" target="_blank" rel="noopener">OWASP: CI/CD risks index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Dork log + SBOM versions + dry-run.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> GitHub-secret full-access + confusion-RCE note (read, no publish)</p>
+<p class="t-act">Read <b>1 Grab-pattern secret full-access (key → read-only validation) + 1 confusion-RCE note (<code>npm view &lt;private-name&gt;</code> existence check ONLY, never publish)</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/API_Key_Leaks" target="_blank" rel="noopener">PATT: secret validation</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: confusion note</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p>Publishing confusion packages or using keys. CUT — existence check + redacted validation only.</p><h4>Done-when</h4><p>2 validation flows (no publish/use).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> No-publish rule card + namespace-squat check (safe)</p>
+<p class="t-act">Write card + check <code>npm view</code> for 3 private names (existence only). Review postinstall scripts by READING (no execution).</p>
+<div class="t-links"><a href="https://owasp.org/Top10/2025/en/0x03_A03-Software-Supply-Chain-Failures/" target="_blank" rel="noopener">OWASP: no-publish rule</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Card + 3 existence checks.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Confusion-mechanics test + gaps</p>
+<p class="t-act">Explain confusion vs typosquat with registry order. Triage gaps (OSINT next).</p>
+<div class="t-links"><a href="https://owasp.org/Top10/2025/en/0x03_A03-Software-Supply-Chain-Failures/" target="_blank" rel="noopener">OWASP: re-check mechanics</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + logs archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d4c0"><label for="w11d4c0"><b>0:00–0:15</b> — operators + mechanics</label></li>
+<li><input type="checkbox" id="w11d4c1"><label for="w11d4c1"><b>0:15–1:05</b> — dorks + SBOM + dry-run (test)</label></li>
+<li><input type="checkbox" id="w11d4c2"><label for="w11d4c2"><b>1:05–2:00</b> — 2 validation flows (no publish)</label></li>
+<li><input type="checkbox" id="w11d4c3"><label for="w11d4c3"><b>2:00–2:35</b> — rule card + 3 existence checks</label></li>
+<li><input type="checkbox" id="w11d4c4"><label for="w11d4c4"><b>2:35–3:00</b> — mechanics + gaps</label></li>
+<li><input type="checkbox" id="w11d4c5"><label for="w11d4c5"><b>Proof</b> — logs (redacted) archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Read code. Never ship malice.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — OSINT pivots (beyond cert logs)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · CT logs miss infra-signal links</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Pivot types: WHOIS/DMARC/CSP/favicon/JARM/ASN</p>
+<p class="t-act">List 6 + query shape each. Read <b>HackTricks External Recon § pivot rows ONLY</b> + <b>Censys docs hosts/certs syntax + Shodan filters/docs headings ONLY</b>.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/generic-methodologies-and-resources/external-recon-methodology/index.html" target="_blank" rel="noopener">HackTricks: pivots</a><a href="https://search.censys.io/docs" target="_blank" rel="noopener">Censys: query syntax</a><a href="https://developer.shodan.io/" target="_blank" rel="noopener">Shodan: filters</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>6 pivots + 1 query each cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Sibling + alt-TLD + cert-org + favicon-hash on 1 org (passive)</p>
+<p class="t-act">Pivot <b>reverse-WHOIS + DMARC + CSP <code>report-uri</code> hosts + <code>http.favicon.hash:</code> + JARM (passive queries, no scan)</b>. <b>THM redteamrecon Task 3–6 (advanced/search-engines/recon-ng/maltego) + THM shodan Task 1–3 (what/filters/CLI) ONLY</b>. YT: <code>shodan censys subdomain enumeration bug bounty</code>.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/redteamrecon" target="_blank" rel="noopener">THM: redteamrecon T3–6</a><a href="https://tryhackme.com/room/shodan" target="_blank" rel="noopener">THM: shodan T1–3</a><a href="https://search.censys.io/" target="_blank" rel="noopener">Censys: cert pivot</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Accounts: @Gwendallecoguic @projectdiscovery for pivot threads.</p><h4>Done-when</h4><p>Sibling list + ASN expand + 3 pivot hits.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Sibling-RCE via shared infra + favicon-pivot cases</p>
+<p class="t-act">Read <b>1 sibling-RCE (shared cookie/session/infra) + 1 favicon-hash infra-find — pivot query + shared surface ONLY each</b>.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: sibling/favicon</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Sibling + shared session = Week-03 authz on a host you found via favicon. Recon and authz compose.</p><h4>Done-when</h4><p>2 pivot→surface notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> ASN expand + favicon hashes + reverse-CSP note</p>
+<p class="t-act">Consolidate ranges + hashes + CSP-discovered hosts into infra map.</p>
+<div class="t-links"><a href="https://www.shodan.io/docs" target="_blank" rel="noopener">Shodan: docs re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Infra map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Reverse-CSP test + gaps</p>
+<p class="t-act">Explain CSP → host discovery in 3 lines. Triage gaps (email next).</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/generic-methodologies-and-resources/external-recon-methodology/index.html" target="_blank" rel="noopener">HackTricks: re-check CSP pivot</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d5c0"><label for="w11d5c0"><b>0:00–0:15</b> — 6 pivots + queries</label></li>
+<li><input type="checkbox" id="w11d5c1"><label for="w11d5c1"><b>0:15–1:05</b> — sibling/alt-TLD/cert/favicon (passive)</label></li>
+<li><input type="checkbox" id="w11d5c2"><label for="w11d5c2"><b>1:05–2:00</b> — 2 pivot→surface notes</label></li>
+<li><input type="checkbox" id="w11d5c3"><label for="w11d5c3"><b>2:00–2:35</b> — infra map (ASN/hash/CSP)</label></li>
+<li><input type="checkbox" id="w11d5c4"><label for="w11d5c4"><b>2:35–3:00</b> — reverse-CSP + gaps</label></li>
+<li><input type="checkbox" id="w11d5c5"><label for="w11d5c5"><b>Proof</b> — pivots + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> One favicon finds a fleet.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Email posture + SMTP takeover paths</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · mail trust = ATO path</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> SPF/DKIM/DMARC + header-injection points</p>
+<p class="t-act">Write record roles (<code>v=spf1, _dmarc, selector._domainkey</code>) + injection via <code>From/Subject</code> CRLF. Read <b>Google DMARC guidance § policy rows (none/quarantine/reject) ONLY</b>.</p>
+<div class="t-links"><a href="https://support.google.com/a/answer/10032169" target="_blank" rel="noopener">Google: DMARC policies</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 records + 2 injection points cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> DNS audit + safe spoof-ability (read-only)</p>
+<p class="t-act">Audit <b><code>dig TXT + _dmarc + selector</code> on 3 domains (passive DNS)</b>. Assess <code>p=none</code> vs reject. <b>No actual spoof sends — read-only + safe reset-mail header test (own accounts).</b> YT: <code>SMTP takeover SPF DKIM DMARC bug bounty</code>.</p>
+<div class="t-links"><a href="https://support.google.com/a/answer/10032169" target="_blank" rel="noopener">Google: audit rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Audit table (3 domains × 3 records + policy).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> SMTP-takeover chain + DKIM-bypass note</p>
+<p class="t-act">Read <b>1 SMTP-takeover (unclaimed SendGrid/Mailgun/Zoho MX → inbound control, Smule #2567048 bridge) + 1 DKIM replay/bypass note — claimed service + mail-flow impact ONLY each</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/2567048" target="_blank" rel="noopener">H1 #2567048: mail CNAME</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: DKIM note</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>SMTP takeover account</code> for MX-claim threads.</p><h4>Done-when</h4><p>2 mail-flow notes with impact gate (phish vs ATO).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Mail-takeover flow review (token delivery path)</p>
+<p class="t-act">Map reset-token email path (sender → MTA → inbox). Note header-injection → token-theft handoff (Week 04 bridge).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: mail flow</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Flow + handoff noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> DMARC-policy test + gaps</p>
+<p class="t-act">Read 3 policies cold (none/quarantine/reject + pct). Triage gaps (live infra next).</p>
+<div class="t-links"><a href="https://support.google.com/a/answer/10032169" target="_blank" rel="noopener">Google: re-check policies</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + audit archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d6c0"><label for="w11d6c0"><b>0:00–0:15</b> — 3 records + injections</label></li>
+<li><input type="checkbox" id="w11d6c1"><label for="w11d6c1"><b>0:15–1:05</b> — 3-domain audit (read-only)</label></li>
+<li><input type="checkbox" id="w11d6c2"><label for="w11d6c2"><b>1:05–2:00</b> — 2 mail-flow notes + gate</label></li>
+<li><input type="checkbox" id="w11d6c3"><label for="w11d6c3"><b>2:00–2:35</b> — token-path handoff</label></li>
+<li><input type="checkbox" id="w11d6c4"><label for="w11d6c4"><b>2:35–3:00</b> — policies + gaps</label></li>
+<li><input type="checkbox" id="w11d6c5"><label for="w11d6c5"><b>Proof</b> — audit + flows archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> <code>p=none</code> is an invitation. Read, don't send.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live infra hunt (ASN → takeover → buckets → dorks)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · new assets outrank old</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Sweep order + new-asset rule recall</p>
+<p class="t-act">Order: ASN → takeover → buckets → dorks → pivots → mail. Newest-30-days first. Check <b>HuntBook infra order headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: infra order</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Order recited.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Takeover + bucket + exposure sweep (VDP, gentle)</p>
+<p class="t-act">Run <b><code>subzy --hide_fails --vuln</code> + <code>nuclei -t http/takeovers/</code> + in-scope cloud_enum + dorks (read-only)</b> on VDP. <b>Benign evidence only, no claiming beyond screenshot proof, no bulk downloads.</b></p>
+<div class="t-links"><a href="https://github.com/PentestPad/subzy" target="_blank" rel="noopener">subzy sweep</a><a href="https://github.com/projectdiscovery/nuclei-templates/tree/main/http/takeovers" target="_blank" rel="noopener">nuclei: takeovers sweep</a><a href="https://github.com/initstring/cloud_enum" target="_blank" rel="noopener">cloud_enum sweep</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Sweep logs (benign, redacted).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> New-subdomain bug patterns (2)</p>
+<p class="t-act">Read <b>hacktivity <code>subdomain takeover</code> 2 recent (fingerprint + benign PoC) — pattern ONLY</b>. Compare your diff gaps (Week-02 baseline).</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=subdomain%20takeover" target="_blank" rel="noopener">H1: recent takeovers</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 patterns + diff-gap paragraph.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Infra playbook update + diff workflow (daily)</p>
+<p class="t-act">Update playbook + set <b>daily <code>subfinder + dnsx + nuclei takeovers</code> diff (cron/manual)</b>. Add Censys-certs + favicon + mail checks.</p>
+<div class="t-links"><a href="https://search.censys.io/" target="_blank" rel="noopener">Censys: daily certs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Playbook + diff job defined.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Infra-triage test + gaps to Week 12</p>
+<p class="t-act">Recite triage (takeover → bucket → secret → pivot → mail). Assign gaps (LLM/mobile/pollution) to Week 12.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage + handoff</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + archive + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w11d7c0"><label for="w11d7c0"><b>0:00–0:15</b> — order + new-asset rule</label></li>
+<li><input type="checkbox" id="w11d7c1"><label for="w11d7c1"><b>0:15–1:05</b> — sweep logs (benign, redacted)</label></li>
+<li><input type="checkbox" id="w11d7c2"><label for="w11d7c2"><b>1:05–2:00</b> — 2 recent patterns + diff gap</label></li>
+<li><input type="checkbox" id="w11d7c3"><label for="w11d7c3"><b>2:00–2:35</b> — playbook + daily diff</label></li>
+<li><input type="checkbox" id="w11d7c4"><label for="w11d7c4"><b>2:35–3:00</b> — triage + gaps to W12</label></li>
+<li><input type="checkbox" id="w11d7c5"><label for="w11d7c5"><b>Proof</b> — sweep + playbook archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Automate the diff. Hunt the delta.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Benign PoC only. No destructive claims, no bulk downloads, no published secrets. Surprise: flaws.cloud + Censys + favicon today are the cheapest criticals left in the program.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

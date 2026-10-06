@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 12 — Modern + Hunt ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="12" data-wk="bbv2-12">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week11_cloud.html">← Prev</a><a class="current" href="week12_hunt.html">W12</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 12 · Modern + Hunt CAPSTONE · 7 days × 180 min</p>
+<h1>LLM, mobile, pollution — then chain, triage, get paid.</h1>
+<p class="lede">Direct + indirect prompt injection, RAG poison, agent perms → mobile gaps → pollution gadgets → DOM/misc/brute → chaining masterclass → triage/CVSS/report → live paid hunt + 30-60-90. In-scope AI/mobile only, repro + impact + remediation every report.</p>
+<div class="pills"><span class="tag tag--accent">capstone</span><span class="tag">chain low→critical</span><span class="tag">ticks bbv2-12</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Program complete — all 12 weeks ticked. Hunt live, report clean.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — LLM / RAG / agent security (direct + indirect)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · model reads attacker content = injection</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> OWASP LLM shapes: direct/indirect/RAG/agent perms</p>
+<p class="t-act">Define 4 + risk each. Read <b>OWASP LLM Top 10 2025 (LLM01 injection + LLM08 vector/RAG) summaries + Agentic 2026 ASI01 tool-abuse/excessive-agency summaries ONLY</b>.</p>
+<div class="t-links"><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025" target="_blank" rel="noopener">OWASP: LLM01+LLM08</a><a href="https://genai.owasp.org/llm-top-10-for-agentic-applications-2026/" target="_blank" rel="noopener">OWASP: ASI01 agency</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 shapes + 1 risk each cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> PortSwigger Web LLM labs: prompt → tool → exfil (lab)</p>
+<p class="t-act">Do <b>PortSwigger LLM labs (excessive-agency + indirect injection + insecure output handling) IN ORDER (lab)</b>. Chain: prompt → tool call → output → OOB. YT: <code>PortSwigger LLM attacks indirect prompt injection lab</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/llm-attacks/lab-exploiting-llm-apis-with-excessive-agency" target="_blank" rel="noopener">Lab: excessive agency first</a><a href="https://portswigger.net/web-security/all-labs#web-llm-attacks" target="_blank" rel="noopener">All labs: LLM filter</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Prompt→tool→exfil chain (lab) + tool-perm note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Tool-output exfil OOB + RAG-poison persist + ASCII/tag smuggle</p>
+<p class="t-act">Test <b>image-markdown <code>![x](http://CB/x)</code> OOB + ASCII/Unicode tag smuggle + system-prompt leak probe + IDOR-via-AI (cross-tenant doc) + RAG doc-poison persist (lab, own corpus)</b>. Read <b>OWASP agentic threats § tool-output/RAG rows ONLY</b>. X: <code>LLM prompt injection bounty</code>.</p>
+<div class="t-links"><a href="https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025" target="_blank" rel="noopener">OWASP: tool/RAG rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>False-positive gate: confabulation ≠ vuln. Require OOB callback or cross-tenant doc proof — else kill.</p><h4>Done-when</h4><p>OOB proof + poison-persist demo (lab) + gate note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Prompt matrix: direct/indirect/tenant/RAG/agent + perms</p>
+<p class="t-act">Build matrix + agent-permission audit (read vs write vs exec tools). Note tenant isolation (IDOR-via-AI).</p>
+<div class="t-links"><a href="https://genai.owasp.org/llm-top-10-for-agentic-applications-2026/" target="_blank" rel="noopener">OWASP: agent perms</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix + perm audit saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Direct-vs-indirect test + FP gate + gaps</p>
+<p class="t-act">Distinguish + apply FP gate to 1 candidate (kill or keep with proof). Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/llm-attacks" target="_blank" rel="noopener">PortSwigger: re-check shapes</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + gate applied + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d1c0"><label for="w12d1c0"><b>0:00–0:15</b> — 4 LLM shapes + risks</label></li>
+<li><input type="checkbox" id="w12d1c1"><label for="w12d1c1"><b>0:15–1:05</b> — 3 labs + tool chain</label></li>
+<li><input type="checkbox" id="w12d1c2"><label for="w12d1c2"><b>1:05–2:00</b> — OOB + poison + FP gate</label></li>
+<li><input type="checkbox" id="w12d1c3"><label for="w12d1c3"><b>2:00–2:35</b> — matrix + perm audit</label></li>
+<li><input type="checkbox" id="w12d1c4"><label for="w12d1c4"><b>2:35–3:00</b> — shapes + gate + gaps</label></li>
+<li><input type="checkbox" id="w12d1c5"><label for="w12d1c5"><b>Proof</b> — chain + matrix archived</label></li>
+<li><input type="checkbox" id="w12d1c6"><label for="w12d1c6"><b>Gate</b> — 1 FP kill/keep logged</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> No OOB/cross-tenant proof = no LLM finding.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Mobile API gaps (web fixes the mobile missed)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · lab devices only for runtime</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Mobile gaps: pinning/storage/deeplink/version-lag</p>
+<p class="t-act">List 4 + test idea each. Read <b>OWASP MASVS storage/network/auth headings + HackTricks Android pentesting § storage/deeplink ONLY</b>.</p>
+<div class="t-links"><a href="https://mas.owasp.org/" target="_blank" rel="noopener">OWASP MASVS headings</a><a href="https://book.hacktricks.wiki/en/mobile-pentesting/android-pentesting/" target="_blank" rel="noopener">HackTricks: Android rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>4 gaps + ideas cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Pinning-bypass theory + token-storage + deeplink (lab)</p>
+<p class="t-act">Study <b><code>objection -g com.app explore --startup-command 'android sslpinning disable'</code> + <code>frida -U -f com.app -l pinning.js</code> patterns (lab device ONLY)</b> + <b>THM androidhacking101 Task 2 (APKTool/Jadx static) + Task 4 (Frida) ONLY</b>. Review token storage (SharedPrefs/Keychain) + <code>app://</code> params (lab app).</p>
+<div class="t-links"><a href="https://github.com/sensepost/objection" target="_blank" rel="noopener">objection: pinning disable</a><a href="https://github.com/frida/frida" target="_blank" rel="noopener">frida: pinning script</a><a href="https://tryhackme.com/room/androidhacking101" target="_blank" rel="noopener">THM: android T2+T4</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>objection frida SSL pinning bypass IDOR</code>.</p><h4>Done-when</h4><p>Patterns + storage/deeplink notes (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Grab deeplink leak + pinning-bypass IDOR</p>
+<p class="t-act">Read <b>1 Grab deeplink sensitive-leak (token in <code>app://</code> logged) + 1 pinning-bypass→IDOR (mobile misses web fix) — leaked field + version-gap ONLY each</b>.</p>
+<div class="t-links"><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: deeplink/pinning mirror</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: mobile API</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 field+gap notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Mobile-vs-web version diff map</p>
+<p class="t-act">Map mobile API vs web API (version/authz delta). Note web-fixed-but-mobile-open candidates.</p>
+<div class="t-links"><a href="https://mas.owasp.org/" target="_blank" rel="noopener">MASVS: version-diff rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Diff map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Deeplink-risk test + gaps</p>
+<p class="t-act">Explain token-via-deeplink risk + log exposure. Triage gaps.</p>
+<div class="t-links"><a href="https://book.hacktricks.wiki/en/mobile-pentesting/android-pentesting/" target="_blank" rel="noopener">HackTricks: re-check deeplink</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d2c0"><label for="w12d2c0"><b>0:00–0:15</b> — 4 gaps + ideas</label></li>
+<li><input type="checkbox" id="w12d2c1"><label for="w12d2c1"><b>0:15–1:05</b> — pinning/storage/deeplink (lab)</label></li>
+<li><input type="checkbox" id="w12d2c2"><label for="w12d2c2"><b>1:05–2:00</b> — 2 field+gap notes</label></li>
+<li><input type="checkbox" id="w12d2c3"><label for="w12d2c3"><b>2:00–2:35</b> — mobile-vs-web diff map</label></li>
+<li><input type="checkbox" id="w12d2c4"><label for="w12d2c4"><b>2:35–3:00</b> — deeplink recited + gaps</label></li>
+<li><input type="checkbox" id="w12d2c5"><label for="w12d2c5"><b>Proof</b> — notes + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Diff the clients, hunt the lag.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — Prototype pollution + DOM gadgets</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · pollution needs gadget to pay</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> __proto__/constructor/gadget idea</p>
+<p class="t-act">Write <code>?__proto__[x]=polluted + constructor.prototype</code> + gadget (XSS/RCE sink). Read <b>PortSwigger pollution topic § pollute→gadget ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/prototype-pollution" target="_blank" rel="noopener">PortSwigger: pollute→gadget</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Shapes + gadget idea cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Pollute → gadget → XSS (lab)</p>
+<p class="t-act">Do <b>PortSwigger pollution labs (client-side pollute→DOM XSS + browser-API gadget) + THM xss Task 5 revisit (DOM) ONLY</b>. Test <code>__proto__</code> then gadget trigger (lab). YT: <code>prototype pollution to XSS exploit 2025</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/prototype-pollution" target="_blank" rel="noopener">PortSwigger: pollution labs</a><a href="https://portswigger.net/web-security/all-labs#prototype-pollution" target="_blank" rel="noopener">All labs: pollution filter (browser APIs first)</a><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: DOM gadgets</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Pollution + gadget + XSS chain (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Pollution→XSS chain + gadget-RCE note</p>
+<p class="t-act">Read <b>1 pollution→XSS (query→proto→sink) + 1 Node gadget-RCE note (server-side impact) — polluted key + gadget ONLY each</b>. X: <code>prototype pollution XSS bounty</code>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=prototype%20pollution" target="_blank" rel="noopener">H1: pollution search</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: gadget RCE</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Stacks</h4><p>Node/Express + jQuery/Lodash merge = gadget farm. Week-07 JS notes apply here.</p><h4>Done-when</h4><p>2 key→gadget notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Gadget map + server-impact note</p>
+<p class="t-act">Map client gadgets (DOM) + server gadgets (Node). Note CSP/probe bypass via gadget.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/prototype-pollution" target="_blank" rel="noopener">PortSwigger: gadget rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Map saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Gadget-idea test + gaps</p>
+<p class="t-act">Explain your best gadget end-to-end. Triage gaps (DOM/misc next).</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: DOM re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + map archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d3c0"><label for="w12d3c0"><b>0:00–0:15</b> — shapes + gadget idea</label></li>
+<li><input type="checkbox" id="w12d3c1"><label for="w12d3c1"><b>0:15–1:05</b> — pollute→gadget→XSS (lab)</label></li>
+<li><input type="checkbox" id="w12d3c2"><label for="w12d3c2"><b>1:05–2:00</b> — 2 key→gadget notes</label></li>
+<li><input type="checkbox" id="w12d3c3"><label for="w12d3c3"><b>2:00–2:35</b> — gadget map + impact</label></li>
+<li><input type="checkbox" id="w12d3c4"><label for="w12d3c4"><b>2:35–3:00</b> — gadget recited + gaps</label></li>
+<li><input type="checkbox" id="w12d3c5"><label for="w12d3c5"><b>Proof</b> — chain + map archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> No gadget = no bounty. Find the sink first.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — DOM / misc / brute-force sweep (225-report patterns)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · misc = access-control in disguise</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> DOM sinks + misc patterns + brute math</p>
+<p class="t-act">List sinks (clobber/postMessage/SW) + misc (soft-delete/invite/SAML/ReDoS) + OTP 10^6 math. Read <b>PortSwigger DOM § sinks + AnukarOP index headings ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: DOM sinks</a><a href="https://github.com/AnukarOP/Web-Vulnerabilities" target="_blank" rel="noopener">AnukarOP: 27 index</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 lists cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Clobber/postMessage/SW + SAML replay drills (lab)</p>
+<p class="t-act">Drill <b>DOM clobber + postMessage origin + service-worker abuse + SAML replay (SAMLRaider revisit) on LAB ONLY</b> per <b>HackTricks postMessage § + PortSwigger DOM-clobber lab ONLY</b>.</p>
+<div class="t-links"><a href="https://book.hacktricks.xyz/pentesting-web/postmessage-vulnerabilities" target="_blank" rel="noopener">HackTricks: postMessage drills</a><a href="https://portswigger.net/web-security/dom-based" target="_blank" rel="noopener">PortSwigger: clobber lab</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>DOM clobbering account takeover poc</code>.</p><h4>Done-when</h4><p>4 drills logged (lab).</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> DOM-clobber ATO + invite-bypass priv-esc</p>
+<p class="t-act">Read <b>1 DOM-clobber ATO + 1 invite-bypass (token reuse → admin) — clobbered node / reused token ONLY each</b>. X: <code>DOM clobbering ATO</code> + <code>invite bypass privilege escalation</code>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=DOM%20XSS" target="_blank" rel="noopener">H1: DOM XSS search</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: invite bypass</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 node/token notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Soft-delete/invite/SAML/ReDoS sweep (lab + gentle VDP reads)</p>
+<p class="t-act">Sweep <b>deleted-object access + invite reuse + SAML replay + ReDoS regex timing (single request, baseline)</b>. <b>PATT Account Takeover + SecLists 10-line brute-math demo (lab)</b>. <b>H1 <code>rate limit OTP</code> search for brute-gate lesson.</b></p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Account_Takeover" target="_blank" rel="noopener">PATT: misc/account rows</a><a href="https://hackerone.com/hacktivity?query=rate%20limit%20OTP" target="_blank" rel="noopener">H1: OTP rate search</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Sweep log with keep/kill per pattern.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Misc-triage test + gaps</p>
+<p class="t-act">Judge 3 misc candidates (pay/N/A + reason). Triage gaps (chaining next).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: misc triage</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Judged + sweep archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d4c0"><label for="w12d4c0"><b>0:00–0:15</b> — 3 lists (sinks/misc/math)</label></li>
+<li><input type="checkbox" id="w12d4c1"><label for="w12d4c1"><b>0:15–1:05</b> — 4 drills (lab)</label></li>
+<li><input type="checkbox" id="w12d4c2"><label for="w12d4c2"><b>1:05–2:00</b> — 2 node/token notes</label></li>
+<li><input type="checkbox" id="w12d4c3"><label for="w12d4c3"><b>2:00–2:35</b> — sweep log + keep/kill</label></li>
+<li><input type="checkbox" id="w12d4c4"><label for="w12d4c4"><b>2:35–3:00</b> — triage + gaps</label></li>
+<li><input type="checkbox" id="w12d4c5"><label for="w12d4c5"><b>Proof</b> — drills + sweep archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Misc patterns are just authz you haven't mapped.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — Chaining masterclass (low → critical)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · chain turns duplicates into criticals</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> 3 chain shapes: XSS→ATO, SSRF→cloud, self-XSS→CSRF</p>
+<p class="t-act">Diagram handoffs (cookie/session, role-creds/s3-ls, frameless-CSRF→stored). Read <b>HuntBook Phase-4 chains headings ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: chain shapes</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 diagrams cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Build 3 chains on labs (minimal PoCs)</p>
+<p class="t-act">Build <b>XSS→session-theft→account-action + SSRF→role→s3-ls + self-XSS→CSRF→stored (lab, minimal requests)</b>. Trim each to fewest steps. YT: <code>bug bounty chaining low to critical methodology</code>. X: <code>chaining XSS ATO writeup</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/all-labs" target="_blank" rel="noopener">PortSwigger: chain labs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 minimal PoCs + handoff labels.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> XSS→ATO + SSRF→cloud full chains (handoff study)</p>
+<p class="t-act">Read <b>PATT Account Takeover 1 XSS→ATO + 1 SSRF→cloud — handoff request + impact delta ONLY each</b>. Note CVSS jump (low→high/critical).</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Account_Takeover" target="_blank" rel="noopener">PATT: chain handoffs</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: full chains</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 handoffs + delta vectors.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Severity-escalation worksheet per chain</p>
+<p class="t-act">Score before/after per chain via <b>first.org calculator base ONLY</b>. Note which link in chain carries the severity.</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: chain vectors</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: chain bounty uplift</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Triage pays for the strongest link, not the longest chain. One critical handoff beats five lows.</p><h4>Done-when</h4><p>Worksheet with 3 deltas.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Chain-value test + gaps</p>
+<p class="t-act">Explain why each chain pays more than parts. Triage gaps (triage/report next).</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: chain value</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + worksheet archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d5c0"><label for="w12d5c0"><b>0:00–0:15</b> — 3 chain diagrams</label></li>
+<li><input type="checkbox" id="w12d5c1"><label for="w12d5c1"><b>0:15–1:05</b> — 3 minimal PoCs (lab)</label></li>
+<li><input type="checkbox" id="w12d5c2"><label for="w12d5c2"><b>1:05–2:00</b> — 2 handoffs + deltas</label></li>
+<li><input type="checkbox" id="w12d5c3"><label for="w12d5c3"><b>2:00–2:35</b> — escalation worksheet</label></li>
+<li><input type="checkbox" id="w12d5c4"><label for="w12d5c4"><b>2:35–3:00</b> — value recited + gaps</label></li>
+<li><input type="checkbox" id="w12d5c5"><label for="w12d5c5"><b>Proof</b> — chains + vectors archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Hunt handoffs, not vulnerabilities.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Triage + CVSS + report (write like triage reads)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · one wrong gate = kill + move on</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Kill-fast gates + CVSS base metrics</p>
+<p class="t-act">Write gates (repro? impact? scope? dup? minimal proof?) + base metrics (AV/AC/PR/UI/S/CIA). Read <b>HuntBook triage-gate headings + first.org metric defs ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage gate</a><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: base defs</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Gates + metrics cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Gate 3 old candidates + kill reasons</p>
+<p class="t-act">Pull 3 prior candidates. Gate each: keep (report) or kill (reason: self-only/dup/no-impact/unrepro). Log kills with one line each.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: gate drill</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: kill examples</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 gated + kill log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Accepted vs N/A pair + duplicate-avoidance drill</p>
+<p class="t-act">Read <b>H1 hacktivity 1 accepted + 1 N/A same class (takeover/XSS/IDOR) — decision reason ONLY each</b> + <b>dup-check: same-program hacktivity + pentester.land + bugpedia before drafting (3 searches, screenshot queries)</b>. X: @corb3nik @rez0__ for triage threads.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: accepted vs N/A</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: dup check</a><a href="https://termireum.github.io/bugpedia" target="_blank" rel="noopener">bugpedia: dup check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common N/A</h4><p>Known fingerprints without PoC, self-XSS, theoretical jailbreak without exfil, version-info without match.</p><h4>Done-when</h4><p>Pair notes + 3 dup screenshots.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> 2 full reports: repro + impact + remediation + CVSS</p>
+<p class="t-act">Write 2 reports in <b>AnukarOP playbook structure (repro steps + request + impact + CVSS + fix) + PATT business-logic/account-takeover remediation quotes ONLY</b>. Evidence hygiene: redacted transcripts, URL+timestamp shots, no cookie/PII.</p>
+<div class="t-links"><a href="https://github.com/AnukarOP/Web-Vulnerabilities" target="_blank" rel="noopener">AnukarOP: report structure</a><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: score both</a><a href="https://github.com/rodnt/PortSwiggerLabs" target="_blank" rel="noopener">Community: lab solutions by topic (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 reports + 2 vectors, triage-ready.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Kill-rules test + gaps</p>
+<p class="t-act">Recite gates. Assign report backlog to Day 7 hunt.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: kill rules</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + reports archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d6c0"><label for="w12d6c0"><b>0:00–0:15</b> — gates + metrics</label></li>
+<li><input type="checkbox" id="w12d6c1"><label for="w12d6c1"><b>0:15–1:05</b> — 3 gated + kill log</label></li>
+<li><input type="checkbox" id="w12d6c2"><label for="w12d6c2"><b>1:05–2:00</b> — pair + 3 dup screenshots</label></li>
+<li><input type="checkbox" id="w12d6c3"><label for="w12d6c3"><b>2:00–2:35</b> — 2 reports + vectors (hygiene)</label></li>
+<li><input type="checkbox" id="w12d6c4"><label for="w12d6c4"><b>2:35–3:00</b> — gates recited + backlog to D7</label></li>
+<li><input type="checkbox" id="w12d6c5"><label for="w12d6c5"><b>Proof</b> — gates + reports archived</label></li>
+<li><input type="checkbox" id="w12d6c6"><label for="w12d6c6"><b>Hygiene</b> — redacted, no PII/cookies</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Triage reads fast. Write faster.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live paid hunt + 30-60-90 plan</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · newest 30 days = least tested</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Hunt order: authz → fetch → logic, newest first</p>
+<p class="t-act">Write order + changelog/new-endpoint priority rule. Pick <b>1 VDP + 1 wide-scope paid (H1 directory filter: cloud/internet, wildcard) for today</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/directory/programs" target="_blank" rel="noopener">H1: directory (VDP + paid)</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: hunt order</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Order + 2 programs picked.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Compressed hunt: recon→pollution/DOM/RAG checklist (log everything)</p>
+<p class="t-act">Run <b>authz→fetch→logic + Day-1 RAG + Day-3 pollution quick-pass on newest endpoints (gentle, in-scope)</b>. Log every request (history on). <b>TBHM recon bullets + JHaddix mapping order as checklist.</b></p>
+<div class="t-links"><a href="https://github.com/jhaddix/tbhm" target="_blank" rel="noopener">TBHM: hunt checklist</a><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: compressed hunt</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>LinkedIn</h4><p>Search <code>LLM security researcher prompt injection</code> / <code>mobile penetration tester Frida</code> for target-stack threads (motivation only).</p><h4>Done-when</h4><p>Hunt log with coverage + candidates.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-program disclosed patterns (hunt with answers)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program (pollution/DOM/LLM/OTP) 2 — pattern ONLY</b>. Re-test those patterns first on newest code.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=prototype%20pollution" target="_blank" rel="noopener">H1: pollution patterns</a><a href="https://hackerone.com/hacktivity?query=LLM%20injection" target="_blank" rel="noopener">H1: LLM patterns</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: same-program</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 patterns re-tested + result.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Reports sent + 30-60-90 + private-invite track</p>
+<p class="t-act">Send/finalize reports (Day-6 template). Write <b>30d (triage/report muscle, VDPs) → 60d (chaining, 1 paid) → 90d (paid hunt, invite track via quality VDP reports)</b>. Note rotation hygiene (keys/certs redacted, sessions rotated).</p>
+<div class="t-links"><a href="https://hackerone.com/directory/programs" target="_blank" rel="noopener">H1: invite-track programs</a><a href="https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters" target="_blank" rel="noopener">NahamSec: invite track</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Surprise</h4><p>Private invites come from clean VDP reports, not loud paid spraying. Your Week-04/06/12 drafts are the portfolio.</p><h4>Done-when</h4><p>Reports + plan + hygiene logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Where-bugs-live test + program complete</p>
+<p class="t-act">Answer: newest-30-days + least-tested surface + your next 3 targets. Confirm <b>all 12 weeks ticked (index → each week %)</b>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: continuation</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Answered + 3 targets + program % confirmed.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w12d7c0"><label for="w12d7c0"><b>0:00–0:15</b> — order + 2 programs picked</label></li>
+<li><input type="checkbox" id="w12d7c1"><label for="w12d7c1"><b>0:15–1:05</b> — compressed hunt log</label></li>
+<li><input type="checkbox" id="w12d7c2"><label for="w12d7c2"><b>1:05–2:00</b> — 2 patterns re-tested</label></li>
+<li><input type="checkbox" id="w12d7c3"><label for="w12d7c3"><b>2:00–2:35</b> — reports + 30-60-90 + hygiene</label></li>
+<li><input type="checkbox" id="w12d7c4"><label for="w12d7c4"><b>2:35–3:00</b> — where-bugs-live + 3 targets</label></li>
+<li><input type="checkbox" id="w12d7c5"><label for="w12d7c5"><b>Proof</b> — hunt log + plan archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Paid hunt is Week 01–11 executed in 90 minutes.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">AI/mobile in-scope only. Reports carry repro + impact + remediation + CVSS. Surprise: your FP gate (Day 1) + kill log (Day 6) are what separate paid hunters from reporters.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>

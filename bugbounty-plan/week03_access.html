@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 03 — Access Control ULTIMATE · sayed_</title>
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/plan.css">
+</head>
+<body data-week="03" data-wk="bbv2-03">
+<nav class="site-nav"><div class="inner">
+<a class="brand" href="index.html"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+<div class="nav-links">
+<a href="/index.html">Posts</a>
+<a href="/about.html">About</a>
+<a href="/keendork/keendork.html">Dorks</a>
+<a href="/bugbounty-plan/index.html">Plan</a>
+<a href="week02_recon.html">← Prev</a><a class="current" href="week03_access.html">W03</a><a href="week04_auth.html">Next →</a>
+</div>
+<div class="weekprog"><span id="pct">0%</span><div class="bar"><i id="bar"></i></div><button class="navbtn" id="expandBtn" onclick="toggleExpandAll()">Expand</button><button class="navbtn" onclick="resetWeek()">Reset</button></div>
+</div></nav>
+<main class="main"><div class="wrap">
+<header class="hero">
+<p class="kicker">Week 03 · Access Control ULTIMATE · 7 days × 180 min</p>
+<h1>Two accounts. Every object. Highest bounty-per-effort.</h1>
+<p class="lede">BOLA → BFLA → 403 bypass → traversal → API excessive-data → chaining + CVSS. Autorize always on. Numeric today, UUID analysis tomorrow, impact boundary always.</p>
+<div class="pills"><span class="tag tag--accent">A/B replay habit</span><span class="tag">Autorize on</span><span class="tag">ticks bbv2-03</span></div>
+</header>
+<div class="done-banner" id="doneBanner">🎉 Week complete — all boxes ticked. Move to Week 04.</div>
+
+<div class="day" id="day-1" data-day="1">
+<button class="day-head" onclick="toggleDay('day-1')"><span>Day 1 — IDOR horizontal BOLA, two-account replays</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-1">
+<div class="timer">Real 180 min · A owns, B steals</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> BOLA vs BFLA vs mass-assignment + replay harness sketch</p>
+<p class="t-act">Write defs, then read <b>WSTG ATHZ-04 IDOR § test objectives + how-to-test ONLY</b> + <b>HackTricks IDOR § Identifying Potential IDORs ONLY</b>. Sketch harness: A-cookie jar, B-cookie jar, Repeater tabs labeled.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/04-Testing_for_Insecure_Direct_Object_References" target="_blank" rel="noopener">WSTG: ATHZ-04</a><a href="https://hacktricks.wiki/en/pentesting-web/idor.html" target="_blank" rel="noopener">HackTricks: IDOR identify</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>BOLA = horizontal (A→B same role), BFLA = vertical (user→admin), mass-assignment = extra field. Harness = two profiles + Autorize.</p><h4>Done-when</h4><p>Defs + harness sketched.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> PortSwigger labs 1–4 in order: unprotected function → role-cookie → user-id → chat-log IDOR</p>
+<p class="t-act">Do <b>lab-unprotected-admin-functionality (/robots→/admin→delete carlos) + lab-user-role-controlled-by-request-parameter (Admin=false→true) + lab-user-id-controlled-by-request-parameter (id swap→API key) + lab-insecure-direct-object-references (chat static URL→carlos pwd) — IN ORDER, no skipping</b>. <b>Autorize ON (Enforcement Detector, Intercept=false)</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality" target="_blank" rel="noopener">Lab 1: unprotected function</a><a href="https://portswigger.net/web-security/access-control/lab-user-role-controlled-by-request-parameter" target="_blank" rel="noopener">Lab 2: role cookie</a><a href="https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter" target="_blank" rel="noopener">Lab 3: user-id swap</a><a href="https://portswigger.net/web-security/access-control/lab-insecure-direct-object-references" target="_blank" rel="noopener">Lab 4: chat IDOR</a><a href="https://github.com/Quitten/Autorize" target="_blank" rel="noopener">Autorize setup</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>portswigger access control lab walkthrough</code> (@RanaKhalil) + <code>IDOR BOLA two account method</code> (@InsiderPhD/@NahamSec).</p><h4>Done-when</h4><p>4 labs solved + Autorize diffs (status/length) screenshotted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> H1 patterns: Pornhub delete + Starbucks balance + numeric vs UUID</p>
+<p class="t-act">Read <b>H1 #380410 (photo_id/album delete by B session) + #858662/#766437 (recipient_id/balance diff) — request-swap + impact ONLY</b> + <b>H1 #2586584 (UpdateProfile numeric→email leak) + #2633771 (base64 gid brute-force) — key-type lesson ONLY</b>. Extract object-key pattern per case.</p>
+<div class="t-links"><a href="https://hackerone.com/reports/380410" target="_blank" rel="noopener">H1 #380410 gallery</a><a href="https://hackerone.com/reports/858662" target="_blank" rel="noopener">H1 #858662 balance</a><a href="https://hackerone.com/reports/2586584" target="_blank" rel="noopener">H1 #2586584 numeric</a><a href="https://hackerone.com/reports/2633771" target="_blank" rel="noopener">H1 #2633771 gid</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Numeric = <code>123→124</code>. Encoded/UUID = decode + entropy analysis (UUIDv1 timestamp vs v4 random). Impact boundary: read vs write vs delete vs PII.</p><h4>Done-when</h4><p>4 patterns with key-type + swap + impact in notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> IDOR checklist: numeric/encoded/UUID/body-key + PATT quick-tamper</p>
+<p class="t-act">Write checklist per <b>HackTricks IDOR § Quick manual tampering ONLY</b> + <b>PATT IDOR two-account setup rows ONLY</b>. Columns: key location (URL/body/cookie/GraphQL) × predictability × impact.</p>
+<div class="t-links"><a href="https://hacktricks.wiki/en/pentesting-web/idor.html" target="_blank" rel="noopener">HackTricks: quick tamper</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Insecure_Direct_Object_Reference" target="_blank" rel="noopener">PATT: IDOR setup</a><a href="https://portswigger.net/web-security/all-labs#access-control-vulnerabilities" target="_blank" rel="noopener">All labs: access-control filter</a><a href="https://github.com/hanzalaghayasabbasi/portswigger-all-labs" target="_blank" rel="noopener">Community: all-labs solutions (attempt first)</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklist saved, reusable Week 07/10.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> BOLA vs BFLA test + impact boundary + gaps</p>
+<p class="t-act">Recite with lab example each. Log impact boundary for one lab (read/PII/delete). Triage gaps.</p>
+<div class="t-links"><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API Top 10</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + boundary logged + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d1c0"><label for="w03d1c0"><b>0:00–0:15</b> — defs + harness sketch</label></li>
+<li><input type="checkbox" id="w03d1c1"><label for="w03d1c1"><b>0:15–1:05</b> — 4 labs in order + Autorize diffs</label></li>
+<li><input type="checkbox" id="w03d1c2"><label for="w03d1c2"><b>1:05–2:00</b> — 4 H1 key patterns</label></li>
+<li><input type="checkbox" id="w03d1c3"><label for="w03d1c3"><b>2:00–2:35</b> — IDOR checklist (location × predictability)</label></li>
+<li><input type="checkbox" id="w03d1c4"><label for="w03d1c4"><b>2:35–3:00</b> — BOLA/BFLA + boundary + gaps</label></li>
+<li><input type="checkbox" id="w03d1c5"><label for="w03d1c5"><b>Proof</b> — lab + Autorize shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Two accounts = superpower.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('1')">📋 Copy day</button><button class="btn" onclick="openDayLinks('1')">🔗 Open links</button><button class="btn" onclick="resetDay('1')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-2" data-day="2">
+<button class="day-head" onclick="toggleDay('day-2')"><span>Day 2 — Vertical escalation + mass assignment BFLA</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-2">
+<div class="timer">Real 180 min · why does client send identity at all?</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> WSTG ATHZ-02/03 + role/tenant param mental model</p>
+<p class="t-act">Read <b>WSTG ATHZ-02 bypassing schema + ATHZ-03 privilege escalation § objectives ONLY</b>. List params: role/isAdmin/tenant_id/groupId.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/02-Testing_for_Bypassing_Authorization_Schema" target="_blank" rel="noopener">WSTG: ATHZ-02</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/03-Testing_for_Privilege_Escalation" target="_blank" rel="noopener">WSTG: ATHZ-03</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>Vertical = low→high. Mass-assignment = server binds extra JSON fields (role:true) without allowlist.</p><h4>Done-when</h4><p>Param list + defs cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> role=admin / tenant_id injection + read→write mirror (lab)</p>
+<p class="t-act">On lab: add <code>"role":"admin"</code>, <code>tenant_id</code> swap, <code>_method=PUT</code> override on write requests. Mirror every read-response field into writes. <b>PortSwigger lab-url-based-access-control-can-be-circumvented (X-Original-URL: /admin) as warmup</b>. <b>PATT mass-assignment rows ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/access-control/lab-url-based-access-control-can-be-circumvented" target="_blank" rel="noopener">Lab: X-Original-URL</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Mass_Assignment" target="_blank" rel="noopener">PATT: mass-assignment</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>mass assignment exploit</code> + <code>IDOR BOLA bounty min_faves:200</code>.</p><h4>Done-when</h4><p>Role/tenant/override matrix with results.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> v1 vs v2 vs GraphQL same-object authz diff + H1 cases</p>
+<p class="t-act">Test same object across <b>v1/v2 + GraphQL (per-field, H1 #2633771 lesson) + THM graphql Task 3–4 preview (mutations/authz, batching) ONLY</b>. Read <b>hacktivity search <code>IDOR order</code> (Uber restaurant-analytics, api.pandao.ru order-address patterns) — version-gap note ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=IDOR%20order" target="_blank" rel="noopener">H1: order IDOR search</a><a href="https://tryhackme.com/room/graphql" target="_blank" rel="noopener">THM: graphql T3–4</a><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API: BFLA</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Legacy routes miss new checks. GraphQL needs per-field tests, not per-query.</p><h4>Done-when</h4><p>Version-diff table + 2 H1 version-gap notes.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> BFLA checklist: role/tenant/method/version + SecLists params</p>
+<p class="t-act">Build checklist + <b>SecLists burp-parameter-names.txt 1 pass on 1 endpoint (lab)</b>. Columns: param × role × result.</p>
+<div class="t-links"><a href="https://github.com/danielmiessler/SecLists/tree/master/Discovery/Web-Content" target="_blank" rel="noopener">SecLists: param names</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Checklist + 1 param-discovery log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Mass-assignment end-to-end test + gaps</p>
+<p class="t-act">Narrate one full chain (field → endpoint → impact). Triage gaps.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Mass_Assignment" target="_blank" rel="noopener">PATT: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Narrated + archived + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d2c0"><label for="w03d2c0"><b>0:00–0:15</b> — ATHZ-02/03 + param model</label></li>
+<li><input type="checkbox" id="w03d2c1"><label for="w03d2c1"><b>0:15–1:05</b> — role/tenant/override matrix</label></li>
+<li><input type="checkbox" id="w03d2c2"><label for="w03d2c2"><b>1:05–2:00</b> — v1/v2/GraphQL diff + 2 H1 notes</label></li>
+<li><input type="checkbox" id="w03d2c3"><label for="w03d2c3"><b>2:00–2:35</b> — BFLA checklist + param run</label></li>
+<li><input type="checkbox" id="w03d2c4"><label for="w03d2c4"><b>2:35–3:00</b> — chain narrated + gaps</label></li>
+<li><input type="checkbox" id="w03d2c5"><label for="w03d2c5"><b>Proof</b> — matrix + PoCs archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Client-sent identity = suspect.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('2')">📋 Copy day</button><button class="btn" onclick="openDayLinks('2')">🔗 Open links</button><button class="btn" onclick="resetDay('2')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-3" data-day="3">
+<button class="day-head" onclick="toggleDay('day-3')"><span>Day 3 — 403 bypass + forced browsing + CVE-2025-29927</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-3">
+<div class="timer">Real 180 min · proxy view vs backend view disagree = bypass</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Normalization primitives cold</p>
+<p class="t-act">List <code>/..;/ // %2e %252e ; %00</code> + headers <code>X-Original-URL, X-Rewrite-URL, X-Custom-IP-Authorization</code> + verb swap. Check <b>PATT 403 bypass header/method/encoding rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/403_Bypass" target="_blank" rel="noopener">PATT: 403 bypass rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>WAF/proxy normalizes differently than app — disagreement = access.</p><h4>Done-when</h4><p>Primitives + headers listed cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> 403 matrix on lab /admin (methods × headers × encodings)</p>
+<p class="t-act">Build matrix: GET/POST/PUT/PATCH + headers + <code>/..;/admin</code>, double-slash, unicode. Read <b>405/404 vs 403 differential meaning (405 = verb wrong, 404 = path wrong, 403 = exists+blocked)</b>. YT: <code>403 bypass X-Original-URL live</code>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: access matrix</a><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/403_Bypass" target="_blank" rel="noopener">PATT: matrix rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix with status/length per cell.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Next.js CVE-2025-29927 + admin-panel exposure cases</p>
+<p class="t-act">Read <b>NVD CVE-2025-29927 + GHSA-f82v-jwr5-mffw advisory § affected middleware + <code>x-middleware-subrequest</code> bypass ONLY</b> + <b>pentester.land 1 forced-browsing/admin-panel report — path found via robots/JS ONLY</b>. Map to your matrix (which primitive class it belongs to).</p>
+<div class="t-links"><a href="https://nvd.nist.gov/vuln/detail/CVE-2025-29927" target="_blank" rel="noopener">NVD: CVE-2025-29927</a><a href="https://github.com/advisories/GHSA-f82v-jwr5-mffw" target="_blank" rel="noopener">GHSA: Next.js bypass</a><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: forced browse</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Middleware trusts a header the attacker controls — same class as X-Original-URL. Version log → advisory match is the skill.</p><h4>YT</h4><p>Search <code>CVE-2025-29927 nextjs bypass poc</code>.</p><h4>Done-when</h4><p>Bypass class + affected-version check noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Bypass matrix final: header/method/encoding/differential</p>
+<p class="t-act">Consolidate matrix. Add AuthMatrix preview (<b>portswigger/authmatrix README roles matrix ONLY</b>) for Week-07 reuse.</p>
+<div class="t-links"><a href="https://github.com/portswigger/authmatrix" target="_blank" rel="noopener">AuthMatrix: matrix setup</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/02-Testing_for_Bypassing_Authorization_Schema" target="_blank" rel="noopener">WSTG: ATHZ-02</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>One-page matrix saved.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> 3 primitives + differential test + gaps</p>
+<p class="t-act">Recite 3 + read a 403/404/405 triple cold. Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d3c0"><label for="w03d3c0"><b>0:00–0:15</b> — primitives + headers cold</label></li>
+<li><input type="checkbox" id="w03d3c1"><label for="w03d3c1"><b>0:15–1:05</b> — /admin matrix (status/length)</label></li>
+<li><input type="checkbox" id="w03d3c2"><label for="w03d3c2"><b>1:05–2:00</b> — CVE-2025-29927 class + panel case</label></li>
+<li><input type="checkbox" id="w03d3c3"><label for="w03d3c3"><b>2:00–2:35</b> — final matrix + AuthMatrix preview</label></li>
+<li><input type="checkbox" id="w03d3c4"><label for="w03d3c4"><b>2:35–3:00</b> — 3 primitives + differential + gaps</label></li>
+<li><input type="checkbox" id="w03d3c5"><label for="w03d3c5"><b>Proof</b> — matrix + evidence archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Disagreement between layers = access.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('3')">📋 Copy day</button><button class="btn" onclick="openDayLinks('3')">🔗 Open links</button><button class="btn" onclick="resetDay('3')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-4" data-day="4">
+<button class="day-head" onclick="toggleDay('day-4')"><span>Day 4 — Path traversal intro (LFI primitives, lab only)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-4">
+<div class="timer">Real 180 min · solid finding first, chains later</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Depth math + wrappers list</p>
+<p class="t-act">State <code>../../../../etc/passwd</code> depth counting + <code>php://filter</code> purpose. Check <b>PortSwigger path-traversal topic intro + WSTG ATHZ-01 objectives ONLY</b>.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/file-path-traversal" target="_blank" rel="noopener">PortSwigger: traversal intro</a><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/01-Testing_Directory_Traversal_File_Include" target="_blank" rel="noopener">WSTG: ATHZ-01</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>What it is</h4><p>File param = traversal first. Depth + filter-bypass + wrapper columns.</p><h4>Done-when</h4><p>Math + wrapper list cold.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> THM File Inclusion room: depth + filter + wrappers</p>
+<p class="t-act">Do <b>THM filepathtraversal Task 3–6 (LFI/RFI/payloads/challenges) ONLY + PortSwigger traversal labs 1–2 (absolute + stripped ../) ONLY</b>. Test <code>....//</code>, <code>%2e%2e/</code>, <code>php://filter/convert.base64-encode/resource=index</code> (source disclosure, lab).</p>
+<div class="t-links"><a href="https://tryhackme.com/room/filepathtraversal" target="_blank" rel="noopener">THM: filepathtraversal T3–6</a><a href="https://portswigger.net/web-security/file-path-traversal" target="_blank" rel="noopener">PortSwigger: labs 1–2</a><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: LFI wrappers</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Depth walk + 2 bypasses + wrapper read logged.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Traversal file-read + LFI→RCE pivot theory (which pivot fired)</p>
+<p class="t-act">Read <b>pentester.land 1 traversal file-read (depth + bypass used) + HackTricks LFI § log-poisoning THEORY ONLY (no prod log writes)</b>. Note pivot: log vs wrapper vs upload (Week 09 executes).</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: traversal</a><a href="https://book.hacktricks.xyz/pentesting-web/file-inclusion" target="_blank" rel="noopener">HackTricks: LFI pivots</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Common mistake</h4><p>Writing to prod logs. CUT — lab theory only.</p><h4>Done-when</h4><p>Pivot map (3 options) noted.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Traversal matrix: depth/encoding/wrapper/parser</p>
+<p class="t-act">Consolidate matrix + <b>PATT File Inclusion rows + SecLists traversal wordlist path ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File_Inclusion" target="_blank" rel="noopener">PATT: file inclusion</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Matrix saved for Week 09.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Filter-bypass cold + gaps</p>
+<p class="t-act">Explain your best bypass end-to-end. Triage gaps.</p>
+<div class="t-links"><a href="https://portswigger.net/web-security/file-path-traversal" target="_blank" rel="noopener">PortSwigger: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + matrix archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d4c0"><label for="w03d4c0"><b>0:00–0:15</b> — depth + wrappers cold</label></li>
+<li><input type="checkbox" id="w03d4c1"><label for="w03d4c1"><b>0:15–1:05</b> — THM + 2 labs + wrapper read</label></li>
+<li><input type="checkbox" id="w03d4c2"><label for="w03d4c2"><b>1:05–2:00</b> — file-read + pivot map (theory)</label></li>
+<li><input type="checkbox" id="w03d4c3"><label for="w03d4c3"><b>2:00–2:35</b> — traversal matrix</label></li>
+<li><input type="checkbox" id="w03d4c4"><label for="w03d4c4"><b>2:35–3:00</b> — bypass recited + gaps</label></li>
+<li><input type="checkbox" id="w03d4c5"><label for="w03d4c5"><b>Proof</b> — matrix + lab shots archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> File param first, chain second.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('4')">📋 Copy day</button><button class="btn" onclick="openDayLinks('4')">🔗 Open links</button><button class="btn" onclick="resetDay('4')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-5" data-day="5">
+<button class="day-head" onclick="toggleDay('day-5')"><span>Day 5 — API authorization: BOLA + excessive data</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-5">
+<div class="timer">Real 180 min · per-resolver authz, per-field tests</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> OWASP API Top 10 BOLA/BFLA/excessive-data defs</p>
+<p class="t-act">Read <b>OWASP API Top 10 API1/BOLA + API2/BFLA + excessive-data summaries ONLY</b>. One sentence each + severity intuition.</p>
+<div class="t-links"><a href="https://owasp.org/API-Security/editions/2023/en/0x11-t10/" target="_blank" rel="noopener">OWASP API: BOLA/BFLA/data</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 defs + 1 severity line each.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> THM GraphQL + PortSwigger GraphQL: introspection → field tests</p>
+<p class="t-act">Do <b>THM graphql Task 3–4 (mutations/authz, batching/IDOR) ONLY</b> + <b>PortSwigger GraphQL lab 1 (introspection → admin leak) ONLY</b>. Query <code>__schema</code>, test <code>isAdmin</code>-class field A→B.</p>
+<div class="t-links"><a href="https://tryhackme.com/room/graphql" target="_blank" rel="noopener">THM: graphql T3–4</a><a href="https://portswigger.net/web-security/graphql" target="_blank" rel="noopener">PortSwigger: GraphQL lab 1</a><a href="https://github.com/doyensec/inql" target="_blank" rel="noopener">inql schema tool</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>YT</h4><p>Search <code>GraphQL IDOR gid exploit</code> + <code>GraphQL introspection admin bug bounty</code>.</p><h4>Done-when</h4><p>Schema map + 1 field-authz diff.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> api.pandao.ru order-IDOR + excessive-data case</p>
+<p class="t-act">Read <b>hacktivity <code>IDOR order</code> (api.pandao.ru delivery-address pattern) + 1 excessive-data (list/detail leaks beyond UI need) — replay + minimization check ONLY</b>.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity?query=IDOR%20order" target="_blank" rel="noopener">H1: order IDOR</a><a href="https://github.com/ashikkunjumon/HackerOne-Disclosed-Reports-Payloads" target="_blank" rel="noopener">H1: IDOR payloads</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Pattern</h4><p>Predictable order/invoice ID + token reuse. Excessive-data = verbatim over-collection evidence.</p><h4>Done-when</h4><p>2 patterns with minimization note.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> API authz list: predictable IDs, array smuggling, version gaps</p>
+<p class="t-act">Build list + test array index smuggling (<code>id[]=1&id[]=2</code>) on lab. Note v1/v2 delta for Week 10.</p>
+<div class="t-links"><a href="https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/12-API_Testing/" target="_blank" rel="noopener">WSTG: API testing</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>List saved with 3 techniques.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Excessive-data vs BOLA + severity draft + gaps</p>
+<p class="t-act">Distinguish + draft CVSS vector (<b>first.org calculator base metrics ONLY</b>). Triage gaps.</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS 3.1 calculator</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Distinction + 1 vector + gaps assigned.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d5c0"><label for="w03d5c0"><b>0:00–0:15</b> — 3 API defs + severity</label></li>
+<li><input type="checkbox" id="w03d5c1"><label for="w03d5c1"><b>0:15–1:05</b> — schema + field-authz diff</label></li>
+<li><input type="checkbox" id="w03d5c2"><label for="w03d5c2"><b>1:05–2:00</b> — order + excessive-data patterns</label></li>
+<li><input type="checkbox" id="w03d5c3"><label for="w03d5c3"><b>2:00–2:35</b> — API list (IDs/array/version)</label></li>
+<li><input type="checkbox" id="w03d5c4"><label for="w03d5c4"><b>2:35–3:00</b> — distinction + CVSS + gaps</label></li>
+<li><input type="checkbox" id="w03d5c5"><label for="w03d5c5"><b>Proof</b> — schema + vectors archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Per-field, per-version, per-role.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('5')">📋 Copy day</button><button class="btn" onclick="openDayLinks('5')">🔗 Open links</button><button class="btn" onclick="resetDay('5')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-6" data-day="6">
+<button class="day-head" onclick="toggleDay('day-6')"><span>Day 6 — Chaining + CVSS for real (impact = severity)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-6">
+<div class="timer">Real 180 min · chain turns low into critical</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> CVSS 3.1 metrics that move access-control scores</p>
+<p class="t-act">Set vectors for IDOR-read vs IDOR-write vs BFLA-admin via <b>first.org calculator + 2 FIRST examples ONLY</b>. Note what raises (PII/admin/delete) vs lowers (self-only).</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: base metrics</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>3 vectors with deltas explained.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Chain IDOR→PII→priv-esc on lab, trim to minimal PoC</p>
+<p class="t-act">Build 1 chain on lab (IDOR read → emails → reset/role). Trim to fewest requests. Follow <b>HuntBook chaining + PoC standards headings ONLY</b>. YT: <code>bug bounty chaining low to critical methodology</code>.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: chaining</a><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: access chains</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Chain + minimal PoC + severity delta.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> XSS→ATO + SSRF→metadata chain patterns (not payloads)</p>
+<p class="t-act">Read <b>pentester.land 1 XSS→ATO (handoff: cookie/session) + HackTricks SSRF § cloud pivot (role creds → s3 ls) — handoff steps ONLY</b>. Note confirmation loop: isolate → baseline → reproduce ×2 → impact.</p>
+<div class="t-links"><a href="https://pentester.land/writeups" target="_blank" rel="noopener">pentester.land: chains</a><a href="https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery" target="_blank" rel="noopener">HackTricks: SSRF pivot</a><a href="https://tryhackme.com/room/ssrfhr" target="_blank" rel="noopener">THM: ssrfhr preview</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 handoff diagrams + loop card.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Severity worksheet + duplicate check</p>
+<p class="t-act">Score your chain. <b>Duplicate-check: pentester.land + H1 search same-program before drafting</b>. Keep kill log.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: dup check</a><a href="https://termireum.github.io/bugpedia" target="_blank" rel="noopener">bugpedia dup check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Worksheet + dup result + kill/keep call.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Severity factors test + gaps</p>
+<p class="t-act">Recite what moves IDOR/BFLA up/down. Triage gaps.</p>
+<div class="t-links"><a href="https://www.first.org/cvss/calculator/3.1" target="_blank" rel="noopener">CVSS: re-check</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + worksheet archived.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d6c0"><label for="w03d6c0"><b>0:00–0:15</b> — 3 CVSS vectors + deltas</label></li>
+<li><input type="checkbox" id="w03d6c1"><label for="w03d6c1"><b>0:15–1:05</b> — chain + minimal PoC</label></li>
+<li><input type="checkbox" id="w03d6c2"><label for="w03d6c2"><b>1:05–2:00</b> — 2 handoffs + loop card</label></li>
+<li><input type="checkbox" id="w03d6c3"><label for="w03d6c3"><b>2:00–2:35</b> — worksheet + dup check + kill log</label></li>
+<li><input type="checkbox" id="w03d6c4"><label for="w03d6c4"><b>2:35–3:00</b> — factors recited + gaps</label></li>
+<li><input type="checkbox" id="w03d6c5"><label for="w03d6c5"><b>Proof</b> — chain + vectors archived</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Impact, not class.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('6')">📋 Copy day</button><button class="btn" onclick="openDayLinks('6')">🔗 Open links</button><button class="btn" onclick="resetDay('6')">↺ Reset</button></div>
+</div></div>
+
+<div class="day" id="day-7" data-day="7">
+<button class="day-head" onclick="toggleDay('day-7')"><span>Day 7 — Live VDP authz hunt (map + replay, no spray)</span><span class="dpill dpct">0%</span><span class="chev">▾</span></button>
+<div class="dbar"><i></i></div>
+<div class="day-body" id="body-7">
+<div class="timer">Real 180 min · no control = no finding</div>
+<ol class="timeline">
+<li class="t"><p class="t-head"><span class="t-time">0:00–0:15</span> Matrices recall: IDOR/BFLA/403/traversal</p>
+<p class="t-act">Recite 4 matrices cold. Check <b>WSTG checklist Authorization rows ONLY</b>.</p>
+<div class="t-links"><a href="https://github.com/OWASP/wstg/blob/master/checklists/checklist.md" target="_blank" rel="noopener">WSTG: authz rows</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + tick %.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">0:15–1:05</span> Full authz map on VDP + Autorize on history</p>
+<p class="t-act">Map all object endpoints (table from Day 1). <b>Autorize ON, Enforcement Detector, compare A vs B</b>. <b>Log only, no state-changing deletes on live</b>. <b>THM burpsuitebasics Target/sitemap revisit</b>.</p>
+<div class="t-links"><a href="https://github.com/Quitten/Autorize" target="_blank" rel="noopener">Autorize: enforce ON</a><a href="https://portswigger.net/web-security/access-control" target="_blank" rel="noopener">PortSwigger: replay guide</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>X</h4><p>Search <code>403 bypass payload</code> only if 403 blocks a replay — else stay on IDOR.</p><h4>Done-when</h4><p>Coverage map + Autorize log.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">1:05–2:00</span> Same-program disclosed reports (pattern match)</p>
+<p class="t-act">Read <b>H1 hacktivity same-program family (IDOR/order) 2 reports — scope + key-type match ONLY</b>. Compare your map gaps.</p>
+<div class="t-links"><a href="https://hackerone.com/hacktivity" target="_blank" rel="noopener">H1: same-program</a><a href="https://github.com/ajaysenr/HackerOne-Disclosed-Reports" target="_blank" rel="noopener">H1: disclosed mirror</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>2 pattern matches + gap paragraph.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:00–2:35</span> Coverage + triage + kill log (validate ×2)</p>
+<p class="t-act">Triage candidates: reproduce twice, else kill with reason. <b>No PII exfil beyond minimal proof. Archive transcripts (redacted).</b></p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: triage gate</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Candidates triaged + kill log + transcripts.</p></details></li>
+<li class="t"><p class="t-head"><span class="t-time">2:35–3:00</span> Kill criteria + checklist + gaps to Week 04</p>
+<p class="t-act">Recite kill rules (self-only, no-impact, dup). Update checklist. Assign gaps (JWT/OAuth/session) to Week 04.</p>
+<div class="t-links"><a href="https://github.com/su6osec/Bug-Bounty-Hunting-Methodology-2026" target="_blank" rel="noopener">HuntBook: kill rules</a></div>
+<details class="why"><summary>Why this matters ▼</summary><h4>Done-when</h4><p>Recited + checklist + assignments.</p></details></li>
+</ol>
+<ul class="chk">
+<li><input type="checkbox" id="w03d7c0"><label for="w03d7c0"><b>0:00–0:15</b> — 4 matrices + tick</label></li>
+<li><input type="checkbox" id="w03d7c1"><label for="w03d7c1"><b>0:15–1:05</b> — VDP map + Autorize log (no deletes)</label></li>
+<li><input type="checkbox" id="w03d7c2"><label for="w03d7c2"><b>1:05–2:00</b> — 2 same-program patterns</label></li>
+<li><input type="checkbox" id="w03d7c3"><label for="w03d7c3"><b>2:00–2:35</b> — triage ×2 + kill log + transcripts</label></li>
+<li><input type="checkbox" id="w03d7c4"><label for="w03d7c4"><b>2:35–3:00</b> — kill rules + gaps to W04</label></li>
+<li><input type="checkbox" id="w03d7c5"><label for="w03d7c5"><b>Proof</b> — map + logs archived, no PII</label></li>
+</ul>
+<div class="mind"><b>Hunter mindset:</b> Reproduce twice or kill.</div>
+<div class="day-actions"><button class="btn" onclick="copyDay('7')">📋 Copy day</button><button class="btn" onclick="openDayLinks('7')">🔗 Open links</button><button class="btn" onclick="resetDay('7')">↺ Reset</button></div>
+</div></div>
+
+<footer style="color:var(--text-soft);margin-top:1.5rem;font-size:.83rem">Two-account replays, Autorize on, log-only on live. Never exfiltrate PII. Surprise: learn AuthMatrix today — it pays again in Weeks 07/10.</footer>
+</div></main>
+<footer class="site-footer"><div class="inner"><div class="left"><span class="mark">&gt;</span> sayed_ · bug hunter plan</div><div class="links"><a href="/index.html">Posts</a><a href="/about.html">About</a><a href="/keendork/keendork.html">Dorks</a><a href="/bugbounty-plan/index.html">Plan</a><a href="mailto:s4youud@gmail.com">Email</a></div></div></footer>
+<script src="js/plan.js"></script>
+</body>
+</html>
