@@ -213,32 +213,6 @@ svg { display: inline-block; }
   border-radius: 50%;
   isolation: isolate;
 }
-.brand .logo-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, #8b252e 0deg, #bd3039 70deg, #e85d69 145deg, #f5a623 210deg, #fcd6d9 275deg, #8b252e 360deg);
-  filter: blur(8px) saturate(1.02);
-  opacity: 0.52;
-  z-index: 0;
-  animation: glow-angle-spin 6s linear infinite, glow-pulse 3.5s ease-in-out infinite alternate;
-}
-.brand .logo-wrap::after {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  padding: 1.5px;
-  background: conic-gradient(from 0deg, #8b252e, #bd3039, #e85d69, #f5a623, #8b252e);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  z-index: 0;
-  animation: glow-angle-spin 6s linear infinite reverse;
-  opacity: 0.48;
-}
 @keyframes glow-angle-spin {
   to { --glow-angle: 360deg; }
 }
@@ -973,18 +947,6 @@ figure img {
   .site-nav .inner, .wrap, .site-footer .inner { padding-left: 0.9rem; padding-right: 0.9rem; }
   .brand { gap: 0.5rem; font-size: 1rem; }
   .brand .logo-wrap { width: 44px; height: 44px; }
-  .brand .logo-wrap::before { inset: -6px; }
-  .brand .logo-wrap::after { inset: -2px; }
-  .brand .logo { width: 44px; height: 44px; }
-  .brand .logo-orbit { display: none; }
-  .nav-links { gap: 0.8rem; font-size: 0.8rem; }
-  .post-card .card-body { padding: 1rem; }
-  .post-hero .hero-media { flex: none; aspect-ratio: 16 / 10; max-width: none; width: 100%; margin: 1rem auto 0; }
-  .post-hero .hero-body { padding: 1.5rem 1rem; }
-  .post-hero h1 { font-size: clamp(1.3rem, 3.8vw, 1.6rem); }
-  .related-card { padding: 1rem; }
-  .copy-link { font-size: 0.65rem; padding: 0.35rem 0.7rem; }
-}
 
 /* ---------- hover: none (pointer devices without hover) ---------- */
 @media (hover: none) {
