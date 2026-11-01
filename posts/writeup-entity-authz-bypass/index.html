@@ -25,11 +25,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
+
 <body>
 
   <nav class="site-nav">
     <div class="inner">
-      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/me.jpeg" alt="sayed logo"></span><span class="mark">></span> sayed<span class="mark">_</span></a>
       <div class="nav-links">
         <a href="/index.html">Posts</a>
         <a href="/about.html">About</a>
@@ -74,16 +75,6 @@
             </div>
           </div>
         </header>
-
-        <div class="tldr note">
-          <span class="note-label">tl;dr</span>
-          <p>
-            an unauthenticated debug page in a veterinary practice management system (PMS) prefilled its
-            own form with live entity ids - clinic, vet, pet, user, transaction, and a verification salt.
-            no auth, no rate limit. the ids alone are info disclosure. the relationships move it to IDOR.
-            the salt is what makes this critical. target redacted, obviously.
-          </p>
-        </div>
 
         <div class="article-body">
 
@@ -166,29 +157,29 @@
           </p>
 
           <pre><code>             ┌──────────────┐
-            │    CLINIC    │
-            │  (ClinicID)  │
-              └──────┬───────┘
-                     │
-              ┌──────┼──────┐
-                     │
-                     ▼
- ┌───────────┐ ┌───────────┐ ┌───────────┐
- │    VET    │ │    PET    │ │   USER    │
- │  (VetID)  │ │  (PetID)  │ │  (UserID) │
- └───────────┘ └─────┬─────┘ └───────────┘
-                     │
-                     ▼
-              ┌──────────────┐
-              │CONSULTATION  │
-              │(ConsultID)   │
-              └──────┬───────┘
-                     │
-                     ▼
-             ┌────────────────┐
-             │  TRANSACTION   │
-             │ (TransactionID)│
-             └────────────────┘</code></pre>
+             │    CLINIC    │
+             │  (ClinicID)  │
+               └──────┬───────┘
+                      │
+               ┌──────┼──────┐
+                      │
+                      ▼
+        ┌───────────┐ ┌───────────┐ ┌───────────┐
+        │    VET    │ │    PET    │ │   USER    │
+        │  (VetID)  │ │  (PetID)  │ │  (UserID) │
+        └───────────┘ └─────┬─────┘ └───────────┘
+                      │
+                      ▼
+               ┌──────────────┐
+               │CONSULTATION  │
+               │(ConsultID)   │
+               └──────┬───────┘
+                      │
+                      ▼
+              ┌────────────────┐
+              │  TRANSACTION   │
+              │ (TransactionID)│
+              └────────────────┘</code></pre>
 
           <p>
             each uuid is a key to some api, and put together they're basically an erd of the whole platform
@@ -281,7 +272,7 @@
             and real data obviously removed):
           </p>
           <pre><code># stage 1 - recon: fingerprint the api with ids off the debug page
-ids = { "clinic": "...", "vet": "...", "pet": "..." }
+ids = { "clinic": "...", "vet": "...", "pet": "..."
 
 # stage 2 - enumeration: map relationships between entities
 for entity, eid in ids.items():
@@ -291,7 +282,7 @@ for entity, eid in ids.items():
         relationships[entity] = r.json()
 
 # stage 3 - exploitation: try the salt, if its worth it
-    forged = generate_token(salt, user_id="...", clinic_id="...")
+    forged = generate_token(salt, user_id="...", clinic_id="..."
 
 # stage 4 - impact: authenticated-ish call to a write endpoint
     api.post("/medical-record/create",
@@ -348,16 +339,6 @@ for entity, eid in ids.items():
             entity map of an entire practice management system, served to anyone with a web browser and too
             much time on their hands.
           </p>
-
-          <figure>
-            <img src="assets/overview.png" alt="">
-          </figure>
-
-          <p>
-            the identifiers paint the picture. the relationships turn the picture into a blueprint. and a
-            salt field left over from development is basically the key to the front door. you don't often get
-            all three handed to you at once.
-          </p>
           <p>
             last thing - this got fixed within about a day of reporting, and the fix was "removed the page".
             cost the company nothing. paying attention to what your debug surfaces print is a cheap habit,
@@ -397,7 +378,7 @@ for entity, eid in ids.items():
 
   <footer class="site-footer">
     <div class="inner">
-      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="left"><span class="mark">></span> sayed<span class="mark">_</span> · infosec notes</div>
       <div class="links">
         <a href="/index.html">Posts</a>
         <a href="/about.html">About</a>

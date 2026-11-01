@@ -23,11 +23,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
   <nav class="site-nav">
     <div class="inner">
-      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/me.jpeg" alt="sayed logo"></span><span class="mark">></span> sayed<span class="mark">_</span></a>
       <div class="nav-links">
         <a class="current" href="/index.html">Posts</a>
         <a href="/about.html">About</a>
@@ -42,13 +43,15 @@
 
       <header class="hero">
         <p class="kicker">Infosec · field notes</p>
-        <h1>Writeups, research &amp; notes from the field.</h1>
-        <p class="lede">
-          What broke, why, and how I found it. Bug bounty and API recon writeups.
-        </p>
+        <h1>Writeups, research & notes from the field.</h1>
+        <p class="lede">What broke, why, and how I found it. Bug bounty and API recon writeups.</p>
+        <div class="status-indicator">
+          <span class="dot"></span>
+          <span>Active</span>
+        </div>
       </header>
 
-      <ul class="post-list" style="margin-top:2.5rem;">
+      <ul class="post-list">
 
         <li>
           <a class="post-card" href="posts/writeup-deadbolt-rce/">
@@ -111,8 +114,7 @@
                 </span>
               </div>
               <p class="excerpt">
-                An unauthenticated debug page in a vet PMS prefilled itself with live entity IDs and a
-                verification salt. Identity to entity-level access, no auth required.
+                An unauthenticated debug page in a vet PMS prefilled itself with live entity IDs and a verification salt. Identity to entity-level access, no auth required.
               </p>
               <div class="tags">
                 <span class="tag tag--accent">writeup</span>
@@ -133,7 +135,7 @@
 
   <footer class="site-footer">
     <div class="inner">
-      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="left"><span class="mark">></span> sayed<span class="mark">_</span> · infosec notes</div>
       <div class="links">
         <a href="/index.html">Posts</a>
         <a href="/about.html">About</a>

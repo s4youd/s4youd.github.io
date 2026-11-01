@@ -25,11 +25,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
+
 <body>
 
   <nav class="site-nav">
     <div class="inner">
-      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/logo.png" alt="sayed logo"></span><span class="mark">&gt;</span> sayed<span class="mark">_</span></a>
+      <a class="brand" href="https://www.linkedin.com/in/keen-i" target="_blank" rel="noopener"><span class="logo-wrap"><span class="logo-orbit" aria-hidden="true"><i></i><i></i><i></i></span><img class="logo" src="/logo/me.jpeg" alt="sayed logo"></span><span class="mark">></span> sayed<span class="mark">_</span></a>
       <div class="nav-links">
         <a href="/index.html">Posts</a>
         <a href="/about.html">About</a>
@@ -121,8 +122,8 @@
             just solve them one at a time instead of treating it as one blob:
           </p>
           <ul>
-            <li><code>f = (A &gt;&gt; 12) &amp; 0xF</code> has to be <code>0xA</code> or <code>0xC</code> — that's literally just "top nibble of A is A or C." Pick <code>A = 0xA123</code>, done.</li>
-            <li><code>(B ^ (A &amp; 0xFF)) &amp; 0xFF === 0x37</code> — once A is fixed, this pins down B completely. <code>A &amp; 0xFF = 0x23</code>, so <code>B_low = 0x37 ^ 0x23 = 0x14</code>.</li>
+            <li><code>f = (A >> 12) & 0xF</code> has to be <code>0xA</code> or <code>0xC</code> — that's literally just "top nibble of A is A or C." Pick <code>A = 0xA123</code>, done.</li>
+            <li><code>(B ^ (A & 0xFF)) & 0xFF === 0x37</code> — once A is fixed, this pins down B completely. <code>A & 0xFF = 0x23</code>, so <code>B_low = 0x37 ^ 0x23 = 0x14</code>.</li>
             <li><code>C % 7 === 0</code> — pick literally any multiple of 7. I went with <code>0x0007</code>.</li>
             <li><code>D</code> — fully determined by the other three through that seed formula, just compute it.</li>
           </ul>
@@ -275,7 +276,7 @@ function loadPlugin(pluginFilename) {
             <li>Zip Slip is still everywhere in 2026 because archive extraction is one of those "we'll get to hardening it later" corners of a lot of codebases.</li>
             <li>Build a real toolkit instead of hand-rolling everything — I'll take archive-alchemist over my manual zip-byte script every time from now on.</li>
             <li>File write + auto-load anywhere in the same app is basically a free RCE chain, and it's worth specifically hunting for that combination rather than treating "arbitrary file write" as the finish line.</li>
-            <li>Compare your solve to the official one when it's available, even after you've already won. The gap between "worked" and "clean" is where you actually get better.</li>
+            <li>Compare your solve to the official one when it's available, even after you've already got the flag. The gap between "worked" and "clean" is where you actually get better.</li>
           </ol>
 
           <p class="small">
@@ -290,8 +291,8 @@ function loadPlugin(pluginFilename) {
           <div class="related-grid">
             <a class="related-card" href="../writeup-rate-limit-header-bypass/">
               <span class="rc-type">Writeup</span>
-              <h3>bypassing a rate limiter with a single fake header</h3>
-              <p>Rotate one X-Forwarded-For and the limit is gone — a trust-boundary mistake with the same downstream impact.</p>
+              <h3>DeadBolt: a "private plugin marketplace" that turned into full RCE</h3>
+              <p>A reversible license key, a Zip Slip, and an auto-loading plugins folder — chained into full RCE.</p>
               <span class="continue">Continue reading <span class="arr">&rarr;</span></span>
             </a>
             <a class="related-card" href="../writeup-entity-authz-bypass/">
@@ -311,7 +312,7 @@ function loadPlugin(pluginFilename) {
 
   <footer class="site-footer">
     <div class="inner">
-      <div class="left"><span class="mark">&gt;</span> sayed<span class="mark">_</span> · infosec notes</div>
+      <div class="left"><span class="mark">></span> sayed<span class="mark">_</span> · infosec notes</div>
       <div class="links">
         <a href="/index.html">Posts</a>
         <a href="/about.html">About</a>
